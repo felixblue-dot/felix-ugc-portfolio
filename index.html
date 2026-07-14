@@ -108,7 +108,7 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin-bottom: 18px;
+    margin-bottom: 6px;
   }
   .eyebrow::before {
     content: "";
@@ -368,12 +368,8 @@
     nav ul { display: none; }
     .hero { grid-template-columns: 1fr; padding-top: 60px; }
     .niche-grid { grid-template-columns: repeat(2, 1fr); }
-    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
     .about-wrap { grid-template-columns: 1fr; }
     .contact-box { padding: 32px 22px; }
-  }
-  @media (max-width: 480px) {
-    .portfolio-grid { grid-template-columns: 1fr; }
   }
 
   /* BRAND MARQUEE */
@@ -470,8 +466,37 @@
     background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
   }
   @media (max-width: 700px) {
-    .travel-gallery { grid-template-columns: 1fr 1fr; }
-    .travel-gallery figure:nth-child(3) { grid-column: span 2; }
+    /* Swipeable carousels on mobile: next card peeks at the edge */
+    .portfolio-grid {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 14px;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .portfolio-grid::-webkit-scrollbar { display: none; }
+    .portfolio-card {
+      flex: 0 0 80%;
+      min-width: 80%;
+      scroll-snap-align: center;
+    }
+    .travel-gallery {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 14px;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .travel-gallery::-webkit-scrollbar { display: none; }
+    .travel-gallery figure {
+      flex: 0 0 72%;
+      min-width: 72%;
+      scroll-snap-align: center;
+    }
   }
 
   /* COLLAB TYPES CALLOUT */
@@ -510,6 +535,14 @@
   @media (max-width: 700px) {
     .collab-types { grid-template-columns: 1fr; }
   }
+
+  .eyebrow-sub {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 18px;
+    padding-left: 16px;
+  }
 </style>
 </head>
 <body>
@@ -530,6 +563,7 @@
 <section class="hero">
   <div>
     <span class="eyebrow">UGC Creator</span>
+    <div class="eyebrow-sub">Nano Influencer</div>
     <h1>Content that sells <span class="accent">before you scroll past it.</span></h1>
     <p>I'm Felix — I make scroll-stopping user-generated content for tech and lifestyle brands, with range into fashion, health &amp; fitness, and travel (70+ countries and counting). Below is a look at what I make and how I work.</p>
     <div class="hero-actions">
@@ -717,7 +751,65 @@
 
 <footer>
   © 2026 Felix — UGC Creator. Built for brand partnerships.
+  <div style="margin-top:10px;">
+    <a href="impressum.html" style="font-size:0.7rem;color:var(--muted);margin:0 8px;">Impressum</a>
+    <a href="datenschutz.html" style="font-size:0.7rem;color:var(--muted);margin:0 8px;">Datenschutz</a>
+  </div>
 </footer>
 
+
+<script>
+(function () {
+  function initInfiniteCarousel(container) {
+    if (container.dataset.infiniteInit === "1") return;
+    var items = Array.prototype.slice.call(container.children);
+    var n = items.length;
+    if (n < 2) return;
+
+    var gap = parseFloat(getComputedStyle(container).gap) || 0;
+
+    var beforeClones = items.map(function (el) { return el.cloneNode(true); });
+    var afterClones = items.map(function (el) { return el.cloneNode(true); });
+    beforeClones.forEach(function (el) { container.insertBefore(el, container.firstChild); });
+    afterClones.forEach(function (el) { container.appendChild(el); });
+
+    function setWidth() {
+      return items.reduce(function (sum, el) { return sum + el.offsetWidth + gap; }, 0);
+    }
+
+    var setW = setWidth();
+    container.scrollLeft = setW;
+
+    var ticking = false;
+    container.addEventListener("scroll", function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        setW = setWidth();
+        if (container.scrollLeft >= setW * 2) {
+          container.scrollLeft -= setW;
+        } else if (container.scrollLeft < setW) {
+          container.scrollLeft += setW;
+        }
+        ticking = false;
+      });
+    }, { passive: true });
+
+    window.addEventListener("resize", function () {
+      setW = setWidth();
+    });
+
+    container.dataset.infiniteInit = "1";
+  }
+
+  function maybeInit() {
+    if (!window.matchMedia("(max-width: 700px)").matches) return;
+    document.querySelectorAll(".portfolio-grid, .travel-gallery").forEach(initInfiniteCarousel);
+  }
+
+  document.addEventListener("DOMContentLoaded", maybeInit);
+  window.addEventListener("resize", maybeInit);
+})();
+</script>
 </body>
 </html>
