@@ -472,6 +472,9 @@
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      will-change: scroll-position;
+      transform: translateZ(0);
       gap: 14px;
       padding-bottom: 4px;
       scrollbar-width: none;
@@ -482,12 +485,16 @@
       min-width: 80%;
       scroll-snap-align: center;
       box-shadow: none;
+      transform: translateZ(0);
     }
     .travel-gallery {
       display: flex;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      will-change: scroll-position;
+      transform: translateZ(0);
       gap: 14px;
       padding-bottom: 4px;
       scrollbar-width: none;
@@ -498,6 +505,7 @@
       min-width: 72%;
       scroll-snap-align: center;
       box-shadow: none;
+      transform: translateZ(0);
     }
   }
 
@@ -773,24 +781,30 @@
     beforeClones.forEach(function (el) { container.insertBefore(el, container.firstChild); });
     afterClones.forEach(function (el) { container.appendChild(el); });
 
-    // Measure once (scrollWidth is one forced layout, but only paid here and on resize,
-    // never on every scroll frame -- that per-frame reflow was the source of the lag).
     var setW = container.scrollWidth / 3;
     container.scrollLeft = setW;
 
-    var ticking = false;
-    container.addEventListener("scroll", function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () {
-        if (container.scrollLeft >= setW * 2) {
-          container.scrollLeft -= setW;
-        } else if (container.scrollLeft < setW) {
-          container.scrollLeft += setW;
-        }
-        ticking = false;
-      });
-    }, { passive: true });
+    // Only correct position once the browser's own momentum/snap has fully settled
+    // (scrollend), instead of on every scroll tick -- reassigning scrollLeft mid-gesture
+    // fights the native snap/momentum physics and is what was causing the stutter.
+    function correct() {
+      if (container.scrollLeft >= setW * 2) {
+        container.scrollLeft -= setW;
+      } else if (container.scrollLeft < setW) {
+        container.scrollLeft += setW;
+      }
+    }
+
+    if ("onscrollend" in window) {
+      container.addEventListener("scrollend", correct, { passive: true });
+    } else {
+      // Fallback for browsers without scrollend: debounce until scrolling stops.
+      var debounceTimer;
+      container.addEventListener("scroll", function () {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(correct, 120);
+      }, { passive: true });
+    }
 
     var resizeTimer;
     window.addEventListener("resize", function () {
