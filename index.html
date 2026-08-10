@@ -1057,7 +1057,7 @@
 
 <script>
 (function () {
-  function initInfiniteCarousel(container) {
+  function initInfiniteCarousel(container, options) {
     if (container.dataset.infiniteInit === "1") return;
     var items = Array.prototype.slice.call(container.children);
     var n = items.length;
@@ -1074,23 +1074,28 @@
     // Only correct position once the browser's own momentum/snap has fully settled
     // (scrollend), instead of on every scroll tick -- reassigning scrollLeft mid-gesture
     // fights the native snap/momentum physics and is what was causing the stutter.
-    function correct() {
-      if (container.scrollLeft >= setW * 2) {
-        container.scrollLeft -= setW;
-      } else if (container.scrollLeft < setW) {
-        container.scrollLeft += setW;
+    // Skipped when the caller (e.g. autorun) already owns scroll-position correction --
+    // two independent systems both jumping scrollLeft around is what caused the visible
+    // double-content flash on the marquee.
+    if (!options || !options.skipCorrection) {
+      function correct() {
+        if (container.scrollLeft >= setW * 2) {
+          container.scrollLeft -= setW;
+        } else if (container.scrollLeft < setW) {
+          container.scrollLeft += setW;
+        }
       }
-    }
 
-    if ("onscrollend" in window) {
-      container.addEventListener("scrollend", correct, { passive: true });
-    } else {
-      // Fallback for browsers without scrollend: debounce until scrolling stops.
-      var debounceTimer;
-      container.addEventListener("scroll", function () {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(correct, 120);
-      }, { passive: true });
+      if ("onscrollend" in window) {
+        container.addEventListener("scrollend", correct, { passive: true });
+      } else {
+        // Fallback for browsers without scrollend: debounce until scrolling stops.
+        var debounceTimer;
+        container.addEventListener("scroll", function () {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(correct, 120);
+        }, { passive: true });
+      }
     }
 
     var resizeTimer;
@@ -1109,17 +1114,27 @@
   // position is tracked in a plain JS variable, not re-read from scrollLeft
   // every frame, to avoid the read/write layout-thrashing that caused the
   // original mobile stutter). Pauses on hover/touch/wheel interaction and
-  // whenever the carousel is scrolled out of view.
+  // whenever the carousel is scrolled out of view. Owns all wraparound
+  // correction itself (see skipCorrection above) so it never fights the
+  // scrollend-based correction with a conflicting scrollLeft jump.
   function startAutorun(container, getSetW, speed) {
     if (container.dataset.autorunInit === "1") return;
     container.dataset.autorunInit = "1";
 
-    var pos = container.scrollLeft;
+    function normalize(p) {
+      var setW = getSetW();
+      if (setW <= 0) return p;
+      while (p >= setW * 2) p -= setW;
+      while (p < setW) p += setW;
+      return p;
+    }
+
+    var pos = normalize(container.scrollLeft);
     var paused = false;
     var visible = true;
     var resumeTimer;
 
-    function resync() { pos = container.scrollLeft; }
+    function resync() { pos = normalize(container.scrollLeft); }
     function pauseFor(ms) {
       paused = true;
       clearTimeout(resumeTimer);
@@ -1141,9 +1156,7 @@
 
     function tick() {
       if (!paused && visible) {
-        pos += speed;
-        var setW = getSetW();
-        if (setW > 0 && pos >= setW * 2) pos -= setW;
+        pos = normalize(pos + speed);
         container.scrollLeft = pos;
       }
       requestAnimationFrame(tick);
@@ -1157,7 +1170,7 @@
 
     var marquee = document.querySelector(".marquee-track");
     if (marquee) {
-      var handle = initInfiniteCarousel(marquee);
+      var handle = initInfiniteCarousel(marquee, { skipCorrection: true });
       if (handle) startAutorun(marquee, handle.getSetW, 0.4);
     }
 
