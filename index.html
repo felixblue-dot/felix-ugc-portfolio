@@ -610,23 +610,26 @@
 
   /* COLLAB TYPES CALLOUT */
   .collab-cta {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 18px;
-    margin-top: 32px;
-    padding: 18px 22px;
-    background: var(--card);
-    border: 1px solid var(--border);
+    background: var(--sunset);
     border-radius: var(--radius);
+    padding: 32px 36px;
+    margin-top: 32px;
+    text-align: center;
+    box-shadow: var(--shadow);
   }
   .collab-cta p {
-    color: var(--muted);
+    color: #fff;
     max-width: 480px;
-    font-size: 0.92rem;
-    flex: 1 1 320px;
+    margin: 0 auto 20px;
+    font-size: 0.98rem;
+    font-weight: 500;
   }
-  .collab-cta .btn { flex-shrink: 0; }
+  .collab-cta .btn-primary {
+    display: inline-flex;
+    background: #fff;
+    color: var(--accent-dim);
+  }
+  .collab-cta .btn-primary:hover { opacity: 0.9; }
   .collab-types {
     display: grid;
     grid-template-columns: 1fr 1fr;
