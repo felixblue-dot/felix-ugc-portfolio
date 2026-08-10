@@ -609,12 +609,24 @@
   }
 
   /* COLLAB TYPES CALLOUT */
-  .collab-intro {
-    color: var(--muted);
-    max-width: 560px;
+  .collab-cta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
     margin-top: 32px;
-    font-size: 0.95rem;
+    padding: 18px 22px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
   }
+  .collab-cta p {
+    color: var(--muted);
+    max-width: 480px;
+    font-size: 0.92rem;
+    flex: 1 1 320px;
+  }
+  .collab-cta .btn { flex-shrink: 0; }
   .collab-types {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -883,7 +895,10 @@
     </div>
   </div>
 
-  <p class="collab-intro">I take on select ad-creative projects — single deliverables built to perform as paid ads — rather than high-volume monthly content contracts.</p>
+  <div class="collab-cta">
+    <p>Got a project in mind? Reach out with a few details on what you're looking for and I'll get back to you with a quote as soon as I can.</p>
+    <a href="#contact" class="btn btn-primary">Get in touch</a>
+  </div>
 
   <div class="collab-types">
     <div class="collab-card">
@@ -1012,7 +1027,7 @@
     <div class="about-text">
       <span class="section-tag">About</span>
       <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 16px;">A bit about me</h2>
-      <p>I'm Felix — 25, based worldwide (I'm traveling roughly half the year; when I'm not, you'll find me in Mannheim, Germany), bilingual in German and American English, plus conversational Chinese (B2/C1). I'm new to UGC specifically: I started creating dedicated content in 2026. Before that, two years of hands-on social media work for other brands — community building, Meta ads, converting warm leads into paying customers — taught me what actually gets people to stop scrolling and act. These days I'm most drawn to spec ad-creative work — single, high-craft deliverables built to perform as paid ads — over high-volume ambassador retainers.</p>
+      <p>I'm Felix — 25, based worldwide (I'm traveling roughly half the year; when I'm not, you'll find me in Mannheim, Germany), bilingual in German and American English, plus conversational Chinese (B2/C1). I started creating dedicated UGC content in 2026, building on two years of hands-on social media work for other brands — community building, Meta ads, converting warm leads into paying customers — taught me what actually gets people to stop scrolling and act. These days I'm most drawn to spec ad-creative work — single, high-craft deliverables built to perform as paid ads — over high-volume ambassador retainers.</p>
       <p>Outside of content, I run an AI automation agency and I've visited 70+ countries, roughly half of them solo. I script, shoot, and edit everything myself, and I'm actively opening up to travel collaborations — if you need someone who can turn a destination into a scroll-stopping story, that's where I want to spend more time.</p>
       <div class="stats">
         <div class="stat">
