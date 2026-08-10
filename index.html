@@ -486,6 +486,8 @@
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
+    will-change: scroll-position;
+    transform: translateZ(0);
     scrollbar-width: none;
     padding-bottom: 4px;
   }
@@ -1100,13 +1102,67 @@
     });
 
     container.dataset.infiniteInit = "1";
+    return { getSetW: function () { return setW; } };
+  }
+
+  // Continuously drifts the carousel sideways (no per-frame layout reads --
+  // position is tracked in a plain JS variable, not re-read from scrollLeft
+  // every frame, to avoid the read/write layout-thrashing that caused the
+  // original mobile stutter). Pauses on hover/touch/wheel interaction and
+  // whenever the carousel is scrolled out of view.
+  function startAutorun(container, getSetW, speed) {
+    if (container.dataset.autorunInit === "1") return;
+    container.dataset.autorunInit = "1";
+
+    var pos = container.scrollLeft;
+    var paused = false;
+    var visible = true;
+    var resumeTimer;
+
+    function resync() { pos = container.scrollLeft; }
+    function pauseFor(ms) {
+      paused = true;
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(function () { resync(); paused = false; }, ms);
+    }
+
+    container.addEventListener("wheel", function () { pauseFor(1500); }, { passive: true });
+    container.addEventListener("touchstart", function () { clearTimeout(resumeTimer); paused = true; }, { passive: true });
+    container.addEventListener("touchend", function () { pauseFor(1500); }, { passive: true });
+    container.addEventListener("mouseenter", function () { clearTimeout(resumeTimer); paused = true; });
+    container.addEventListener("mouseleave", function () { resync(); paused = false; });
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        visible = entries[0].isIntersecting;
+        if (visible) resync();
+      }).observe(container);
+    }
+
+    function tick() {
+      if (!paused && visible) {
+        pos += speed;
+        var setW = getSetW();
+        if (setW > 0 && pos >= setW * 2) pos -= setW;
+        container.scrollLeft = pos;
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   }
 
   function maybeInit() {
+    var portfolio = document.querySelector(".portfolio-grid");
+    if (portfolio) initInfiniteCarousel(portfolio);
+
     var marquee = document.querySelector(".marquee-track");
-    if (marquee) initInfiniteCarousel(marquee);
+    if (marquee) {
+      var handle = initInfiniteCarousel(marquee);
+      if (handle) startAutorun(marquee, handle.getSetW, 0.4);
+    }
+
     if (window.matchMedia("(max-width: 700px)").matches) {
-      document.querySelectorAll(".travel-gallery").forEach(initInfiniteCarousel);
+      document.querySelectorAll(".travel-gallery, .niche-grid").forEach(initInfiniteCarousel);
     }
   }
 
