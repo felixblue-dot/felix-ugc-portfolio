@@ -480,12 +480,28 @@
 
   /* BRAND WALL */
   .marquee-section {
-    padding: 48px 24px;
+    position: relative;
+    padding: 56px 24px;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     background: var(--bg-alt);
+    overflow: hidden;
+  }
+  .marquee-section::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 620px;
+    height: 320px;
+    background: var(--sunset);
+    filter: blur(100px);
+    opacity: 0.22;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
   }
   .marquee-label {
+    position: relative;
     text-align: center;
     color: var(--muted);
     font-size: 0.78rem;
@@ -495,38 +511,46 @@
     margin-bottom: 32px;
   }
   .marquee-track {
+    position: relative;
     max-width: 1080px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 16px;
+    gap: 18px;
   }
   .marquee-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 20px;
+    padding: 14px 24px;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 999px;
     box-shadow: var(--shadow);
-    transition: transform 0.2s, border-color 0.2s;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
   }
-  .marquee-item:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .marquee-item:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 30px rgba(255, 107, 74, 0.2);
+  }
+  .marquee-item:hover img { transform: scale(1.06); }
   .marquee-item img {
     height: 26px;
     width: auto;
     max-width: 110px;
     object-fit: contain;
     border-radius: 6px;
+    transition: transform 0.25s;
   }
   .marquee-item.round img {
     height: 32px;
     width: 32px;
     border-radius: 9px;
     object-fit: cover;
+    box-shadow: 0 0 0 5px rgba(255, 179, 71, 0.14);
   }
   .marquee-item span {
     color: var(--text);
