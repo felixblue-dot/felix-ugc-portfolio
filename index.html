@@ -640,13 +640,29 @@
       box-shadow: none;
       transform: translateZ(0);
     }
-    /* Denser wrapped wall at phone widths -- same static layout as desktop,
-       just tighter spacing so more chips fit per row. */
-    .marquee-track { gap: 10px; }
-    .marquee-item { padding: 10px 16px; gap: 8px; }
-    .marquee-item span { font-size: 0.8rem; }
-    .marquee-item img { height: 22px; max-width: 90px; }
-    .marquee-item.round img { height: 26px; width: 26px; }
+    /* Badge grid at phone widths: fixed 3-column grid of uniform square
+       cards (logo over name) instead of the desktop's wrapped pill row --
+       wrapped pills of very different widths ("Slack" vs "Your Next Store")
+       looked ragged at narrow widths, a uniform grid doesn't. */
+    .marquee-track {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .marquee-item {
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      padding: 18px 8px;
+      gap: 10px;
+    }
+    .marquee-item span {
+      font-size: 0.74rem;
+      white-space: normal;
+      line-height: 1.25;
+    }
+    .marquee-item img { height: 30px; max-width: 64px; }
+    .marquee-item.round img { height: 42px; width: 42px; }
   }
 
   /* COLLAB TYPES CALLOUT */
