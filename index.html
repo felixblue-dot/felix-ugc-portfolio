@@ -640,21 +640,13 @@
       box-shadow: none;
       transform: translateZ(0);
     }
-    /* Running band: a single-row auto-scrolling ticker reads better than
-       the wrapped chip wall at phone widths. */
-    .marquee-track {
-      flex-wrap: nowrap;
-      justify-content: flex-start;
-      width: max-content;
-    }
-    .marquee-track.marquee-ticker-active {
-      animation: marquee-ticker-scroll 30s linear infinite;
-    }
-    .marquee-track.marquee-ticker-active:hover { animation-play-state: paused; }
-  }
-  @keyframes marquee-ticker-scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    /* Denser wrapped wall at phone widths -- same static layout as desktop,
+       just tighter spacing so more chips fit per row. */
+    .marquee-track { gap: 10px; }
+    .marquee-item { padding: 10px 16px; gap: 8px; }
+    .marquee-item span { font-size: 0.8rem; }
+    .marquee-item img { height: 22px; max-width: 90px; }
+    .marquee-item.round img { height: 26px; width: 26px; }
   }
 
   /* COLLAB TYPES CALLOUT */
@@ -1278,32 +1270,6 @@
     delete container.dataset.infiniteInit;
   }
 
-  // Mobile-only auto-scrolling ticker for the brand wall: duplicates the
-  // chips once (plain CSS translateX loop, not the scrollLeft-based infinite
-  // carousel above) and lets a CSS animation drive it, since a scrollLeft
-  // fight with scroll-snap is exactly what caused the earlier marquee bugs.
-  function initMarqueeTicker(track) {
-    if (track.dataset.tickerInit === "1") return;
-    var items = Array.prototype.slice.call(track.children);
-    if (items.length < 2) return;
-    items.forEach(function (el) {
-      var clone = el.cloneNode(true);
-      clone.dataset.tickerClone = "1";
-      track.appendChild(clone);
-    });
-    track.classList.add("marquee-ticker-active");
-    track.dataset.tickerInit = "1";
-  }
-
-  function teardownMarqueeTicker(track) {
-    if (track.dataset.tickerInit !== "1") return;
-    Array.prototype.slice.call(track.querySelectorAll('[data-ticker-clone="1"]')).forEach(function (el) {
-      el.remove();
-    });
-    track.classList.remove("marquee-ticker-active");
-    delete track.dataset.tickerInit;
-  }
-
   function maybeInit() {
     var portfolio = document.querySelector(".portfolio-grid");
     var portfolioMobile = window.matchMedia("(max-width: 800px)").matches;
@@ -1318,12 +1284,6 @@
       if (isMobile) initInfiniteCarousel(el);
       else teardownInfiniteCarousel(el);
     });
-
-    var marqueeTrack = document.querySelector(".marquee-track");
-    if (marqueeTrack) {
-      if (isMobile) initMarqueeTicker(marqueeTrack);
-      else teardownMarqueeTicker(marqueeTrack);
-    }
   }
 
   document.addEventListener("DOMContentLoaded", maybeInit);
