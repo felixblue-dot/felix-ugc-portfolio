@@ -392,114 +392,117 @@
   /* PERFORMANCE */
   .perf-ranks {
     display: flex;
-    gap: 16px;
+    gap: 20px;
     flex-wrap: wrap;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
   }
   .perf-rank-card {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 20px;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    padding: 16px 22px;
-    flex: 1 1 260px;
+    padding: 26px 30px;
+    flex: 1 1 320px;
   }
   .perf-rank-logo {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
     object-fit: contain;
     flex-shrink: 0;
   }
   .perf-rank-value {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 800;
     color: var(--accent-dim);
     display: block;
     line-height: 1.2;
   }
   .perf-rank-label {
-    font-size: 0.8rem;
+    font-size: 0.92rem;
     color: var(--muted);
     display: block;
+    margin-top: 2px;
   }
   .perf-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
   }
   .perf-card {
     display: flex;
-    gap: 16px;
+    gap: 24px;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    padding: 18px;
+    padding: 26px;
   }
   .perf-card-media {
     position: relative;
-    flex: 0 0 84px;
-    width: 84px;
+    flex: 0 0 120px;
+    width: 120px;
     aspect-ratio: 9/16;
-    border-radius: 12px;
+    border-radius: 14px;
     overflow: hidden;
   }
   .perf-card-media img { width: 100%; height: 100%; object-fit: cover; }
   .perf-card-badge {
     position: absolute;
-    bottom: 6px;
-    right: 6px;
-    width: 22px;
-    height: 22px;
+    bottom: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background: #fff;
     box-shadow: 0 2px 8px rgba(0,0,0,0.25);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4px;
+    padding: 5px;
   }
   .perf-card-badge img { border-radius: 50%; }
-  .perf-card-body { flex: 1; min-width: 0; }
+  .perf-card-body { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
   .perf-card-title {
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--text);
-    margin-bottom: 12px;
+    margin-bottom: 20px;
+    line-height: 1.35;
   }
   .perf-metrics {
     display: flex;
-    gap: 14px;
+    gap: 22px;
   }
   .perf-metric { flex: 1; min-width: 0; }
   .perf-metric-value {
     display: block;
-    font-size: 1.15rem;
+    font-size: 1.6rem;
     font-weight: 800;
     color: var(--accent-dim);
     letter-spacing: -0.01em;
   }
   .perf-metric-label {
     display: block;
-    font-size: 0.68rem;
+    font-size: 0.74rem;
     font-weight: 600;
     color: var(--text);
     text-transform: uppercase;
     letter-spacing: 0.03em;
-    margin-top: 2px;
+    margin-top: 4px;
   }
   .perf-metric-bench {
     display: block;
-    font-size: 0.68rem;
+    font-size: 0.74rem;
     color: var(--muted);
-    margin-top: 3px;
+    margin-top: 4px;
   }
   @media (max-width: 640px) {
     .perf-card { flex-direction: column; }
+    .perf-card-body { align-items: flex-start; }
     .perf-card-media { width: 100%; flex-basis: auto; aspect-ratio: 16/9; }
   }
 
