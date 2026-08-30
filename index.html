@@ -440,7 +440,7 @@
   }
   .perf-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr));
     gap: 24px;
   }
   .perf-card {
@@ -522,7 +522,10 @@
   @media (max-width: 640px) {
     .perf-card { flex-direction: column; }
     .perf-card-body { align-items: flex-start; }
-    .perf-card-media { width: 100%; flex-basis: auto; aspect-ratio: 16/9; }
+    .perf-card-media { width: 100%; flex-basis: auto; aspect-ratio: 9/16; max-height: 320px; }
+    .perf-rank-proof { display: none; }
+    .perf-metrics { gap: 12px; }
+    .perf-metric-value { font-size: 1.3rem; }
   }
 
   /* ABOUT */
