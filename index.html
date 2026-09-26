@@ -392,9 +392,9 @@
 
   /* PERFORMANCE */
   .perf-ranks {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
     gap: 20px;
-    flex-wrap: wrap;
     margin-bottom: 32px;
   }
   .perf-rank-card {
@@ -406,7 +406,6 @@
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     padding: 26px 30px;
-    flex: 1 1 320px;
   }
   .perf-rank-top {
     display: flex;
