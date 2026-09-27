@@ -431,6 +431,14 @@
          instead of trailing empty space after them. auto-fill leaves
          unused columns in place at their normal size instead. */
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      /* Default grid alignment stretches every card to match the tallest
+         card in its own row. Card height varies with description length
+         (a one-line vs. two-line .portfolio-info), so which cards land in
+         the same row -- which changes completely between "All" and any
+         filtered view -- changed how tall a given card rendered. Aligning
+         to the start makes each card exactly as tall as its own content,
+         independent of whatever else is in its row. */
+      align-items: start;
       overflow-x: visible;
       overflow-y: visible;
       scroll-snap-type: none;
@@ -1914,18 +1922,14 @@
 
     var countEl = document.querySelector(".portfolio-filter-count");
     if (countEl) {
-      if (activeSet.size === 0) {
-        countEl.textContent = "";
-      } else {
-        // German videos are their own separate pool, not part of the regular
-        // niche count -- selecting German should read "2 of 2", not "2 of
-        // 15", and every other pill's denominator should exclude them too.
-        var visible = cards.filter(function (c) { return !c.hidden; }).length;
-        var pool = activeSet.has("german")
-          ? cards.filter(function (c) { return (c.dataset.niches || "").indexOf("german") !== -1; }).length
-          : cards.filter(function (c) { return (c.dataset.niches || "").indexOf("german") === -1; }).length;
-        countEl.textContent = "Showing " + visible + " of " + pool + " videos";
-      }
+      // German videos are their own separate pool, not part of the regular
+      // niche count -- selecting German should read "2 of 2", not "2 of
+      // 15", and every other pill (including "All") excludes them too.
+      var visible = cards.filter(function (c) { return !c.hidden; }).length;
+      var pool = activeSet.has("german")
+        ? cards.filter(function (c) { return (c.dataset.niches || "").indexOf("german") !== -1; }).length
+        : cards.filter(function (c) { return (c.dataset.niches || "").indexOf("german") === -1; }).length;
+      countEl.textContent = "Showing " + visible + " of " + pool + " videos";
     }
   }
 
