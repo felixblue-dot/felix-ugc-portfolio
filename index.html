@@ -286,15 +286,6 @@
     border-color: var(--accent);
     color: #fff;
   }
-  /* Active pills read as removable "chips" (checkmark) rather than a single
-     switched option, since these filters are multi-select/additive -- without
-     this, clicking a second pill after Travel looked like it should replace
-     the first rather than combine with it. */
-  .portfolio-filter-check {
-    display: none;
-    margin-right: 5px;
-  }
-  .portfolio-filter-pill.is-active .portfolio-filter-check { display: inline; }
   .portfolio-filter-count {
     font-size: 0.82rem;
     color: var(--muted);
@@ -1220,11 +1211,11 @@
   </button>
   <div class="portfolio-filters" role="group" aria-label="Filter recent work by niche">
     <button type="button" class="portfolio-filter-pill is-active" data-niche="all" data-label="All">All</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="travel" data-label="Travel"><span class="portfolio-filter-check">✓</span>Travel</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="lifestyle" data-label="Lifestyle"><span class="portfolio-filter-check">✓</span>Lifestyle</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="tech" data-label="Tech"><span class="portfolio-filter-check">✓</span>Tech</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="health" data-label="Health &amp; Fitness"><span class="portfolio-filter-check">✓</span>Health &amp; Fitness</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="german" data-label="German"><span class="portfolio-filter-check">✓</span>German</button>
+    <button type="button" class="portfolio-filter-pill" data-niche="travel" data-label="Travel">Travel</button>
+    <button type="button" class="portfolio-filter-pill" data-niche="lifestyle" data-label="Lifestyle">Lifestyle</button>
+    <button type="button" class="portfolio-filter-pill" data-niche="tech" data-label="Tech">Tech</button>
+    <button type="button" class="portfolio-filter-pill" data-niche="health" data-label="Health &amp; Fitness">Health &amp; Fitness</button>
+    <button type="button" class="portfolio-filter-pill" data-niche="german" data-label="German">German</button>
   </div>
   <p class="portfolio-filter-count" aria-live="polite"></p>
   <div class="portfolio-grid">
@@ -1820,9 +1811,11 @@
   document.addEventListener("DOMContentLoaded", maybeInit);
   window.addEventListener("resize", maybeInit);
 
-  // Recent-work niche filters: pills are multi-select (OR/union logic), "All"
-  // clears the selection back to the default. Cards can carry more than one
-  // niche in data-niches (space-separated) and match on any overlap.
+  // Recent-work niche filters: pills are single-select, "All" clears the
+  // selection back to the default. activeSet holds at most one niche, but
+  // matching still checks for overlap since a card can carry more than one
+  // niche in data-niches (space-separated) -- e.g. selecting "Travel" also
+  // matches a card tagged "travel lifestyle".
   function applyPortfolioFilter(activeSet) {
     var grid = document.querySelector(".portfolio-grid");
     if (!grid) return;
@@ -1862,34 +1855,24 @@
 
   var portfolioFilterPills = Array.prototype.slice.call(document.querySelectorAll(".portfolio-filter-pill"));
   var activePortfolioFilters = new Set();
+  // Single-select: clicking a pill replaces the current filter outright
+  // rather than adding to it -- multi-select read as counterintuitive here
+  // (picking Lifestyle after Travel looked like it should replace Travel,
+  // not combine with it).
   portfolioFilterPills.forEach(function (pill) {
     pill.addEventListener("click", function () {
       var niche = pill.dataset.niche;
-      if (niche === "all") {
-        activePortfolioFilters.clear();
-      } else if (activePortfolioFilters.has(niche)) {
-        activePortfolioFilters.delete(niche);
-      } else {
-        activePortfolioFilters.add(niche);
-      }
+      activePortfolioFilters.clear();
+      if (niche !== "all") activePortfolioFilters.add(niche);
+
       portfolioFilterPills.forEach(function (p) {
-        var isActive = p.dataset.niche === "all"
-          ? activePortfolioFilters.size === 0
-          : activePortfolioFilters.has(p.dataset.niche);
-        p.classList.toggle("is-active", isActive);
+        p.classList.toggle("is-active", p === pill);
       });
       applyPortfolioFilter(activePortfolioFilters);
 
       var triggerLabel = document.querySelector(".portfolio-filters-trigger-label");
       if (triggerLabel) {
-        if (activePortfolioFilters.size === 0) {
-          triggerLabel.textContent = "Filter: All";
-        } else {
-          var labels = portfolioFilterPills
-            .filter(function (p) { return activePortfolioFilters.has(p.dataset.niche); })
-            .map(function (p) { return p.dataset.label; });
-          triggerLabel.textContent = "Filter: " + labels.join(", ");
-        }
+        triggerLabel.textContent = "Filter: " + pill.dataset.label;
       }
     });
   });
