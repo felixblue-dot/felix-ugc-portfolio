@@ -1685,10 +1685,22 @@
 
     var afterFrag = document.createDocumentFragment();
     if (withDivider) afterFrag.appendChild(makeLoopDivider());
-    items.forEach(function (el) { afterFrag.appendChild(taggedClone(el)); });
+    var afterClones = items.map(function (el) {
+      var clone = taggedClone(el);
+      afterFrag.appendChild(clone);
+      return clone;
+    });
     container.appendChild(afterFrag);
 
-    var setW = container.scrollWidth / 3;
+    // scrollWidth/3 assumes the three sets are pixel-identical, but they're
+    // not quite: N children have N-1 gaps between them, and that count
+    // doesn't divide evenly by 3 once you include the boundary gaps between
+    // sets -- scrollWidth/3 came out ~5px short of one real loop distance,
+    // which is exactly the kind of small, constant error that eventually
+    // desyncs the snap-corrected position from an actual card boundary.
+    // Measuring the real distance between an item and its own after-clone
+    // sidesteps the rounding entirely.
+    var setW = afterClones[0].offsetLeft - items[0].offsetLeft;
     // Land on the first real card, not the divider that now precedes it.
     // Manually computing the target via getBoundingClientRect and assigning
     // scrollLeft directly came out ~65px short of where scroll-snap actually
@@ -1715,9 +1727,13 @@
     // double-content flash on the marquee.
     if (!options || !options.skipCorrection) {
       function correct() {
-        if (container.scrollLeft >= setW * 2) {
+        // A while loop (not if/else-if) so a single fast fling that covers
+        // more than one loop distance still lands back in the middle set,
+        // rather than staying out of bounds until the next scrollend.
+        while (container.scrollLeft >= setW * 2) {
           container.scrollLeft -= setW;
-        } else if (container.scrollLeft < setW) {
+        }
+        while (container.scrollLeft < setW) {
           container.scrollLeft += setW;
         }
       }
@@ -1738,7 +1754,7 @@
     window.addEventListener("resize", function () {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function () {
-        setW = container.scrollWidth / 3;
+        setW = afterClones[0].offsetLeft - items[0].offsetLeft;
       }, 150);
     });
 
