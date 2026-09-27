@@ -423,7 +423,14 @@
   @media (min-width: 801px) {
     .portfolio-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      /* auto-fill, not auto-fit: auto-fit collapses columns that have no
+         item in them ANYWHERE in the grid and hands their freed width to
+         the remaining 1fr columns -- with a sparse filter (e.g. 2 German
+         cards out of 4 columns), that inflated columns 1-2 wider than
+         normal, leaving a visible gap between the (capped-width) cards
+         instead of trailing empty space after them. auto-fill leaves
+         unused columns in place at their normal size instead. */
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       overflow-x: visible;
       overflow-y: visible;
       scroll-snap-type: none;
@@ -1226,7 +1233,7 @@
     <button type="button" class="portfolio-filter-pill" data-niche="lifestyle" data-label="Lifestyle">Lifestyle</button>
     <button type="button" class="portfolio-filter-pill" data-niche="tech" data-label="Tech">Tech</button>
     <button type="button" class="portfolio-filter-pill" data-niche="health" data-label="Health &amp; Fitness">Health &amp; Fitness</button>
-    <button type="button" class="portfolio-filter-pill portfolio-filter-pill--special" data-niche="german" data-label="German">🇩🇪 German</button>
+    <button type="button" class="portfolio-filter-pill portfolio-filter-pill--special" data-niche="german" data-label="German">German</button>
   </div>
   <p class="portfolio-filter-count" aria-live="polite"></p>
   <div class="portfolio-grid">
@@ -1910,8 +1917,14 @@
       if (activeSet.size === 0) {
         countEl.textContent = "";
       } else {
+        // German videos are their own separate pool, not part of the regular
+        // niche count -- selecting German should read "2 of 2", not "2 of
+        // 15", and every other pill's denominator should exclude them too.
         var visible = cards.filter(function (c) { return !c.hidden; }).length;
-        countEl.textContent = "Showing " + visible + " of " + cards.length + " videos";
+        var pool = activeSet.has("german")
+          ? cards.filter(function (c) { return (c.dataset.niches || "").indexOf("german") !== -1; }).length
+          : cards.filter(function (c) { return (c.dataset.niches || "").indexOf("german") === -1; }).length;
+        countEl.textContent = "Showing " + visible + " of " + pool + " videos";
       }
     }
   }
