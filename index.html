@@ -421,13 +421,19 @@
   @media (min-width: 801px) {
     .portfolio-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 280px));
-      justify-content: center;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       overflow-x: visible;
       overflow-y: visible;
       scroll-snap-type: none;
     }
-    .portfolio-card { min-width: 0; }
+    /* Capping the track itself (minmax(...,280px)) changes how many columns
+       auto-fit counts as fitting -- it tests against the max, not the min,
+       once max is a definite length, so it silently dropped 4-per-row down
+       to 3. Keep the track flexible (1fr, so column count is still driven
+       by the 220px min) and cap the CARD instead: a lone card left after
+       filtering still gets a full-width 1fr cell, but stops there rather
+       than stretching to fill it. */
+    .portfolio-card { min-width: 0; max-width: 280px; }
     .loop-divider { display: none; }
   }
 
