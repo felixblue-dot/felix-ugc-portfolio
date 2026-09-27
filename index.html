@@ -286,6 +286,17 @@
     border-color: var(--accent);
     color: #fff;
   }
+  /* German is a hidden-by-default niche (excluded from "All" and every other
+     pill), so it gets a visibly different resting style -- a dashed border
+     sets it apart from the regular niche pills at a glance. */
+  .portfolio-filter-pill--special {
+    border-style: dashed;
+    color: var(--muted);
+  }
+  .portfolio-filter-pill--special.is-active {
+    border-style: solid;
+    color: #fff;
+  }
   .portfolio-filter-count {
     font-size: 0.82rem;
     color: var(--muted);
@@ -1215,7 +1226,7 @@
     <button type="button" class="portfolio-filter-pill" data-niche="lifestyle" data-label="Lifestyle">Lifestyle</button>
     <button type="button" class="portfolio-filter-pill" data-niche="tech" data-label="Tech">Tech</button>
     <button type="button" class="portfolio-filter-pill" data-niche="health" data-label="Health &amp; Fitness">Health &amp; Fitness</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="german" data-label="German">German</button>
+    <button type="button" class="portfolio-filter-pill portfolio-filter-pill--special" data-niche="german" data-label="German">🇩🇪 German</button>
   </div>
   <p class="portfolio-filter-count" aria-live="polite"></p>
   <div class="portfolio-grid">
@@ -1937,6 +1948,11 @@
       portfolioFiltersTrigger.setAttribute("aria-expanded", String(isOpen));
     });
   }
+
+  // Apply the (empty) default filter on load -- without this, German-tagged
+  // cards were visible on first paint since the gating logic only ran after
+  // a pill was clicked.
+  applyPortfolioFilter(activePortfolioFilters);
 })();
 
 (function () {
