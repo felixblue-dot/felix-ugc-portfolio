@@ -301,6 +301,7 @@
     margin: 0 0 20px;
     min-height: 1.2em;
   }
+  .portfolio-filters-trigger { display: none; }
   /* Swipeable carousel on all screen sizes: next card peeks at the edge */
   .portfolio-grid {
     display: flex;
@@ -791,6 +792,50 @@
     background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
   }
   @media (max-width: 700px) {
+    /* Recent Work filters collapse into a dropdown on mobile -- 6 wrapped
+       pills ate 2-3 lines of vertical space and read as a wall of buttons.
+       The trigger shows a summary of what's active; the panel behind it is
+       the same pill buttons, just relaid out as a vertical list so no
+       markup or click-handling needs to be duplicated. */
+    .portfolio-filters-trigger {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.9rem;
+      font-family: inherit;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    .portfolio-filters-trigger-chevron {
+      color: var(--muted);
+      transition: transform 0.15s ease;
+    }
+    .portfolio-filters-trigger[aria-expanded="true"] .portfolio-filters-trigger-chevron {
+      transform: rotate(180deg);
+    }
+    .portfolio-filters {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 8px;
+      margin-bottom: 12px;
+      background: var(--card);
+    }
+    .portfolio-filters.is-open { display: flex; }
+    .portfolio-filters .portfolio-filter-pill {
+      width: 100%;
+      text-align: left;
+      border-color: transparent;
+    }
     /* Swipeable carousels on mobile: next card peeks at the edge */
     .portfolio-grid { gap: 14px; }
     .portfolio-card {
@@ -1163,13 +1208,17 @@
     <h2>Recent work</h2>
     <p>Mostly off-channel UGC ads made for brands to run on their own accounts, plus a few personal posts from my Instagram and TikTok — click through to watch.</p>
   </div>
+  <button type="button" class="portfolio-filters-trigger" aria-expanded="false">
+    <span class="portfolio-filters-trigger-label">Filter: All</span>
+    <span class="portfolio-filters-trigger-chevron">▾</span>
+  </button>
   <div class="portfolio-filters" role="group" aria-label="Filter recent work by niche">
-    <button type="button" class="portfolio-filter-pill is-active" data-niche="all">All</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="travel"><span class="portfolio-filter-check">✓</span>Travel</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="lifestyle"><span class="portfolio-filter-check">✓</span>Lifestyle</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="tech"><span class="portfolio-filter-check">✓</span>Tech</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="health"><span class="portfolio-filter-check">✓</span>Health &amp; Fitness</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="german"><span class="portfolio-filter-check">✓</span>German</button>
+    <button type="button" class="portfolio-filter-pill is-active" data-niche="all" data-label="All">All</button>
+    <button type="button" class="portfolio-filter-pill" data-niche="travel" data-label="Travel"><span class="portfolio-filter-check">✓</span>Travel</button>
+    <button type="button" class="portfolio-filter-pill" data-niche="lifestyle" data-label="Lifestyle"><span class="portfolio-filter-check">✓</span>Lifestyle</button>
+    <button type="button" class="portfolio-filter-pill" data-niche="tech" data-label="Tech"><span class="portfolio-filter-check">✓</span>Tech</button>
+    <button type="button" class="portfolio-filter-pill" data-niche="health" data-label="Health &amp; Fitness"><span class="portfolio-filter-check">✓</span>Health &amp; Fitness</button>
+    <button type="button" class="portfolio-filter-pill" data-niche="german" data-label="German"><span class="portfolio-filter-check">✓</span>German</button>
   </div>
   <p class="portfolio-filter-count" aria-live="polite"></p>
   <div class="portfolio-grid">
@@ -1824,8 +1873,29 @@
         p.classList.toggle("is-active", isActive);
       });
       applyPortfolioFilter(activePortfolioFilters);
+
+      var triggerLabel = document.querySelector(".portfolio-filters-trigger-label");
+      if (triggerLabel) {
+        if (activePortfolioFilters.size === 0) {
+          triggerLabel.textContent = "Filter: All";
+        } else {
+          var labels = portfolioFilterPills
+            .filter(function (p) { return activePortfolioFilters.has(p.dataset.niche); })
+            .map(function (p) { return p.dataset.label; });
+          triggerLabel.textContent = "Filter: " + labels.join(", ");
+        }
+      }
     });
   });
+
+  var portfolioFiltersTrigger = document.querySelector(".portfolio-filters-trigger");
+  var portfolioFiltersPanel = document.querySelector(".portfolio-filters");
+  if (portfolioFiltersTrigger && portfolioFiltersPanel) {
+    portfolioFiltersTrigger.addEventListener("click", function () {
+      var isOpen = portfolioFiltersPanel.classList.toggle("is-open");
+      portfolioFiltersTrigger.setAttribute("aria-expanded", String(isOpen));
+    });
+  }
 })();
 
 (function () {
