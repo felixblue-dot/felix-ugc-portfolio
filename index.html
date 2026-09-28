@@ -404,7 +404,11 @@
     color: var(--muted);
     text-align: center;
   }
-  .portfolio-info { padding: 16px 18px; }
+  /* Fixed min-height (not row-relative stretch) so every card is the same
+     total height everywhere -- thumb is a fixed 9/16 aspect-ratio already,
+     so a constant info height makes the whole card constant too, regardless
+     of description length or which cards happen to share a row/filter. */
+  .portfolio-info { padding: 16px 18px; min-height: 160px; }
   .portfolio-info .tag {
     font-size: 0.7rem;
     color: var(--accent-dim);
@@ -1605,7 +1609,7 @@
   <div class="section-head">
     <span class="section-tag">Instagram</span>
     <h2>Current stats — @felix.unstuck</h2>
-    <p>My personal brand page, Instagram only. Stats exclude cross-posts to TikTok and YouTube Shorts. Last updated 12 September 2026.</p>
+    <p>My personal brand page, Instagram only. Stats exclude cross-posts to TikTok and YouTube Shorts. Last updated 27 September 2026.</p>
   </div>
   <div class="ig-dashboard">
     <div class="ig-dashboard-glow"></div>
@@ -1614,15 +1618,15 @@
     </div>
     <div class="ig-dashboard-row">
       <div class="ig-dashboard-stat">
-        <span class="ig-dashboard-value">2,543</span>
+        <span class="ig-dashboard-value">2,773</span>
         <span class="ig-dashboard-label">Followers</span>
       </div>
       <div class="ig-dashboard-stat">
-        <span class="ig-dashboard-value">566,831</span>
+        <span class="ig-dashboard-value">775,733</span>
         <span class="ig-dashboard-label">Views · 30 days</span>
       </div>
       <div class="ig-dashboard-stat">
-        <span class="ig-dashboard-value">17,747</span>
+        <span class="ig-dashboard-value">25,030</span>
         <span class="ig-dashboard-label">Interactions · 30 days</span>
       </div>
     </div>
@@ -1637,8 +1641,10 @@
     <div class="about-text">
       <span class="section-tag">About</span>
       <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 16px;">A bit about me</h2>
-      <p>I'm Felix — 25, based worldwide (I'm traveling roughly half the year; when I'm not, you'll find me in Mannheim, Germany), bilingual in German and American English, plus conversational Chinese (B2/C1). I started creating dedicated UGC content in 2026, building on two years of hands-on social media work for other brands — community building, Meta ads, converting warm leads into paying customers — taught me what actually gets people to stop scrolling and act. These days I'm most drawn to spec ad-creative work — single, high-craft deliverables built to perform as paid ads — over high-volume ambassador retainers.</p>
-      <p>Outside of content, I run an AI automation agency and I've visited 70+ countries, roughly half of them solo. I script, shoot, and edit everything myself, and I'm actively opening up to travel collaborations — if you need someone who can turn a destination into a scroll-stopping story, that's where I want to spend more time.</p>
+      <p>I'm Felix, 25, and I work from wherever I happen to be. I travel about half the year, and when I'm not on the road I'm based in Mannheim, Germany. I speak German and American English fluently, plus conversational Chinese.</p>
+      <p>I started creating UGC in 2026, after two years of hands-on social media work for other brands: building communities, running Meta ads and turning warm leads into paying customers. That work taught me what actually makes people stop scrolling and act, and I bring it into every video I make.</p>
+      <p>I script, shoot and edit everything myself. My focus is ad-ready creative built to perform on your own channels and as paid social. I work with brands on single videos or ongoing monthly content, depending on what you need.</p>
+      <p>Outside of content, I run an AI automation agency and have visited 70+ countries, about half of them solo. I'm especially keen on travel collaborations, so if you want someone who can turn a destination into a scroll-stopping story, let's talk.</p>
       <div class="stats">
         <div class="stat">
           <h3>2+</h3>
