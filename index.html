@@ -468,31 +468,76 @@
   .testimonials-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr));
-    gap: 24px;
+    gap: 28px;
   }
   .testimonial-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .testimonial-bubble {
+    position: relative;
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
+    border-radius: 22px 22px 22px 4px;
     box-shadow: var(--shadow);
-    padding: 28px 26px;
+    padding: 30px 26px 26px;
+  }
+  .testimonial-bubble::before {
+    content: "\201C";
+    position: absolute;
+    top: -6px;
+    left: 20px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 4.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: 0.16;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .testimonial-bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -9px;
+    left: 26px;
+    width: 16px;
+    height: 16px;
+    background: var(--card);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    border-radius: 0 0 3px 0;
+    transform: rotate(45deg);
   }
   .testimonial-quote {
+    position: relative;
     font-size: 1.08rem;
     font-weight: 500;
     line-height: 1.5;
     color: var(--text);
   }
   .testimonial-translation {
+    position: relative;
     margin-top: 8px;
     font-size: 0.85rem;
     font-style: italic;
     color: var(--muted);
   }
   .testimonial-client {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin-top: 16px;
+    padding-left: 26px;
     font-size: 0.85rem;
     color: var(--muted);
+  }
+  .testimonial-client::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--accent);
   }
   .testimonial-result {
     margin-top: 10px;
@@ -1624,20 +1669,28 @@
   </div>
   <div class="testimonials-grid">
     <div class="testimonial-card">
-      <p class="testimonial-quote">"The video turned out great, and we're very happy with the final result! We really enjoyed working with you. Booked a follow-up video right after the first delivery."</p>
+      <div class="testimonial-bubble">
+        <p class="testimonial-quote">"The video turned out great, and we're very happy with the final result! We really enjoyed working with you. Booked a follow-up video right after the first delivery."</p>
+      </div>
       <p class="testimonial-client">Men's grooming brand, EU expansion</p>
     </div>
     <div class="testimonial-card">
-      <p class="testimonial-quote">"Overall content is amazing!"</p>
+      <div class="testimonial-bubble">
+        <p class="testimonial-quote">"Overall content is amazing!"</p>
+      </div>
       <p class="testimonial-client">AI shopping platform</p>
     </div>
     <div class="testimonial-card">
-      <p class="testimonial-quote">"Die neue Version ist super, wir bedanken uns recht herzlich."</p>
-      <p class="testimonial-translation">"The new version is great, thank you so much."</p>
+      <div class="testimonial-bubble">
+        <p class="testimonial-quote">"Die neue Version ist super, wir bedanken uns recht herzlich."</p>
+        <p class="testimonial-translation">"The new version is great, thank you so much."</p>
+      </div>
       <p class="testimonial-client">AI concierge service, Germany</p>
     </div>
     <div class="testimonial-card">
-      <p class="testimonial-quote">"Felix's ad creatives brought in exactly the leads we needed. 21 booked sales calls in the first 30 days, worth &euro;168k in pipeline for our high-ticket program."</p>
+      <div class="testimonial-bubble">
+        <p class="testimonial-quote">"Felix's ad creatives brought in exactly the leads we needed. 21 booked sales calls in the first 30 days, worth &euro;168k in pipeline for our high-ticket program."</p>
+      </div>
       <p class="testimonial-client">Airbnb coaching business</p>
     </div>
   </div>
