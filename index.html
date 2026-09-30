@@ -505,6 +505,7 @@
   .perf-ranks {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    align-items: start;
     gap: 20px;
     margin-bottom: 32px;
   }
@@ -555,53 +556,6 @@
     display: block;
     border-radius: 10px;
     border: 1px solid var(--border);
-  }
-  /* BePresent has no leaderboard screenshot, so this slot shows the
-     featured portfolio video instead, cropped to the same landscape
-     proportions as the other three cards' proof screenshots so all four
-     match in height. */
-  .perf-rank-video {
-    position: relative;
-    display: block;
-    width: 100%;
-    aspect-ratio: 1000 / 540;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    overflow: hidden;
-    cursor: pointer;
-  }
-  .perf-rank-video img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 15%;
-    display: block;
-  }
-  .perf-rank-video-play {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.45);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.95rem;
-  }
-  .perf-rank-video-label {
-    position: absolute;
-    left: 10px;
-    bottom: 10px;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 5px 10px;
-    border-radius: 999px;
   }
   .perf-grid {
     display: grid;
@@ -696,7 +650,6 @@
        so each card is just title, the three metrics and the verify link. */
     .perf-card-media { display: none; }
     .perf-rank-proof { display: none; }
-    .perf-rank-video { display: none; }
     .perf-rank-value { font-size: 1.6rem; white-space: nowrap; }
     .perf-metrics { gap: 12px; }
     .perf-metric-value { font-size: 1.3rem; }
@@ -1705,11 +1658,6 @@
           <span class="perf-rank-date">As of 7 September 2026</span>
         </div>
       </div>
-      <a class="perf-rank-video" href="#" data-video="bepresent-ad.mp4">
-        <img loading="lazy" src="images/portfolio-thumb-3.webp" alt="Featured BePresent video">
-        <span class="perf-rank-video-play">&#9654;</span>
-        <span class="perf-rank-video-label">Featured BePresent video</span>
-      </a>
     </div>
     <div class="perf-rank-card">
       <div class="perf-rank-top">
