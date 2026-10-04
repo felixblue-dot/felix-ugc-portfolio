@@ -1322,6 +1322,7 @@
   }
   .pricing-panel h3 { font-size: 1.4rem; margin-bottom: 6px; padding-right: 36px; }
   .pricing-intro { color: var(--muted); font-size: 0.95rem; margin-bottom: 18px; }
+  .pricing-intro strong { color: var(--accent-dim); }
   .pricing-close {
     position: absolute;
     top: 16px;
@@ -2114,22 +2115,22 @@
   <form class="pricing-panel" id="pricingForm">
     <button class="pricing-close" type="button" aria-label="Close" data-close-pricing>&times;</button>
     <h3 id="pricingTitle">Request pricing</h3>
-    <p class="pricing-intro">Two taps, then your email opens ready to send.</p>
-    <fieldset class="pricing-group">
-      <legend>Package</legend>
-      <div class="pricing-options">
-        <label class="pricing-chip"><input type="radio" name="package" value="Starter package"><span>Starter</span></label>
-        <label class="pricing-chip"><input type="radio" name="package" value="Growth package"><span>Growth</span></label>
-        <label class="pricing-chip"><input type="radio" name="package" value="Scale package"><span>Scale</span></label>
-        <label class="pricing-chip"><input type="radio" name="package" value="Not sure yet"><span>Not sure</span></label>
-      </div>
-    </fieldset>
+    <p class="pricing-intro"><strong id="pricingPkg"></strong> Two taps and your email is ready.</p>
     <fieldset class="pricing-group">
       <legend>Videos will run</legend>
       <div class="pricing-options">
         <label class="pricing-chip"><input type="radio" name="channel" value="Organic, on my own channels"><span>Organic</span></label>
         <label class="pricing-chip"><input type="radio" name="channel" value="Paid ads"><span>Paid ads</span></label>
         <label class="pricing-chip"><input type="radio" name="channel" value="Both organic and paid ads"><span>Both</span></label>
+      </div>
+    </fieldset>
+    <fieldset class="pricing-group">
+      <legend>Monthly budget</legend>
+      <div class="pricing-options">
+        <label class="pricing-chip"><input type="radio" name="budget" value="Under &euro;1,000"><span>Under &euro;1k</span></label>
+        <label class="pricing-chip"><input type="radio" name="budget" value="&euro;1,000 to &euro;3,000"><span>&euro;1k to 3k</span></label>
+        <label class="pricing-chip"><input type="radio" name="budget" value="&euro;3,000 to &euro;5,000"><span>&euro;3k to 5k</span></label>
+        <label class="pricing-chip"><input type="radio" name="budget" value="&euro;5,000 or more"><span>&euro;5k+</span></label>
       </div>
     </fieldset>
     <div class="pricing-note">
@@ -2496,7 +2497,9 @@
   var note = document.getElementById("pricingNote");
   var hint = document.getElementById("pricingHint");
   var copyBtn = document.getElementById("pricingCopy");
+  var pkgLabel = document.getElementById("pricingPkg");
   var lastTrigger = null;
+  var currentPackage = "";
   var EMAIL = "hello@unstuck.social";
 
   function pick(name) {
@@ -2505,11 +2508,12 @@
   }
 
   function buildMessage() {
-    var pkg = pick("package");
+    var pkg = currentPackage;
     var lines = ["Hi Felix,", "", "I came across your website unstuck.social and I'd like to know the current pricing.", ""];
     var details = [
       ["Interested in", pkg],
-      ["Videos will run", pick("channel")]
+      ["Videos will run", pick("channel")],
+      ["Monthly budget", pick("budget")]
     ];
     details.forEach(function (d) { if (d[1]) lines.push(d[0] + ": " + d[1]); });
     var extra = note.value.trim();
@@ -2525,8 +2529,8 @@
     lastTrigger = trigger;
     form.reset();
     hint.hidden = true;
-    var radio = pkg && form.querySelector('input[name="package"][value="' + pkg + '"]');
-    if (radio) radio.checked = true;
+    currentPackage = pkg || "";
+    pkgLabel.textContent = currentPackage ? currentPackage + "." : "";
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
     document.body.classList.add("pricing-modal-open");
