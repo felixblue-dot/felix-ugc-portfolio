@@ -1291,6 +1291,138 @@
   }
   .video-modal-close:hover { background: rgba(0,0,0,0.7); }
   body.video-modal-open { overflow: hidden; }
+
+  /* PRICING REQUEST MODAL */
+  .pricing-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .pricing-modal.open { display: flex; }
+  .pricing-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(20, 14, 10, 0.7);
+  }
+  .pricing-panel {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 580px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    background: var(--card);
+    border-radius: 20px;
+    padding: 32px 30px 0;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  }
+  .pricing-panel h3 { font-size: 1.4rem; margin-bottom: 6px; padding-right: 36px; }
+  .pricing-intro { color: var(--muted); font-size: 0.95rem; margin-bottom: 22px; }
+  .pricing-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .pricing-close:hover { background: var(--border); }
+  .pricing-group { border: none; margin: 0 0 18px; padding: 0; min-width: 0; }
+  .pricing-group legend {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 9px;
+    padding: 0;
+  }
+  .pricing-options { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pricing-chip { position: relative; cursor: pointer; }
+  .pricing-chip input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+  }
+  .pricing-chip span {
+    display: block;
+    padding: 9px 16px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background: var(--card);
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+  .pricing-chip:hover span { border-color: var(--accent); }
+  .pricing-chip input:checked + span {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .pricing-chip input:focus-visible + span { outline: 2px solid var(--accent-dim); outline-offset: 2px; }
+  .pricing-note label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 9px;
+  }
+  .pricing-note label small { font-weight: 400; color: var(--muted); }
+  .pricing-note textarea {
+    width: 100%;
+    min-height: 84px;
+    resize: vertical;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font: inherit;
+    font-size: 0.95rem;
+    color: var(--text);
+    background: var(--card);
+  }
+  .pricing-note textarea:focus { outline: none; border-color: var(--accent); }
+  .pricing-actions {
+    position: sticky;
+    bottom: 0;
+    margin: 14px 0 0;
+    padding: 14px 0 28px;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .pricing-submit { width: 100%; border: none; cursor: pointer; font-family: inherit; text-align: center; }
+  .pricing-hint { font-size: 0.85rem; color: var(--muted); text-align: center; }
+  .pricing-copy {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--accent-dim);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  @media (max-width: 600px) {
+    .pricing-panel { padding: 26px 20px 0; border-radius: 18px; }
+    .pricing-actions { padding-bottom: 22px; }
+    .pricing-options { gap: 7px; }
+    .pricing-chip span { padding: 8px 13px; font-size: 0.85rem; }
+  }
+  body.pricing-modal-open { overflow: hidden; }
 </style>
 </head>
 <body>
@@ -1417,7 +1549,7 @@
         <li>3 videos per month</li>
         <li>2 hook variations per video</li>
       </ul>
-      <a href="mailto:hello@unstuck.social?subject=Pricing%20request%3A%20Starter%20package&amp;body=Hi%20Felix%2C%0A%0AI%20came%20across%20your%20website%20unstuck.social%20and%20I%27m%20interested%20in%20the%20Starter%20package.%20What%20does%20the%20current%20pricing%20look%20like%3F%0A%0AA%20few%20quick%20details%3A%0ABrand%20and%20website%3A%20%0AWhat%20I%27d%20like%20to%20promote%3A%20%0AWhere%20the%20videos%20will%20run%20%28organic%2C%20paid%20ads%20or%20both%29%3A%20%0A%0AThanks%21" class="btn btn-outline package-cta">Request pricing</a>
+      <a href="mailto:hello@unstuck.social?subject=Pricing%20request%3A%20Starter%20package&amp;body=Hi%20Felix%2C%0A%0AI%20came%20across%20your%20website%20unstuck.social%20and%20I%27m%20interested%20in%20the%20Starter%20package.%20What%20does%20the%20current%20pricing%20look%20like%3F%0A%0AA%20few%20quick%20details%3A%0ABrand%20and%20website%3A%20%0AWhat%20I%27d%20like%20to%20promote%3A%20%0AWhere%20the%20videos%20will%20run%20%28organic%2C%20paid%20ads%20or%20both%29%3A%20%0A%0AThanks%21" class="btn btn-outline package-cta" data-pricing="Starter package">Request pricing</a>
     </div>
     <div class="package-card package-card--featured">
       <span class="badge package-badge">Most popular</span>
@@ -1427,7 +1559,7 @@
         <li>3 hook variations per video</li>
         <li>Raw footage included</li>
       </ul>
-      <a href="mailto:hello@unstuck.social?subject=Pricing%20request%3A%20Growth%20package&amp;body=Hi%20Felix%2C%0A%0AI%20came%20across%20your%20website%20unstuck.social%20and%20I%27m%20interested%20in%20the%20Growth%20package.%20What%20does%20the%20current%20pricing%20look%20like%3F%0A%0AA%20few%20quick%20details%3A%0ABrand%20and%20website%3A%20%0AWhat%20I%27d%20like%20to%20promote%3A%20%0AWhere%20the%20videos%20will%20run%20%28organic%2C%20paid%20ads%20or%20both%29%3A%20%0A%0AThanks%21" class="btn btn-primary package-cta">Request pricing</a>
+      <a href="mailto:hello@unstuck.social?subject=Pricing%20request%3A%20Growth%20package&amp;body=Hi%20Felix%2C%0A%0AI%20came%20across%20your%20website%20unstuck.social%20and%20I%27m%20interested%20in%20the%20Growth%20package.%20What%20does%20the%20current%20pricing%20look%20like%3F%0A%0AA%20few%20quick%20details%3A%0ABrand%20and%20website%3A%20%0AWhat%20I%27d%20like%20to%20promote%3A%20%0AWhere%20the%20videos%20will%20run%20%28organic%2C%20paid%20ads%20or%20both%29%3A%20%0A%0AThanks%21" class="btn btn-primary package-cta" data-pricing="Growth package">Request pricing</a>
     </div>
     <div class="package-card">
       <h3>Scale</h3>
@@ -1436,7 +1568,7 @@
         <li>3 hook variations per video</li>
         <li>Raw footage included</li>
       </ul>
-      <a href="mailto:hello@unstuck.social?subject=Pricing%20request%3A%20Scale%20package&amp;body=Hi%20Felix%2C%0A%0AI%20came%20across%20your%20website%20unstuck.social%20and%20I%27m%20interested%20in%20the%20Scale%20package.%20What%20does%20the%20current%20pricing%20look%20like%3F%0A%0AA%20few%20quick%20details%3A%0ABrand%20and%20website%3A%20%0AWhat%20I%27d%20like%20to%20promote%3A%20%0AWhere%20the%20videos%20will%20run%20%28organic%2C%20paid%20ads%20or%20both%29%3A%20%0A%0AThanks%21" class="btn btn-outline package-cta">Request pricing</a>
+      <a href="mailto:hello@unstuck.social?subject=Pricing%20request%3A%20Scale%20package&amp;body=Hi%20Felix%2C%0A%0AI%20came%20across%20your%20website%20unstuck.social%20and%20I%27m%20interested%20in%20the%20Scale%20package.%20What%20does%20the%20current%20pricing%20look%20like%3F%0A%0AA%20few%20quick%20details%3A%0ABrand%20and%20website%3A%20%0AWhat%20I%27d%20like%20to%20promote%3A%20%0AWhere%20the%20videos%20will%20run%20%28organic%2C%20paid%20ads%20or%20both%29%3A%20%0A%0AThanks%21" class="btn btn-outline package-cta" data-pricing="Scale package">Request pricing</a>
     </div>
   </div>
   <p class="package-footnote">All packages: 3-month minimum, 3 months of usage rights per video including paid ads, 1 revision round per video. Want to start with a single test video first? That works too.</p>
@@ -1986,6 +2118,59 @@
   </div>
 </div>
 
+<div class="pricing-modal" id="pricingModal" role="dialog" aria-modal="true" aria-labelledby="pricingTitle" aria-hidden="true">
+  <div class="pricing-backdrop" data-close-pricing></div>
+  <form class="pricing-panel" id="pricingForm">
+    <button class="pricing-close" type="button" aria-label="Close" data-close-pricing>&times;</button>
+    <h3 id="pricingTitle">Request pricing</h3>
+    <p class="pricing-intro">A few quick taps, then your email opens with everything filled in. You only have to press send.</p>
+    <fieldset class="pricing-group">
+      <legend>Which package?</legend>
+      <div class="pricing-options">
+        <label class="pricing-chip"><input type="radio" name="package" value="Starter package"><span>Starter</span></label>
+        <label class="pricing-chip"><input type="radio" name="package" value="Growth package"><span>Growth</span></label>
+        <label class="pricing-chip"><input type="radio" name="package" value="Scale package"><span>Scale</span></label>
+        <label class="pricing-chip"><input type="radio" name="package" value="Single test video first"><span>Single test video</span></label>
+        <label class="pricing-chip"><input type="radio" name="package" value="Not sure yet"><span>Not sure yet</span></label>
+      </div>
+    </fieldset>
+    <fieldset class="pricing-group">
+      <legend>What are you promoting?</legend>
+      <div class="pricing-options">
+        <label class="pricing-chip"><input type="radio" name="promoting" value="App or software"><span>App or software</span></label>
+        <label class="pricing-chip"><input type="radio" name="promoting" value="Physical product"><span>Physical product</span></label>
+        <label class="pricing-chip"><input type="radio" name="promoting" value="Service or coaching"><span>Service or coaching</span></label>
+        <label class="pricing-chip"><input type="radio" name="promoting" value="Travel or hospitality"><span>Travel or hospitality</span></label>
+        <label class="pricing-chip"><input type="radio" name="promoting" value="Something else"><span>Something else</span></label>
+      </div>
+    </fieldset>
+    <fieldset class="pricing-group">
+      <legend>Where will the videos run?</legend>
+      <div class="pricing-options">
+        <label class="pricing-chip"><input type="radio" name="channel" value="Organic, on my own channels"><span>Organic, on my channels</span></label>
+        <label class="pricing-chip"><input type="radio" name="channel" value="Paid ads"><span>Paid ads</span></label>
+        <label class="pricing-chip"><input type="radio" name="channel" value="Both organic and paid ads"><span>Both</span></label>
+      </div>
+    </fieldset>
+    <fieldset class="pricing-group">
+      <legend>When do you want to start?</legend>
+      <div class="pricing-options">
+        <label class="pricing-chip"><input type="radio" name="start" value="As soon as possible"><span>As soon as possible</span></label>
+        <label class="pricing-chip"><input type="radio" name="start" value="Within a month"><span>Within a month</span></label>
+        <label class="pricing-chip"><input type="radio" name="start" value="Just exploring"><span>Just exploring</span></label>
+      </div>
+    </fieldset>
+    <div class="pricing-note">
+      <label for="pricingNote">Your brand, website and anything else I should know <small>(optional)</small></label>
+      <textarea id="pricingNote" placeholder="e.g. Acme, acme.com. We are launching a new app in November."></textarea>
+    </div>
+    <div class="pricing-actions">
+      <button class="btn btn-primary pricing-submit" type="submit">Open my email</button>
+      <p class="pricing-hint" id="pricingHint" hidden>Email not opening? <button class="pricing-copy" type="button" id="pricingCopy">Copy the message</button> and send it to hello@unstuck.social.</p>
+    </div>
+  </form>
+</div>
+
 <script>
 (function () {
   function makeLoopDivider() {
@@ -2331,6 +2516,93 @@
 
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && modal.classList.contains("open")) closeVideo();
+  });
+})();
+
+(function () {
+  var modal = document.getElementById("pricingModal");
+  var form = document.getElementById("pricingForm");
+  var note = document.getElementById("pricingNote");
+  var hint = document.getElementById("pricingHint");
+  var copyBtn = document.getElementById("pricingCopy");
+  var lastTrigger = null;
+  var EMAIL = "hello@unstuck.social";
+
+  function pick(name) {
+    var el = form.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : "";
+  }
+
+  function buildMessage() {
+    var pkg = pick("package");
+    var lines = ["Hi Felix,", "", "I came across your website unstuck.social and I'd like to know the current pricing.", ""];
+    var details = [
+      ["Interested in", pkg],
+      ["Promoting", pick("promoting")],
+      ["Videos will run", pick("channel")],
+      ["Want to start", pick("start")]
+    ];
+    details.forEach(function (d) { if (d[1]) lines.push(d[0] + ": " + d[1]); });
+    var extra = note.value.trim();
+    if (extra) lines.push("", "About my brand:", extra);
+    lines.push("", "Thanks!");
+    return {
+      subject: "Pricing request" + (pkg ? ": " + pkg : ""),
+      body: lines.join("\n")
+    };
+  }
+
+  function openModal(pkg, trigger) {
+    lastTrigger = trigger;
+    form.reset();
+    hint.hidden = true;
+    var radio = pkg && form.querySelector('input[name="package"][value="' + pkg + '"]');
+    if (radio) radio.checked = true;
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("pricing-modal-open");
+    var firstGroup = form.querySelector('input[name="promoting"]');
+    if (firstGroup) firstGroup.focus({ preventScroll: true });
+  }
+
+  function closeModal() {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("pricing-modal-open");
+    if (lastTrigger) lastTrigger.focus({ preventScroll: true });
+  }
+
+  document.addEventListener("click", function (e) {
+    var trigger = e.target.closest("[data-pricing]");
+    if (trigger) {
+      e.preventDefault();
+      openModal(trigger.getAttribute("data-pricing"), trigger);
+      return;
+    }
+    if (e.target.closest("[data-close-pricing]")) closeModal();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+  });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var m = buildMessage();
+    hint.hidden = false;
+    window.location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(m.subject) + "&body=" + encodeURIComponent(m.body);
+  });
+
+  copyBtn.addEventListener("click", function () {
+    var m = buildMessage();
+    var text = "To: " + EMAIL + "\nSubject: " + m.subject + "\n\n" + m.body;
+    function done() {
+      copyBtn.textContent = "Copied";
+      setTimeout(function () { copyBtn.textContent = "Copy the message"; }, 2000);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () {});
+    }
   });
 })();
 </script>
