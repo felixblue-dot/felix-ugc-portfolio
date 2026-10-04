@@ -1312,16 +1312,16 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 580px;
+    max-width: 460px;
     max-height: calc(100vh - 40px);
     overflow-y: auto;
     background: var(--card);
     border-radius: 20px;
-    padding: 32px 30px 0;
+    padding: 28px 28px 0;
     box-shadow: 0 20px 60px rgba(0,0,0,0.35);
   }
   .pricing-panel h3 { font-size: 1.4rem; margin-bottom: 6px; padding-right: 36px; }
-  .pricing-intro { color: var(--muted); font-size: 0.95rem; margin-bottom: 22px; }
+  .pricing-intro { color: var(--muted); font-size: 0.95rem; margin-bottom: 18px; }
   .pricing-close {
     position: absolute;
     top: 16px;
@@ -1337,7 +1337,7 @@
     cursor: pointer;
   }
   .pricing-close:hover { background: var(--border); }
-  .pricing-group { border: none; margin: 0 0 18px; padding: 0; min-width: 0; }
+  .pricing-group { border: none; margin: 0 0 16px; padding: 0; min-width: 0; }
   .pricing-group legend {
     font-size: 0.9rem;
     font-weight: 700;
@@ -1372,26 +1372,17 @@
     color: #fff;
   }
   .pricing-chip input:focus-visible + span { outline: 2px solid var(--accent-dim); outline-offset: 2px; }
-  .pricing-note label {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 700;
-    margin-bottom: 9px;
-  }
-  .pricing-note label small { font-weight: 400; color: var(--muted); }
-  .pricing-note textarea {
+  .pricing-note input {
     width: 100%;
-    min-height: 84px;
-    resize: vertical;
-    padding: 12px 14px;
+    padding: 12px 16px;
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 999px;
     font: inherit;
     font-size: 0.95rem;
     color: var(--text);
     background: var(--card);
   }
-  .pricing-note textarea:focus { outline: none; border-color: var(--accent); }
+  .pricing-note input:focus { outline: none; border-color: var(--accent); }
   .pricing-actions {
     position: sticky;
     bottom: 0;
@@ -2123,46 +2114,26 @@
   <form class="pricing-panel" id="pricingForm">
     <button class="pricing-close" type="button" aria-label="Close" data-close-pricing>&times;</button>
     <h3 id="pricingTitle">Request pricing</h3>
-    <p class="pricing-intro">A few quick taps, then your email opens with everything filled in. You only have to press send.</p>
+    <p class="pricing-intro">Two taps, then your email opens ready to send.</p>
     <fieldset class="pricing-group">
-      <legend>Which package?</legend>
+      <legend>Package</legend>
       <div class="pricing-options">
         <label class="pricing-chip"><input type="radio" name="package" value="Starter package"><span>Starter</span></label>
         <label class="pricing-chip"><input type="radio" name="package" value="Growth package"><span>Growth</span></label>
         <label class="pricing-chip"><input type="radio" name="package" value="Scale package"><span>Scale</span></label>
-        <label class="pricing-chip"><input type="radio" name="package" value="Single test video first"><span>Single test video</span></label>
-        <label class="pricing-chip"><input type="radio" name="package" value="Not sure yet"><span>Not sure yet</span></label>
+        <label class="pricing-chip"><input type="radio" name="package" value="Not sure yet"><span>Not sure</span></label>
       </div>
     </fieldset>
     <fieldset class="pricing-group">
-      <legend>What are you promoting?</legend>
+      <legend>Videos will run</legend>
       <div class="pricing-options">
-        <label class="pricing-chip"><input type="radio" name="promoting" value="App or software"><span>App or software</span></label>
-        <label class="pricing-chip"><input type="radio" name="promoting" value="Physical product"><span>Physical product</span></label>
-        <label class="pricing-chip"><input type="radio" name="promoting" value="Service or coaching"><span>Service or coaching</span></label>
-        <label class="pricing-chip"><input type="radio" name="promoting" value="Travel or hospitality"><span>Travel or hospitality</span></label>
-        <label class="pricing-chip"><input type="radio" name="promoting" value="Something else"><span>Something else</span></label>
-      </div>
-    </fieldset>
-    <fieldset class="pricing-group">
-      <legend>Where will the videos run?</legend>
-      <div class="pricing-options">
-        <label class="pricing-chip"><input type="radio" name="channel" value="Organic, on my own channels"><span>Organic, on my channels</span></label>
+        <label class="pricing-chip"><input type="radio" name="channel" value="Organic, on my own channels"><span>Organic</span></label>
         <label class="pricing-chip"><input type="radio" name="channel" value="Paid ads"><span>Paid ads</span></label>
         <label class="pricing-chip"><input type="radio" name="channel" value="Both organic and paid ads"><span>Both</span></label>
       </div>
     </fieldset>
-    <fieldset class="pricing-group">
-      <legend>When do you want to start?</legend>
-      <div class="pricing-options">
-        <label class="pricing-chip"><input type="radio" name="start" value="As soon as possible"><span>As soon as possible</span></label>
-        <label class="pricing-chip"><input type="radio" name="start" value="Within a month"><span>Within a month</span></label>
-        <label class="pricing-chip"><input type="radio" name="start" value="Just exploring"><span>Just exploring</span></label>
-      </div>
-    </fieldset>
     <div class="pricing-note">
-      <label for="pricingNote">Your brand, website and anything else I should know <small>(optional)</small></label>
-      <textarea id="pricingNote" placeholder="e.g. Acme, acme.com. We are launching a new app in November."></textarea>
+      <input type="text" id="pricingNote" placeholder="Your brand and website (optional)" aria-label="Your brand and website (optional)" autocomplete="off">
     </div>
     <div class="pricing-actions">
       <button class="btn btn-primary pricing-submit" type="submit">Open my email</button>
@@ -2538,13 +2509,11 @@
     var lines = ["Hi Felix,", "", "I came across your website unstuck.social and I'd like to know the current pricing.", ""];
     var details = [
       ["Interested in", pkg],
-      ["Promoting", pick("promoting")],
-      ["Videos will run", pick("channel")],
-      ["Want to start", pick("start")]
+      ["Videos will run", pick("channel")]
     ];
     details.forEach(function (d) { if (d[1]) lines.push(d[0] + ": " + d[1]); });
     var extra = note.value.trim();
-    if (extra) lines.push("", "About my brand:", extra);
+    if (extra) lines.push("Brand and website: " + extra);
     lines.push("", "Thanks!");
     return {
       subject: "Pricing request" + (pkg ? ": " + pkg : ""),
@@ -2561,7 +2530,7 @@
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
     document.body.classList.add("pricing-modal-open");
-    var firstGroup = form.querySelector('input[name="promoting"]');
+    var firstGroup = form.querySelector('input[name="channel"]');
     if (firstGroup) firstGroup.focus({ preventScroll: true });
   }
 
