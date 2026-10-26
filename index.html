@@ -1417,37 +1417,54 @@
   }
   body.pricing-modal-open { overflow: hidden; }
 
-  /* SERIES TILE: parts stacked like a deck of cards */
-  .series-stack {
-    overflow: hidden;
-    background: linear-gradient(160deg, var(--bg-alt), #FFDDC4);
-  }
-  .series-layer {
+  /* SERIES TILE: three numbered strips, one per part */
+  .series-strips { overflow: hidden; background: var(--bg-alt); }
+  .series-strip {
     position: absolute;
-    width: 78%;
-    height: 78%;
-    left: 3%;
-    bottom: 3%;
-    border-radius: 12px;
+    top: 0;
+    bottom: 0;
+    width: calc((100% - 6px) / 3);
     overflow: hidden;
-    border: 2px solid #fff;
-    box-shadow: 0 8px 20px rgba(43,35,32,0.28);
-    transform-origin: bottom left;
-    transition: transform 0.25s ease;
   }
-  .series-layer img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .series-layer--1 { z-index: 3; }
-  .series-layer--2 { z-index: 2; left: 10%; bottom: 10%; transform: rotate(3deg); }
-  .series-layer--3 { z-index: 1; left: 17%; bottom: 17%; transform: rotate(6deg); }
+  .series-strip--1 { left: 0; }
+  .series-strip--2 { left: calc((100% - 6px) / 3 + 3px); }
+  .series-strip--3 { right: 0; }
+  .series-strip img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  .series-strip--2 img { object-position: 30% 50%; }
   @media (hover: hover) {
-    .portfolio-series:hover .series-layer--2 { transform: rotate(5deg) translate(6px, -4px); }
-    .portfolio-series:hover .series-layer--3 { transform: rotate(10deg) translate(12px, -8px); }
+    .series-strip:hover img { transform: scale(1.05); }
+  }
+  .series-num {
+    position: absolute;
+    left: 50%;
+    bottom: 52px;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--text);
+    font-weight: 800;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   }
   .series-play {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 3;
     width: 46px;
     height: 46px;
     border-radius: 50%;
@@ -1457,17 +1474,22 @@
     align-items: center;
     justify-content: center;
     font-size: 1.1rem;
+    pointer-events: none;
   }
   .series-chip {
     position: absolute;
-    left: 8px;
-    bottom: 8px;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+    z-index: 3;
+    white-space: nowrap;
     background: rgba(0,0,0,0.65);
     color: #fff;
     font-size: 0.76rem;
     font-weight: 600;
-    padding: 5px 10px;
+    padding: 5px 12px;
     border-radius: 999px;
+    pointer-events: none;
   }
 
   /* SERIES PLAYER CONTROLS (inside the video pop-up) */
@@ -1576,25 +1598,25 @@
   <div class="marquee-track">
   <div class="marquee-row">
       <div class="marquee-item"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio logo"><span>Omio</span></div>
-            <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify app icon"><span>Speechify</span></div>
-      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-2.svg" alt="David Protein logo"><span>David Protein</span></div>
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-3.webp" alt="Lumenate logo"><span>Lumenate</span></div>
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-4.webp" alt="BePresent app icon"><span>BePresent</span></div>
       <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-finanzguru.svg" alt="Finanzguru logo"><span>Finanzguru</span></div>
+      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify app icon"><span>Speechify</span></div>
+      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-2.svg" alt="David Protein logo"><span>David Protein</span></div>
+      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-carpe.webp" alt="Carpe logo"><span>Carpe</span></div>
   </div>
   <div class="marquee-row reverse">
-      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-5.webp" alt="xteink logo"><span>xteink</span></div>
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-6.webp" alt="dot.cards logo"><span>dot.cards</span></div>
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-7.webp" alt="MaybeReal AI app icon"><span>MaybeReal AI</span></div>
-      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-8.svg" alt="Mansome logo"><span>Mansome</span></div>
       <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-9.webp" alt="Slack logo"><span>Slack</span></div>
+      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-3.webp" alt="Lumenate logo"><span>Lumenate</span></div>
+      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-8.svg" alt="Mansome logo"><span>Mansome</span></div>
+      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-10.webp" alt="Your Next Store logo"><span>Your Next Store</span></div>
+      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-5.webp" alt="xteink logo"><span>xteink</span></div>
   </div>
   <div class="marquee-row">
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-10.webp" alt="Your Next Store logo"><span>Your Next Store</span></div>
-      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-11.svg" alt="Adspo logo"><span>Adspo</span></div>
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-12.webp" alt="Whitelistly logo"><span>Whitelistly</span></div>
+      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-4.webp" alt="BePresent app icon"><span>BePresent</span></div>
       <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-13.webp" alt="Oxodin app icon"><span>Oxodin</span></div>
-      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-carpe.webp" alt="Carpe logo"><span>Carpe</span></div>
+      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-6.webp" alt="dot.cards logo"><span>dot.cards</span></div>
+      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-11.svg" alt="Adspo logo"><span>Adspo</span></div>
+      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-7.webp" alt="MaybeReal AI app icon"><span>MaybeReal AI</span></div>
+      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-12.webp" alt="Whitelistly logo"><span>Whitelistly</span></div>
   </div>
   </div>
 </section>
@@ -1710,14 +1732,12 @@
   <p class="portfolio-filter-count" aria-live="polite"></p>
   <div class="portfolio-grid">
 <a class="portfolio-card portfolio-series" href="#" data-series="omio-japan" data-niches="travel" aria-label="Open the Omio series about Japan by rail, 3 parts">
-      <div class="portfolio-thumb series-stack">
-        <span class="series-layer series-layer--3"><img src="images/omio-part-3.webp" alt="" loading="lazy" decoding="async"></span>
-        <span class="series-layer series-layer--2"><img src="images/omio-part-2.webp" alt="" loading="lazy" decoding="async"></span>
-        <span class="series-layer series-layer--1">
-          <img src="images/portfolio-thumb-19.webp" alt="Omio series: Felix on Japan's rail network" loading="lazy" decoding="async">
-          <span class="series-play">▶</span>
-          <span class="series-chip">3-part series</span>
-        </span>
+      <div class="portfolio-thumb series-strips">
+        <span class="series-strip series-strip--1" data-part-index="0"><img src="images/portfolio-thumb-19.webp" alt="Omio series part 1: Felix on Japan's rail network" loading="lazy" decoding="async"><span class="series-num">1</span></span>
+        <span class="series-strip series-strip--2" data-part-index="1"><img src="images/omio-part-2.webp" alt="Omio series part 2: the Hida Limited Express" loading="lazy" decoding="async"><span class="series-num">2</span></span>
+        <span class="series-strip series-strip--3" data-part-index="2"><img src="images/omio-part-3.webp" alt="Omio series part 3: Japan Rail Pass and Omio" loading="lazy" decoding="async"><span class="series-num">3</span></span>
+        <span class="series-play">&#9654;</span>
+        <span class="series-chip">Series &middot; 3 parts</span>
         <span class="portfolio-brand-badge" data-brand-link="https://www.omio.com"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio"></span>
       </div>
       <div class="portfolio-info">
@@ -2667,7 +2687,7 @@
     }
   }
 
-  function openSeries(card) {
+  function openSeries(card, startIndex) {
     seriesParts = Array.prototype.map.call(card.querySelectorAll(".series-part"), function (el) {
       return {
         label: el.getAttribute("data-label"),
@@ -2689,7 +2709,7 @@
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
     document.body.classList.add("video-modal-open");
-    showSeriesPart(0);
+    showSeriesPart(startIndex || 0);
   }
 
   player.addEventListener("ended", function () {
@@ -2723,7 +2743,8 @@
     var seriesCard = e.target.closest("[data-series]");
     if (seriesCard) {
       e.preventDefault();
-      openSeries(seriesCard);
+      var strip = e.target.closest("[data-part-index]");
+      openSeries(seriesCard, strip ? parseInt(strip.getAttribute("data-part-index"), 10) : 0);
       return;
     }
     if (seriesParts) {
