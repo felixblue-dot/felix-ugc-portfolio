@@ -577,11 +577,16 @@
     flex-shrink: 0;
   }
   .perf-rank-value {
-    font-size: 2rem;
+    font-size: 1.05rem;
     font-weight: 800;
     color: var(--accent-dim);
     display: block;
-    line-height: 1.2;
+    line-height: 1.25;
+  }
+  .perf-rank-num {
+    font-size: 2rem;
+    line-height: 1.1;
+    margin-right: 2px;
   }
   .perf-rank-label {
     font-size: 0.92rem;
@@ -660,10 +665,6 @@
     color: var(--accent-dim);
     letter-spacing: -0.01em;
   }
-  .perf-metric-value--small {
-    font-size: 1rem;
-    letter-spacing: normal;
-  }
   .perf-metric-label {
     display: block;
     font-size: 0.76rem;
@@ -695,9 +696,160 @@
        so each card is just title, the three metrics and the verify link. */
     .perf-card-media { display: none; }
     .perf-rank-proof { display: none; }
-    .perf-rank-value { font-size: 1.6rem; white-space: nowrap; }
+    .perf-rank-num { font-size: 1.7rem; }
     .perf-metrics { gap: 12px; }
     .perf-metric-value { font-size: 1.3rem; }
+  }
+
+  .perf-stat-tiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .perf-stat {
+    display: flex;
+    flex-direction: column;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px 22px;
+  }
+  .perf-stat-value {
+    font-size: 2.3rem;
+    font-weight: 800;
+    color: var(--accent-dim);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .perf-stat-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 6px;
+  }
+  .perf-stat-sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  .perf-note {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: -16px 0 32px;
+  }
+  .perf-subhead {
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin: 40px 0 16px;
+  }
+  .perf-grid .perf-card { grid-column: 1 / -1; max-width: 560px; }
+  .creative-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .creative-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .creative-media {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 9/16;
+    padding: 0;
+    border: 0;
+    background: #000;
+    cursor: pointer;
+  }
+  .creative-media video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .creative-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.45);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    pointer-events: none;
+  }
+  .creative-info { padding: 14px 16px 16px; }
+  .creative-tag {
+    display: block;
+    font-size: 0.76rem;
+    color: var(--accent-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .creative-stats { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+  .creative-info .perf-verify-link { margin-top: 10px; }
+  .organic-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .organic-card {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px;
+  }
+  .organic-card img {
+    flex: 0 0 84px;
+    width: 84px;
+    aspect-ratio: 9/16;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  .organic-body { display: flex; flex-direction: column; min-width: 0; }
+  .organic-title { font-size: 0.95rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+  .organic-views { font-size: 1.15rem; font-weight: 800; color: var(--accent-dim); margin-top: 6px; }
+  .organic-link { font-size: 0.78rem; font-weight: 600; color: var(--accent-dim); margin-top: 8px; }
+  .organic-card:hover .organic-link { text-decoration: underline; }
+  .perf-footnote { font-size: 0.78rem; color: var(--muted); margin-top: 28px; }
+  @media (max-width: 800px) {
+    .perf-stat-tiles { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .perf-stat { padding: 18px 16px; }
+    .perf-stat-value { font-size: 1.8rem; }
+    .organic-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 700px) {
+    .creative-row {
+      display: flex;
+      overflow-x: auto;
+      gap: 14px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 6px;
+    }
+    .creative-card { flex: 0 0 62%; scroll-snap-align: start; }
   }
 
   /* ABOUT */
@@ -2063,7 +2215,7 @@
     </div>
     <div class="testimonial-card">
       <div class="testimonial-bubble">
-        <p class="testimonial-quote">"Felix's ad creatives brought in exactly the leads we needed. 21 booked sales calls in the first 30 days, worth &euro;168k in pipeline for our high-ticket program."</p>
+        <p class="testimonial-quote">"Felix's ad creatives brought in exactly the leads we needed."</p>
       </div>
       <p class="testimonial-client">Airbnb coaching business</p>
     </div>
@@ -2073,15 +2225,39 @@
   <div class="section-head">
     <span class="section-tag">Performance</span>
     <h2>Numbers that back it up</h2>
-    <p>Real numbers from my Trybe creator dashboards and Instagram insights, benchmarked against typical paid social averages.</p>
+    <p>Paid ad results from my Trybe creator dashboard, as of 31 October 2026. Strong benchmarks on Meta: hook rate 30%+, link CTR 1.5%+.</p>
   </div>
+
+  <div class="perf-stat-tiles">
+    <div class="perf-stat">
+      <span class="perf-stat-value">128</span>
+      <span class="perf-stat-label">ads approved by brands</span>
+      <span class="perf-stat-sub">76% of all reviewed submissions</span>
+    </div>
+    <div class="perf-stat">
+      <span class="perf-stat-value">165K</span>
+      <span class="perf-stat-label">paid impressions</span>
+      <span class="perf-stat-sub">Meta, TikTok and AppLovin</span>
+    </div>
+    <div class="perf-stat">
+      <span class="perf-stat-value">1.96%</span>
+      <span class="perf-stat-label">link CTR on Meta</span>
+      <span class="perf-stat-sub">2,805 clicks from 143K impressions. Strong is 1.5%+</span>
+    </div>
+    <div class="perf-stat">
+      <span class="perf-stat-value">37.1%</span>
+      <span class="perf-stat-label">hook rate on Meta</span>
+      <span class="perf-stat-sub">across 101K impressions. Strong is 30%+</span>
+    </div>
+  </div>
+
   <div class="perf-ranks">
     <div class="perf-rank-card">
       <div class="perf-rank-top">
         <img loading="lazy" class="perf-rank-logo" src="images/marquee-item-2.svg" alt="David Protein">
         <div>
-          <span class="perf-rank-value">#1 worldwide</span>
-          <span class="perf-rank-label">David Protein creator leaderboard</span>
+          <span class="perf-rank-value"><span class="perf-rank-num">#1</span> most active creator worldwide</span>
+          <span class="perf-rank-label">David Protein creator program</span>
           <span class="perf-rank-date">As of 15 October 2026</span>
         </div>
       </div>
@@ -2089,154 +2265,109 @@
     </div>
     <div class="perf-rank-card">
       <div class="perf-rank-top">
-        <img loading="lazy" class="perf-rank-logo" src="images/marquee-item-4.webp" alt="BePresent app icon">
-        <div>
-          <span class="perf-rank-value">#2 worldwide</span>
-          <span class="perf-rank-label">BePresent creator leaderboard</span>
-          <span class="perf-rank-date">As of 7 September 2026</span>
-        </div>
-      </div>
-    </div>
-    <div class="perf-rank-card">
-      <div class="perf-rank-top">
-        <img loading="lazy" class="perf-rank-logo" src="images/marquee-item-11.svg" alt="Adspo">
-        <div>
-          <span class="perf-rank-value">#2 worldwide</span>
-          <span class="perf-rank-label">Adspo creator leaderboard</span>
-          <span class="perf-rank-date">As of 30 August 2026</span>
-        </div>
-      </div>
-      <img loading="lazy" class="perf-rank-proof" src="images/perf-rank-proof-3.webp" alt="Adspo creator leaderboard showing Felix Meissgeier ranked 2nd">
-    </div>
-    <div class="perf-rank-card">
-      <div class="perf-rank-top">
         <img loading="lazy" class="perf-rank-logo" src="images/marquee-item-1.webp" alt="Speechify">
         <div>
-          <span class="perf-rank-value">#3 worldwide</span>
-          <span class="perf-rank-label">Speechify creator leaderboard</span>
+          <span class="perf-rank-value"><span class="perf-rank-num">#3</span> most active creator worldwide</span>
+          <span class="perf-rank-label">Speechify creator program</span>
           <span class="perf-rank-date">As of 26 September 2026</span>
         </div>
       </div>
       <img loading="lazy" class="perf-rank-proof" src="images/perf-rank-proof-1.webp" alt="Speechify creator leaderboard showing Felix Meissgeier ranked 3rd">
     </div>
   </div>
+  <p class="perf-note">Trybe ranks creators by videos submitted in the last 30 days.</p>
+
   <div class="perf-grid">
     <div class="perf-card">
       <div class="perf-card-media">
-        <img loading="lazy" src="images/perf-card-media-1.webp" alt="Speechify ad performance screenshot">
-        <span class="perf-card-badge"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify"></span>
-      </div>
-      <div class="perf-card-body">
-        <p class="perf-card-title">"The LAZYY way to finish your reading list"</p>
-        <div class="perf-metrics">
-          <div class="perf-metric">
-            <span class="perf-metric-value">59.6%</span>
-            <span class="perf-metric-label">Hook rate</span>
-            <span class="perf-metric-bench">avg. ~15&ndash;20%</span>
-          </div>
-          <div class="perf-metric">
-            <span class="perf-metric-value">1.75%</span>
-            <span class="perf-metric-label">Link CTR</span>
-            <span class="perf-metric-bench">avg. ~0.5&ndash;1%</span>
-          </div>
-          <div class="perf-metric">
-            <span class="perf-metric-value">29.8%</span>
-            <span class="perf-metric-label">Watch time</span>
-            <span class="perf-metric-bench">avg. ~20&ndash;25%</span>
-          </div>
-        </div>
-        <a href="https://jointrybe.com/s/cmtfr9vpv003tno0wxf9ihi6e" target="_blank" rel="noopener" class="perf-verify-link">Verify on Trybe &#8599;</a>
-      </div>
-    </div>
-    <div class="perf-card">
-      <div class="perf-card-media">
-        <img loading="lazy" src="images/perf-card-media-2.webp" alt="Speechify ad performance screenshot">
-        <span class="perf-card-badge"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify"></span>
-      </div>
-      <div class="perf-card-body">
-        <p class="perf-card-title">"Got a ton of books to read before the year is up?"</p>
-        <div class="perf-metrics">
-          <div class="perf-metric">
-            <span class="perf-metric-value">24.7%</span>
-            <span class="perf-metric-label">Hook rate</span>
-            <span class="perf-metric-bench">avg. ~15&ndash;20%</span>
-          </div>
-          <div class="perf-metric">
-            <span class="perf-metric-value">0.78%</span>
-            <span class="perf-metric-label">Link CTR</span>
-            <span class="perf-metric-bench">avg. ~0.5&ndash;1%</span>
-          </div>
-          <div class="perf-metric">
-            <span class="perf-metric-value">37.4%</span>
-            <span class="perf-metric-label">Watch time</span>
-            <span class="perf-metric-bench">avg. ~20&ndash;25%</span>
-          </div>
-        </div>
-        <a href="https://jointrybe.com/s/cmtfraf5v004tkc0wr5nw6hr0" target="_blank" rel="noopener" class="perf-verify-link">Verify on Trybe &#8599;</a>
-      </div>
-    </div>
-    <div class="perf-card">
-      <div class="perf-card-media">
-        <img loading="lazy" src="images/perf-card-media-3.webp" alt="Adspo ad performance screenshot">
+        <img loading="lazy" src="images/perf-card-media-3.webp" alt="Adspo ad creative">
         <span class="perf-card-badge"><img loading="lazy" src="images/marquee-item-11.svg" alt="Adspo"></span>
       </div>
       <div class="perf-card-body">
         <p class="perf-card-title">"POV: How I EXPOSE ad strategies in seconds!"</p>
         <div class="perf-metrics">
           <div class="perf-metric">
-            <span class="perf-metric-value">21.7%</span>
-            <span class="perf-metric-label">Hook rate</span>
-            <span class="perf-metric-bench">avg. ~15&ndash;20%</span>
-          </div>
-          <div class="perf-metric">
-            <span class="perf-metric-value">1.71%</span>
+            <span class="perf-metric-value">1.85%</span>
             <span class="perf-metric-label">Link CTR</span>
-            <span class="perf-metric-bench">avg. ~0.5&ndash;1%</span>
-          </div>
-          <div class="perf-metric">
-            <span class="perf-metric-value">44.6%</span>
-            <span class="perf-metric-label">Watch time</span>
-            <span class="perf-metric-bench">avg. ~20&ndash;25%</span>
+            <span class="perf-metric-bench">Strong: 1.5%+</span>
           </div>
         </div>
         <a href="https://jointrybe.com/s/cmtfrajz4004hjq0wm7xj92ht" target="_blank" rel="noopener" class="perf-verify-link">Verify on Trybe &#8599;</a>
       </div>
     </div>
-    <div class="perf-card">
-      <div class="perf-card-media">
-        <img loading="lazy" src="images/portfolio-thumb-1.webp" alt="Instagram storytelling reel performance screenshot">
-        <span class="perf-card-badge"><img loading="lazy" src="images/portfolio-brand-badge-1.webp" alt="Instagram"></span>
-      </div>
-      <div class="perf-card-body">
-        <p class="perf-card-title">Chasing freedom over the traditional path</p>
-        <div class="perf-metrics">
-          <div class="perf-metric">
-            <span class="perf-metric-value">70.6%</span>
-            <span class="perf-metric-label">Hook rate</span>
-            <span class="perf-metric-bench">avg. ~15&ndash;20%</span>
-          </div>
-          <div class="perf-metric">
-            <span class="perf-metric-value perf-metric-value--small">n/a (organic post)</span>
-            <span class="perf-metric-label">Link CTR</span>
-            <span class="perf-metric-bench">avg. ~0.5&ndash;1%</span>
-          </div>
-          <div class="perf-metric">
-            <span class="perf-metric-value">45.6%</span>
-            <span class="perf-metric-label">Watch time</span>
-            <span class="perf-metric-bench">avg. ~20&ndash;25%</span>
-          </div>
-        </div>
-        <a href="https://www.instagram.com/p/Da78PRfI2hJ/" target="_blank" rel="noopener" class="perf-verify-link">Verify on Instagram &#8599;</a>
-      </div>
-    </div>
   </div>
+
+  <h3 class="perf-subhead">Ad creatives</h3>
+  <div class="creative-row">
+    <article class="creative-card">
+      <button class="creative-media" type="button" data-video="creative-ai-app-a.mp4" data-poster="images/creative-ai-app-a.webp" aria-label="Play this paid ad with sound">
+        <video muted loop playsinline preload="none" poster="images/creative-ai-app-a.webp" data-src="creative-ai-app-a.mp4"></video>
+        <span class="creative-play">&#9654;</span>
+      </button>
+      <div class="creative-info">
+        <span class="creative-tag">Paid Meta ad</span>
+        <p class="creative-stats">59% hook rate &middot; 1.22% link CTR</p>
+        <a href="https://jointrybe.com/s/cmtfr9vpv003tno0wxf9ihi6e" target="_blank" rel="noopener" class="perf-verify-link">Verify on Trybe &#8599;</a>
+      </div>
+    </article>
+    <article class="creative-card">
+      <button class="creative-media" type="button" data-video="creative-ai-app-b.mp4" data-poster="images/creative-ai-app-b.webp" aria-label="Play this paid ad with sound">
+        <video muted loop playsinline preload="none" poster="images/creative-ai-app-b.webp" data-src="creative-ai-app-b.mp4"></video>
+        <span class="creative-play">&#9654;</span>
+      </button>
+      <div class="creative-info">
+        <span class="creative-tag">Paid Meta ad</span>
+        <p class="creative-stats">41% hook rate</p>
+      </div>
+    </article>
+    <article class="creative-card">
+      <button class="creative-media" type="button" data-video="creative-protein.mp4" data-poster="images/creative-protein.webp" aria-label="Play this paid ad with sound">
+        <video muted loop playsinline preload="none" poster="images/creative-protein.webp" data-src="creative-protein.mp4"></video>
+        <span class="creative-play">&#9654;</span>
+      </button>
+      <div class="creative-info">
+        <span class="creative-tag">Paid Meta ad</span>
+        <p class="creative-stats">37% hook rate</p>
+      </div>
+    </article>
+  </div>
+
+  <h3 class="perf-subhead">Organic highlights</h3>
+  <div class="organic-grid">
+    <a class="organic-card" href="https://www.instagram.com/reel/Da78PRfI2hJ/" target="_blank" rel="noopener">
+      <img loading="lazy" src="images/portfolio-thumb-1.webp" alt="Instagram reel: project Freedom">
+      <span class="organic-body">
+        <span class="organic-title">project Freedom</span>
+        <span class="organic-views">200K+ views</span>
+        <span class="organic-link">Watch on Instagram &#8599;</span>
+      </span>
+    </a>
+    <a class="organic-card" href="https://www.instagram.com/reel/Da79KjboYjK/" target="_blank" rel="noopener">
+      <img loading="lazy" src="images/organic-golden-rules.webp" alt="Instagram reel: 5 golden rules of life">
+      <span class="organic-body">
+        <span class="organic-title">5 golden rules of life</span>
+        <span class="organic-views">61K+ views</span>
+        <span class="organic-link">Watch on Instagram &#8599;</span>
+      </span>
+    </a>
+    <a class="organic-card" href="https://www.instagram.com/reel/DYsMD9KuB27/" target="_blank" rel="noopener">
+      <img loading="lazy" src="images/organic-shanghai.webp" alt="Instagram reel: Shanghai, trust the process">
+      <span class="organic-body">
+        <span class="organic-title">Shanghai: "trust the process"</span>
+        <span class="organic-views">12K+ views</span>
+        <span class="organic-link">Watch on Instagram &#8599;</span>
+      </span>
+    </a>
+  </div>
+
+  <p class="perf-footnote">Source: Trybe creator analytics, lifetime totals as of 31 Oct 2026. Hook rate excludes one brand where Meta did not report 3-second views.</p>
 </section>
 
 <section id="stats">
   <div class="section-head">
     <span class="section-tag">Instagram</span>
     <h2>Current stats: @felix.unstuck</h2>
-    <p>My personal brand page, Instagram only. Stats exclude cross-posts to TikTok and YouTube Shorts. Last updated 27 September 2026.</p>
+    <p>My personal brand page, Instagram only. Stats exclude cross-posts to TikTok and YouTube Shorts. Last 30 days, as of 27 September 2026.</p>
   </div>
   <div class="ig-dashboard">
     <div class="ig-dashboard-glow"></div>
@@ -2245,16 +2376,16 @@
     </div>
     <div class="ig-dashboard-row">
       <div class="ig-dashboard-stat">
-        <span class="ig-dashboard-value">2,773</span>
-        <span class="ig-dashboard-label">Followers</span>
-      </div>
-      <div class="ig-dashboard-stat">
         <span class="ig-dashboard-value">775,733</span>
         <span class="ig-dashboard-label">Views · 30 days</span>
       </div>
       <div class="ig-dashboard-stat">
         <span class="ig-dashboard-value">25,030</span>
         <span class="ig-dashboard-label">Interactions · 30 days</span>
+      </div>
+      <div class="ig-dashboard-stat">
+        <span class="ig-dashboard-value">2,773</span>
+        <span class="ig-dashboard-label">Followers</span>
       </div>
     </div>
   </div>
@@ -2815,7 +2946,7 @@
       // identical, so a dedicated attribute just doubled every poster's
       // base64 payload in the page source for no benefit.
       var thumbImg = trigger.querySelector(".portfolio-thumb img") || trigger.querySelector("img");
-      openVideo(trigger.getAttribute("data-video"), thumbImg ? thumbImg.getAttribute("src") : null);
+      openVideo(trigger.getAttribute("data-video"), trigger.getAttribute("data-poster") || (thumbImg ? thumbImg.getAttribute("src") : null));
       return;
     }
     if (e.target.closest("[data-close-video]")) {
@@ -2916,6 +3047,23 @@
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(done, function () {});
     }
+  });
+})();
+(function () {
+  var canHover = window.matchMedia("(hover: hover)").matches;
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!canHover || reduceMotion) return;
+  document.querySelectorAll(".creative-media").forEach(function (btn) {
+    var video = btn.querySelector("video");
+    function stop() { video.pause(); video.currentTime = 0; }
+    btn.addEventListener("mouseenter", function () {
+      if (!video.getAttribute("src")) video.src = video.getAttribute("data-src");
+      video.muted = true;
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    });
+    btn.addEventListener("mouseleave", stop);
+    btn.addEventListener("click", stop);
   });
 })();
 </script>
