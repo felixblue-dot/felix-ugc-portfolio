@@ -141,9 +141,32 @@
     color: var(--muted);
     font-size: 1.05rem;
     max-width: 480px;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
   }
   .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-proof {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    max-width: 400px;
+    margin-top: 28px;
+  }
+  .hero-proof-box {
+    padding: 12px 14px;
+    border: 1px solid #e6e2de;
+    border-radius: 14px;
+    background: transparent;
+    color: #8b8580;
+  }
+  .hero-proof-num { display: block; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; color: #8b8580; }
+  .hero-proof-label { display: block; margin-top: 3px; font-size: 0.78rem; line-height: 1.3; color: #8b8580; }
+  .hero-proof-sub { display: block; margin-top: 2px; font-size: 0.72rem; color: #a8a29c; }
+  @media (max-width: 420px) {
+    .hero-proof { gap: 8px; }
+    .hero-proof-box { padding: 10px 11px; }
+    .hero-proof-num { font-size: 1.2rem; }
+    .hero-proof-label { font-size: 0.72rem; }
+  }
   .btn {
     padding: 13px 26px;
     border-radius: 999px;
@@ -729,7 +752,6 @@
   .stats { display: flex; gap: 32px; margin-top: 28px; flex-wrap: wrap; }
   .stat h3 { font-size: 1.6rem; color: var(--accent-dim); font-weight: 800; }
   .stat p { color: var(--muted); font-size: 0.82rem; margin: 0; }
-  .stat-note { flex-basis: 100%; margin: -14px 0 0; color: var(--muted); font-size: 0.76rem; }
 
   /* CONTACT */
   .contact-box {
@@ -887,47 +909,10 @@
   }
   .logo-item:hover .logo-name { opacity: 1; }
   @keyframes logo-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  .band-stats {
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-    max-width: 880px;
-    margin: 4px auto 0;
-  }
-  .band-stat {
-    background: rgba(255,255,255,0.72);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255,255,255,0.9);
-    border-radius: 22px;
-    box-shadow: 0 20px 44px -26px rgba(140,60,20,0.35), 0 2px 6px rgba(140,60,20,0.04);
-    padding: 20px 22px;
-    text-align: center;
-  }
-  .band-stat-num { display: block; font-size: 2.3rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--accent); }
-  .band-stat-label { display: block; margin-top: 6px; font-size: 0.92rem; font-weight: 600; color: var(--text); }
-  .band-stat-sub { display: block; margin-top: 4px; font-size: 0.8rem; color: var(--muted); }
-  .band-link {
-    position: relative;
-    display: block;
-    width: max-content;
-    margin: 20px auto 0;
-    font-size: 0.86rem;
-    font-weight: 600;
-    color: var(--accent-dim);
-  }
-  .band-link:hover { text-decoration: underline; }
   @media (max-width: 700px) {
     .logo-set { gap: 40px; padding-right: 40px; }
     .logo-item img { height: 24px; }
     .logo-item--icon img { height: 32px; width: 32px; }
-  }
-  @media (max-width: 600px) {
-    .band-stats { grid-template-columns: 1fr; gap: 10px; }
-    .band-stat { display: flex; align-items: center; gap: 16px; padding: 14px 18px; text-align: left; }
-    .band-stat-num { flex: 0 0 88px; font-size: 1.8rem; }
-    .band-stat-label { margin-top: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
     .logo-marquee { -webkit-mask-image: none; mask-image: none; }
@@ -1139,10 +1124,14 @@
   <div>
     <span class="eyebrow">UGC Creator</span>
     <h1>Content that sells <span class="accent">before they scroll past&nbsp;it.</span></h1>
-    <p>I'm Felix. I make scroll-stopping user-generated content for tech and lifestyle brands, with range into fashion, health &amp; fitness, and travel (70+ countries and counting). Below is a look at what I make and how I work.</p>
+    <p>UGC ads for tech, lifestyle and travel brands.</p>
     <div class="hero-actions">
       <a href="#work" class="btn btn-primary">See my work</a>
       <a href="#contact" class="btn btn-outline">Get in touch</a>
+    </div>
+    <div class="hero-proof">
+      <div class="hero-proof-box"><span class="hero-proof-num">59%</span><span class="hero-proof-label">hook rate on my best paid ad</span><span class="hero-proof-sub">strong is 30%+</span></div>
+      <div class="hero-proof-box"><span class="hero-proof-num">1.96%</span><span class="hero-proof-label">link CTR on Meta</span><span class="hero-proof-sub">strong is 1.5%+</span></div>
     </div>
   </div>
   <div class="hero-visual">
@@ -1151,7 +1140,7 @@
 </section>
 
 <section class="marquee-section">
-  <p class="marquee-label">Brands I've created for, and how the ads performed</p>
+  <p class="marquee-label">Brands I've created content for</p>
   <div class="logo-marquee">
     <div class="logo-row"><div class="logo-track">
         <div class="logo-set">
@@ -1190,12 +1179,6 @@
         </div>
     </div></div>
   </div>
-  <div class="band-stats">
-    <div class="band-stat"><span class="band-stat-num">59%</span><div class="band-stat-body"><span class="band-stat-label">hook rate on my best paid ad</span><span class="band-stat-sub">strong is 30%+</span></div></div>
-    <div class="band-stat"><span class="band-stat-num">1.96%</span><div class="band-stat-body"><span class="band-stat-label">link CTR across 143K Meta impressions</span><span class="band-stat-sub">strong is 1.5%+</span></div></div>
-    <div class="band-stat"><span class="band-stat-num">128</span><div class="band-stat-body"><span class="band-stat-label">ads approved by brands</span><span class="band-stat-sub">76% of everything I submitted</span></div></div>
-  </div>
-  <a class="band-link" href="#performance">See all results &#8595;</a>
 </section>
 
 <section id="work" style="background: var(--bg-alt);">
@@ -1755,15 +1738,6 @@
           <h3>3</h3>
           <p>Languages (DE / EN / ZH)</p>
         </div>
-        <div class="stat">
-          <h3>775K</h3>
-          <p>Views in 30 days</p>
-        </div>
-        <div class="stat">
-          <h3>2.7K</h3>
-          <p>Followers</p>
-        </div>
-        <p class="stat-note">Instagram, as of 27 Sep 2026</p>
       </div>
     </div>
   </div>
