@@ -159,7 +159,16 @@
     color: #8b8580;
     transition: border-color 0.2s ease;
   }
-  a.hero-proof-box:hover { border-color: #c9c3bd; }
+  a.hero-proof-box { cursor: pointer; transition: border-color 0.2s ease, background-color 0.2s ease; }
+  a.hero-proof-box .hero-proof-num { transition: color 0.2s ease; }
+  a.hero-proof-box:hover, a.hero-proof-box:focus-visible { border-color: #ffc4b0; background: #fff6ef; }
+  a.hero-proof-box:hover .hero-proof-num, a.hero-proof-box:focus-visible .hero-proof-num { color: var(--accent); }
+  a.hero-proof-box:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  @keyframes hl-pulse {
+    0%, 70% { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,107,74,0.28); }
+    100% { border-color: var(--border); box-shadow: var(--shadow); }
+  }
+  .hl-pulse { animation: hl-pulse 1.5s ease-out; }
   .hero-proof-num { display: block; font-size: 2.9rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; color: #8b8580; }
   .hero-proof-label { display: block; margin-top: 6px; font-size: 0.78rem; line-height: 1.3; color: #8b8580; }
   @media (max-width: 420px) {
@@ -176,7 +185,6 @@
     display: inline-block;
   }
   .btn-large { padding: 17px 40px; font-size: 1.08rem; }
-  #ad-hook, #stat-ctr { scroll-margin-top: 110px; }
   .btn-primary { background: var(--accent); color: #fff; }
   .btn-primary:hover { background: var(--accent-dim); }
   .btn-outline { border: 1px solid var(--border); color: var(--text); }
@@ -885,6 +893,18 @@
     transition: filter 0.25s ease;
   }
   .logo-item--icon img { height: 36px; width: 36px; border-radius: 9px; object-fit: cover; }
+  .logo-item--icon { gap: 10px; }
+  .logo-item--icon .logo-name {
+    position: static;
+    transform: none;
+    opacity: 1;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #8f8983;
+    transition: color 0.25s ease;
+  }
+  .logo-item--icon:hover .logo-name { color: var(--text); }
   .logo-item:hover img { filter: none; }
   .logo-name {
     position: absolute;
@@ -1594,7 +1614,7 @@
   </div>
   <p class="perf-note">Trybe ranks creators by videos submitted in the last 30 days.</p>
 
-  <h3 class="perf-subhead">Paid ads <small>Results per video</small></h3>
+  <h3 class="perf-subhead" id="paid-ads">Paid ads <small>Results per video</small></h3>
   <div class="perf-boxes perf-boxes--4">
     <article class="m" id="ad-hook">
       <div class="m-tag">Paid Meta ad</div>
@@ -1704,6 +1724,12 @@
     <article class="how-card">
       <h3>Then go monthly</h3>
       <p>Most brands roll into a monthly package after the first video: a set number of videos per month, more hooks, raw footage. Ask me for the options.</p>
+      <ul class="how-list">
+        <li>More videos every month</li>
+        <li>More hook variations per video</li>
+        <li>Raw footage included</li>
+      </ul>
+      <a class="btn btn-outline" href="mailto:hello@unstuck.social?subject=Monthly%20package&amp;body=Hi%20Felix%2C%0A%0AI%27d%20like%20to%20hear%20about%20your%20monthly%20options.%0A%0ABrand%20and%20website%3A%20%0A">Ask about monthly</a>
     </article>
   </div>
   <div class="how-line"><strong>On my own channel:</strong> for the right brand or trip, I also feature products on @felix.unstuck. Case by case.</div>
@@ -2217,6 +2243,35 @@
     if (e.key === "Escape") closeVideo();
     else if (seriesParts && e.key === "ArrowRight" && seriesIndex < seriesParts.length - 1) showSeriesPart(seriesIndex + 1);
     else if (seriesParts && e.key === "ArrowLeft" && seriesIndex > 0) showSeriesPart(seriesIndex - 1);
+  });
+})();
+</script>
+<script>
+(function () {
+  var jumps = [
+    { link: 'a[href="#ad-hook"]', scroll: '#paid-ads', glow: '#ad-hook' },
+    { link: 'a[href="#stat-ctr"]', scroll: '.perf-stat-tiles', glow: '#stat-ctr' }
+  ];
+  jumps.forEach(function (j) {
+    var link = document.querySelector(j.link);
+    if (!link) return;
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      var target = document.querySelector(j.scroll), glow = document.querySelector(j.glow);
+      var header = document.querySelector('header');
+      var offset = (header ? header.offsetHeight : 60) + 20;
+      var y = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+      var started = false;
+      var fire = function () {
+        if (started) return; started = true;
+        glow.classList.remove('hl-pulse'); void glow.offsetWidth; glow.classList.add('hl-pulse');
+        glow.addEventListener('animationend', function () { glow.classList.remove('hl-pulse'); }, { once: true });
+      };
+      if ('onscrollend' in window) { window.addEventListener('scrollend', fire, { once: true }); setTimeout(fire, 1400); }
+      else setTimeout(fire, 900);
+    });
   });
 })();
 </script>
