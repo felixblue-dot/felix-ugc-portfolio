@@ -464,87 +464,63 @@
     .loop-divider { display: none; }
   }
 
-  /* TESTIMONIALS */
-  .testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr));
-    gap: 28px;
-  }
-  .testimonial-card {
-    display: flex;
-    flex-direction: column;
-  }
-  .testimonial-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
-  .testimonial-bubble {
-    position: relative;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 22px 22px 22px 4px;
-    box-shadow: var(--shadow);
-    padding: 30px 26px 26px;
-  }
-  .testimonial-bubble::before {
-    content: "\201C";
+  /* TESTIMONIALS: floating quote bubbles */
+  #testimonials { overflow-x: clip; }
+  .sky { position: relative; height: 760px; margin-top: 10px; isolation: isolate; }
+  .sky-glow { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.55; pointer-events: none; z-index: -1; }
+  .sky-glow--a { width: 380px; height: 380px; background: #ffc6ad; left: 8%; top: 12%; }
+  .sky-glow--b { width: 320px; height: 320px; background: #ffd9c2; right: 6%; top: 40%; }
+  .sky-glow--c { width: 260px; height: 260px; background: #ffb899; left: 40%; bottom: 0; }
+  .q {
     position: absolute;
-    top: -6px;
-    left: 20px;
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 4.75rem;
-    font-weight: 700;
-    color: var(--accent);
-    opacity: 0.16;
-    line-height: 1;
-    pointer-events: none;
-  }
-  .testimonial-bubble::after {
-    content: "";
-    position: absolute;
-    bottom: -9px;
-    left: 26px;
-    width: 16px;
-    height: 16px;
-    background: var(--card);
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    border-radius: 0 0 3px 0;
-    transform: rotate(45deg);
-  }
-  .testimonial-quote {
-    position: relative;
-    font-size: 1.08rem;
-    font-weight: 500;
+    max-width: 340px;
+    padding: 20px 24px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.72);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.9);
+    box-shadow: 0 24px 50px -28px rgba(140,60,20,0.35), 0 2px 6px rgba(140,60,20,0.04);
+    font-size: 1rem;
     line-height: 1.5;
     color: var(--text);
+    animation: sky-float 7s ease-in-out infinite;
+    transition: box-shadow 0.4s;
   }
-  .testimonial-translation {
-    position: relative;
-    margin-top: 8px;
-    font-size: 0.85rem;
-    font-style: italic;
-    color: var(--muted);
-  }
-  .testimonial-client {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 16px;
-    padding-left: 26px;
-    font-size: 0.85rem;
-    color: var(--muted);
-  }
-  .testimonial-client::before {
+  .q:hover { animation-play-state: paused; box-shadow: 0 30px 60px -26px rgba(240,100,60,0.45); }
+  .q-by { display: block; margin-top: 10px; font-size: 0.76rem; color: var(--muted); letter-spacing: 0.01em; }
+  .q-by::before {
     content: "";
-    width: 7px;
-    height: 7px;
-    flex-shrink: 0;
+    display: inline-block;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: var(--accent);
+    margin-right: 7px;
+    vertical-align: 1px;
   }
-  .testimonial-result {
-    margin-top: 10px;
-    font-size: 0.92rem;
-    font-weight: 700;
-    color: var(--accent-dim);
+  .q-tr { display: block; font-size: 0.82rem; color: var(--muted); font-style: italic; margin-top: 4px; }
+  .q--big { font-size: 1.19rem; max-width: 400px; padding: 26px 30px; }
+  .q--small { font-size: 0.94rem; }
+  .q--accent {
+    background: linear-gradient(135deg, #F4693C, #DE4A22);
+    color: #fff;
+    font-weight: 600;
+    border-color: transparent;
+  }
+  .q--accent .q-by { color: rgba(255,255,255,0.9); font-weight: 400; }
+  .q--accent .q-by::before { background: #fff; }
+  .q1 { left: 0; top: 10px; animation-delay: 0s; }
+  .q2 { right: 2%; top: 0; animation-delay: -2s; animation-duration: 8s; }
+  .q3 { left: 32%; top: 260px; animation-delay: -4s; animation-duration: 9s; }
+  .q4 { left: 2%; top: 480px; animation-delay: -1s; animation-duration: 7.5s; }
+  .q5 { right: 0; top: 470px; animation-delay: -3s; animation-duration: 8.5s; }
+  @keyframes sky-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  @media (prefers-reduced-motion: reduce) { .q { animation: none; } }
+  @media (max-width: 760px) {
+    .sky { height: auto; display: flex; flex-direction: column; gap: 18px; }
+    .q { position: relative; left: auto !important; right: auto !important; top: auto !important; max-width: 88%; }
+    .q2, .q4 { align-self: flex-end; }
   }
 
   /* PERFORMANCE */
@@ -607,98 +583,9 @@
     border-radius: 10px;
     border: 1px solid var(--border);
   }
-  .perf-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr));
-    gap: 24px;
-  }
-  .perf-card {
-    display: flex;
-    gap: 24px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 26px;
-  }
-  .perf-card-media {
-    position: relative;
-    flex: 0 0 120px;
-    width: 120px;
-    aspect-ratio: 9/16;
-    border-radius: 14px;
-    overflow: hidden;
-  }
-  .perf-card-media img { width: 100%; height: 100%; object-fit: cover; }
-  .perf-card-badge {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-  }
-  .perf-card-badge img { border-radius: 50%; }
-  .perf-card-body { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
-  .perf-card-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 20px;
-    line-height: 1.35;
-  }
-  .perf-metrics {
-    display: flex;
-    gap: 22px;
-  }
-  .perf-metric { flex: 1; min-width: 0; }
-  .perf-metric-value {
-    display: block;
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: var(--accent-dim);
-    letter-spacing: -0.01em;
-  }
-  .perf-metric-label {
-    display: block;
-    font-size: 0.76rem;
-    font-weight: 600;
-    color: var(--text);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    margin-top: 4px;
-  }
-  .perf-metric-bench {
-    display: block;
-    font-size: 0.74rem;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-  .perf-verify-link {
-    display: inline-block;
-    margin-top: 16px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--accent-dim);
-  }
-  .perf-verify-link:hover { text-decoration: underline; }
   @media (max-width: 640px) {
-    .perf-card { flex-direction: column; }
-    .perf-card-body { align-items: flex-start; }
-    /* Video thumbnails roughly doubled each ad-metric card's height on
-       mobile for little benefit (the metrics are the point) -- hidden here
-       so each card is just title, the three metrics and the verify link. */
-    .perf-card-media { display: none; }
     .perf-rank-proof { display: none; }
     .perf-rank-num { font-size: 1.7rem; }
-    .perf-metrics { gap: 12px; }
-    .perf-metric-value { font-size: 1.3rem; }
   }
 
   .perf-stat-tiles {
@@ -740,116 +627,107 @@
     color: var(--muted);
     margin: -16px 0 32px;
   }
-  .perf-subhead {
-    font-size: 1.15rem;
-    font-weight: 800;
-    margin: 40px 0 16px;
-  }
-  .perf-grid .perf-card { grid-column: 1 / -1; max-width: 560px; }
-  .creative-row {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 20px;
-  }
-  .creative-card {
+  .perf-subhead { font-size: 1.25rem; font-weight: 800; margin: 40px 0 14px; letter-spacing: -0.01em; }
+  .perf-subhead small { font-size: 0.82rem; font-weight: 500; color: var(--muted); margin-left: 8px; letter-spacing: 0; }
+  .perf-boxes { display: grid; gap: 14px; }
+  .perf-boxes--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .perf-boxes--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .m {
     display: flex;
     flex-direction: column;
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
+    border-radius: 22px;
+    padding: 20px 20px 18px;
+    transition: transform 0.3s, box-shadow 0.3s;
   }
-  .creative-media {
-    position: relative;
-    display: block;
-    width: 100%;
-    aspect-ratio: 9/16;
+  .m:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -24px rgba(140,60,20,0.35); }
+  .m-tag {
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-dim);
+    margin-bottom: 12px;
+  }
+  .m-mid { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 16px; }
+  .m-num { font-size: 42px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; color: var(--text); }
+  .m-num em { font-style: normal; color: var(--accent); }
+  .m-lbl { font-size: 0.875rem; font-weight: 600; margin-top: 6px; }
+  .m-vid {
+    flex: 0 0 64px;
+    width: 64px;
+    height: 114px;
     padding: 0;
     border: 0;
-    background: #000;
+    border-radius: 12px;
+    position: relative;
+    display: block;
+    overflow: hidden;
     cursor: pointer;
+    background: #e8d9cc;
+    box-shadow: 0 10px 20px -12px rgba(60,30,10,0.6);
+    transition: transform 0.25s;
   }
-  .creative-media video {
+  .m-vid:hover { transform: scale(1.06); }
+  .m-vid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .m-vid span {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .creative-play {
-    position: absolute;
-    top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    width: 46px;
-    height: 46px;
+    top: 50%;
+    width: 28px;
+    height: 28px;
+    margin: -14px 0 0 -14px;
     border-radius: 50%;
-    background: rgba(0,0,0,0.45);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    pointer-events: none;
+    background: rgba(255,255,255,0.35);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
   }
-  .creative-info { padding: 14px 16px 16px; }
-  .creative-tag {
-    display: block;
+  .m-vid span::after {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 8px;
+    border-left: 8px solid #fff;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+  }
+  .m-bar { position: relative; height: 8px; border-radius: 99px; background: #f6ebe3; margin-bottom: 8px; }
+  .m-bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 99px; background: linear-gradient(90deg, #ffb08f, var(--accent)); }
+  .m-bar b { position: absolute; top: -4px; width: 2px; height: 16px; background: var(--text); border-radius: 2px; }
+  .m-bench { font-size: 0.76rem; color: var(--muted); display: flex; justify-content: space-between; }
+  .m-bench strong { color: var(--text); font-weight: 600; }
+  .m-sub {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
     font-size: 0.76rem;
-    color: var(--accent-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .creative-stats { font-size: 0.92rem; font-weight: 600; color: var(--text); }
-  .creative-info .perf-verify-link { margin-top: 10px; }
-  .organic-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-  .organic-card {
+    color: var(--muted);
     display: flex;
-    gap: 16px;
+    justify-content: space-between;
     align-items: center;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 16px;
+    flex-wrap: wrap;
+    gap: 4px 8px;
   }
-  .organic-card img {
-    flex: 0 0 84px;
-    width: 84px;
-    aspect-ratio: 9/16;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-  .organic-body { display: flex; flex-direction: column; min-width: 0; }
-  .organic-title { font-size: 0.95rem; font-weight: 700; color: var(--text); line-height: 1.3; }
-  .organic-views { font-size: 1.15rem; font-weight: 800; color: var(--accent-dim); margin-top: 6px; }
-  .organic-link { font-size: 0.78rem; font-weight: 600; color: var(--accent-dim); margin-top: 8px; }
-  .organic-card:hover .organic-link { text-decoration: underline; }
+  .m-bar + .m-bench + .m-sub { margin-top: auto; }
+  .m-sub a { color: var(--accent-dim); font-weight: 600; text-decoration: none; }
+  .m-sub a:hover { text-decoration: underline; }
+  .m-mid + .m-sub { margin-top: auto; }
   .perf-footnote { font-size: 0.78rem; color: var(--muted); margin-top: 28px; }
+  @media (max-width: 900px) {
+    .perf-boxes--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
   @media (max-width: 800px) {
     .perf-stat-tiles { grid-template-columns: repeat(2, 1fr); gap: 14px; }
     .perf-stat { padding: 18px 16px; }
     .perf-stat-value { font-size: 1.8rem; }
-    .organic-grid { grid-template-columns: 1fr; }
   }
-  @media (max-width: 700px) {
-    .creative-row {
-      display: flex;
-      overflow-x: auto;
-      gap: 14px;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 6px;
-    }
-    .creative-card { flex: 0 0 62%; scroll-snap-align: start; }
+  @media (max-width: 760px) {
+    .perf-boxes--3 { grid-template-columns: 1fr; }
+    .perf-boxes--4 .m { padding: 16px 14px 14px; border-radius: 18px; }
+    .perf-boxes--4 .m-num { font-size: 30px; }
+    .perf-boxes--4 .m-vid { flex-basis: 48px; width: 48px; height: 86px; border-radius: 10px; }
+    .perf-boxes--4 .m-vid span { transform: scale(0.8); }
   }
 
   /* ABOUT */
@@ -2181,44 +2059,13 @@
     <h2>What brands say</h2>
     <p>A few notes from brands I've worked with, in their own words.</p>
   </div>
-  <div class="testimonials-grid">
-    <div class="testimonial-card">
-      <div class="testimonial-bubble">
-        <p class="testimonial-quote">"The video turned out great, and we're very happy with the final result! We really enjoyed working with Felix. Booked a follow-up video right after the first delivery."</p>
-      </div>
-      <p class="testimonial-client">Men's grooming brand, EU expansion</p>
-    </div>
-    <div class="testimonial-card">
-      <div class="testimonial-bubble">
-        <p class="testimonial-quote">"Overall content is amazing!"</p>
-      </div>
-      <p class="testimonial-client">AI shopping platform</p>
-    </div>
-    <div class="testimonial-card">
-      <div class="testimonial-bubble">
-        <p class="testimonial-quote">"Die neue Version ist super, wir bedanken uns recht herzlich."</p>
-        <p class="testimonial-translation">"The new version is great, thank you so much."</p>
-      </div>
-      <p class="testimonial-client">AI concierge service, Germany</p>
-    </div>
-    <div class="testimonial-card">
-      <div class="testimonial-bubble">
-        <p class="testimonial-quote">"We've checked out Felix's Reel, and we really love how it turned out! Felix did a fantastic job showcasing the product in a personal style, and we truly appreciate the creativity and effort put into it."</p>
-      </div>
-      <p class="testimonial-client">E-reader brand</p>
-    </div>
-    <div class="testimonial-card">
-      <div class="testimonial-bubble">
-        <p class="testimonial-quote">"Felix's skeptic angle with a live demo is the best one we've gotten on Trybe. I want to work with Felix long term as one of our UGC creators."</p>
-      </div>
-      <p class="testimonial-client">AI interview assistant, COO</p>
-    </div>
-    <div class="testimonial-card">
-      <div class="testimonial-bubble">
-        <p class="testimonial-quote">"Felix's ad creatives brought in exactly the leads we needed."</p>
-      </div>
-      <p class="testimonial-client">Airbnb coaching business</p>
-    </div>
+<div class="sky">
+    <div class="sky-glow sky-glow--a"></div><div class="sky-glow sky-glow--b"></div><div class="sky-glow sky-glow--c"></div>
+    <div class="q q--big q1">"The video turned out great, and we're very happy with the final result! We really enjoyed working with Felix. Booked a follow-up video right after the first delivery."<span class="q-by">Men's grooming brand, EU expansion</span></div>
+    <div class="q q--small q2">"Overall content is amazing!"<span class="q-by">AI shopping platform</span></div>
+    <div class="q q--accent q--big q3">"Felix's skeptic angle with a live demo is the best one we've gotten on Trybe. I want to work with Felix long term as one of our UGC creators."<span class="q-by">AI interview assistant, COO</span></div>
+    <div class="q q4">"We've checked out Felix's Reel, and we really love how it turned out! Felix did a fantastic job showcasing the product in a personal style, and we truly appreciate the creativity and effort put into it."<span class="q-by">E-reader brand</span></div>
+    <div class="q q--small q5">"Die neue Version ist super, wir bedanken uns recht herzlich."<span class="q-tr">"The new version is great, thank you so much."</span><span class="q-by">AI concierge service, Germany</span></div>
   </div>
 </section>
 <section id="performance">
@@ -2277,87 +2124,76 @@
   </div>
   <p class="perf-note">Trybe ranks creators by videos submitted in the last 30 days.</p>
 
-  <div class="perf-grid">
-    <div class="perf-card">
-      <div class="perf-card-media">
-        <img loading="lazy" src="images/perf-card-media-3.webp" alt="Adspo ad creative">
-        <span class="perf-card-badge"><img loading="lazy" src="images/marquee-item-11.svg" alt="Adspo"></span>
+  <h3 class="perf-subhead">Paid ads <small>Results per video</small></h3>
+  <div class="perf-boxes perf-boxes--4">
+    <article class="m">
+      <div class="m-tag">Paid Meta ad</div>
+      <div class="m-mid">
+        <div><div class="m-num">59<em>%</em></div><div class="m-lbl">hook rate</div></div>
+        <button class="m-vid" type="button" data-video="creative-ai-app-a.mp4" data-poster="images/creative-ai-app-a.webp" aria-label="Play this paid ad"><img src="images/creative-ai-app-a.webp" alt="" loading="lazy"><span></span></button>
       </div>
-      <div class="perf-card-body">
-        <p class="perf-card-title">"POV: How I EXPOSE ad strategies in seconds!"</p>
-        <div class="perf-metrics">
-          <div class="perf-metric">
-            <span class="perf-metric-value">1.85%</span>
-            <span class="perf-metric-label">Link CTR</span>
-            <span class="perf-metric-bench">Strong: 1.5%+</span>
-          </div>
-        </div>
-        <a href="https://jointrybe.com/s/cmtfrajz4004hjq0wm7xj92ht" target="_blank" rel="noopener" class="perf-verify-link">Verify on Trybe &#8599;</a>
-      </div>
-    </div>
-  </div>
-
-  <h3 class="perf-subhead">Ad creatives</h3>
-  <div class="creative-row">
-    <article class="creative-card">
-      <button class="creative-media" type="button" data-video="creative-ai-app-a.mp4" data-poster="images/creative-ai-app-a.webp" aria-label="Play this paid ad with sound">
-        <video muted loop playsinline preload="none" poster="images/creative-ai-app-a.webp" data-src="creative-ai-app-a.mp4"></video>
-        <span class="creative-play">&#9654;</span>
-      </button>
-      <div class="creative-info">
-        <span class="creative-tag">Paid Meta ad</span>
-        <p class="creative-stats">59% hook rate &middot; 1.22% link CTR</p>
-        <a href="https://jointrybe.com/s/cmtfr9vpv003tno0wxf9ihi6e" target="_blank" rel="noopener" class="perf-verify-link">Verify on Trybe &#8599;</a>
-      </div>
+      <div class="m-bar"><i style="width:98%"></i><b style="left:50%"></b></div>
+      <div class="m-bench"><span>0%</span><span>Strong <strong>30%</strong></span><span>60%</span></div>
+      <div class="m-sub"><span>also 1.22% link CTR</span><a href="https://jointrybe.com/s/cmtfr9vpv003tno0wxf9ihi6e" target="_blank" rel="noopener">Verify &#8599;</a></div>
     </article>
-    <article class="creative-card">
-      <button class="creative-media" type="button" data-video="creative-ai-app-b.mp4" data-poster="images/creative-ai-app-b.webp" aria-label="Play this paid ad with sound">
-        <video muted loop playsinline preload="none" poster="images/creative-ai-app-b.webp" data-src="creative-ai-app-b.mp4"></video>
-        <span class="creative-play">&#9654;</span>
-      </button>
-      <div class="creative-info">
-        <span class="creative-tag">Paid Meta ad</span>
-        <p class="creative-stats">41% hook rate</p>
+    <article class="m">
+      <div class="m-tag">Paid Meta ad</div>
+      <div class="m-mid">
+        <div><div class="m-num">1.85<em>%</em></div><div class="m-lbl">link CTR</div></div>
+        <a class="m-vid" href="https://jointrybe.com/s/cmtfrajz4004hjq0wm7xj92ht" target="_blank" rel="noopener" aria-label="Open this paid ad on Trybe"><img src="images/perf-card-media-3.webp" alt="" loading="lazy"><span></span></a>
       </div>
+      <div class="m-bar"><i style="width:62%"></i><b style="left:50%"></b></div>
+      <div class="m-bench"><span>0%</span><span>Strong <strong>1.5%</strong></span><span>3%</span></div>
+      <div class="m-sub"><span>Ad strategy tool</span><a href="https://jointrybe.com/s/cmtfrajz4004hjq0wm7xj92ht" target="_blank" rel="noopener">Verify &#8599;</a></div>
     </article>
-    <article class="creative-card">
-      <button class="creative-media" type="button" data-video="creative-protein.mp4" data-poster="images/creative-protein.webp" aria-label="Play this paid ad with sound">
-        <video muted loop playsinline preload="none" poster="images/creative-protein.webp" data-src="creative-protein.mp4"></video>
-        <span class="creative-play">&#9654;</span>
-      </button>
-      <div class="creative-info">
-        <span class="creative-tag">Paid Meta ad</span>
-        <p class="creative-stats">37% hook rate</p>
+    <article class="m">
+      <div class="m-tag">Paid Meta ad</div>
+      <div class="m-mid">
+        <div><div class="m-num">41<em>%</em></div><div class="m-lbl">hook rate</div></div>
+        <button class="m-vid" type="button" data-video="creative-ai-app-b.mp4" data-poster="images/creative-ai-app-b.webp" aria-label="Play this paid ad"><img src="images/creative-ai-app-b.webp" alt="" loading="lazy"><span></span></button>
       </div>
+      <div class="m-bar"><i style="width:68%"></i><b style="left:50%"></b></div>
+      <div class="m-bench"><span>0%</span><span>Strong <strong>30%</strong></span><span>60%</span></div>
+      <div class="m-sub"><span>AI reading app</span></div>
+    </article>
+    <article class="m">
+      <div class="m-tag">Paid Meta ad</div>
+      <div class="m-mid">
+        <div><div class="m-num">37<em>%</em></div><div class="m-lbl">hook rate</div></div>
+        <button class="m-vid" type="button" data-video="creative-protein.mp4" data-poster="images/creative-protein.webp" aria-label="Play this paid ad"><img src="images/creative-protein.webp" alt="" loading="lazy"><span></span></button>
+      </div>
+      <div class="m-bar"><i style="width:62%"></i><b style="left:50%"></b></div>
+      <div class="m-bench"><span>0%</span><span>Strong <strong>30%</strong></span><span>60%</span></div>
+      <div class="m-sub"><span>Protein snack brand</span></div>
     </article>
   </div>
 
-  <h3 class="perf-subhead">Organic highlights</h3>
-  <div class="organic-grid">
-    <a class="organic-card" href="https://www.instagram.com/reel/Da78PRfI2hJ/" target="_blank" rel="noopener">
-      <img loading="lazy" src="images/portfolio-thumb-1.webp" alt="Instagram reel: project Freedom">
-      <span class="organic-body">
-        <span class="organic-title">project Freedom</span>
-        <span class="organic-views">200K+ views</span>
-        <span class="organic-link">Watch on Instagram &#8599;</span>
-      </span>
-    </a>
-    <a class="organic-card" href="https://www.instagram.com/reel/Da79KjboYjK/" target="_blank" rel="noopener">
-      <img loading="lazy" src="images/organic-golden-rules.webp" alt="Instagram reel: 5 golden rules of life">
-      <span class="organic-body">
-        <span class="organic-title">5 golden rules of life</span>
-        <span class="organic-views">61K+ views</span>
-        <span class="organic-link">Watch on Instagram &#8599;</span>
-      </span>
-    </a>
-    <a class="organic-card" href="https://www.tiktok.com/@felix.unstuck/video/7495494866491690262" target="_blank" rel="noopener">
-      <img loading="lazy" src="images/portfolio-thumb-11.webp" alt="TikTok: reacting to Callum Carver's guide">
-      <span class="organic-body">
-        <span class="organic-title">Reacting to Callum Carver's guide</span>
-        <span class="organic-views">20K+ views</span>
-        <span class="organic-link">Watch on TikTok &#8599;</span>
-      </span>
-    </a>
+  <h3 class="perf-subhead">Organic <small>My own channel</small></h3>
+  <div class="perf-boxes perf-boxes--3">
+    <article class="m">
+      <div class="m-tag">Organic reel</div>
+      <div class="m-mid">
+        <div><div class="m-num">200<em>K+</em></div><div class="m-lbl">views on Instagram</div></div>
+        <a class="m-vid" href="https://www.instagram.com/reel/Da78PRfI2hJ/" target="_blank" rel="noopener" aria-label="Watch this reel on Instagram"><img src="images/portfolio-thumb-1.webp" alt="" loading="lazy"><span></span></a>
+      </div>
+      <div class="m-sub"><span>"project Freedom"</span><a href="https://www.instagram.com/reel/Da78PRfI2hJ/" target="_blank" rel="noopener">Watch &#8599;</a></div>
+    </article>
+    <article class="m">
+      <div class="m-tag">Organic reel</div>
+      <div class="m-mid">
+        <div><div class="m-num">61<em>K+</em></div><div class="m-lbl">views on Instagram</div></div>
+        <a class="m-vid" href="https://www.instagram.com/reel/Da79KjboYjK/" target="_blank" rel="noopener" aria-label="Watch this reel on Instagram"><img src="images/organic-golden-rules.webp" alt="" loading="lazy"><span></span></a>
+      </div>
+      <div class="m-sub"><span>"5 golden rules of life"</span><a href="https://www.instagram.com/reel/Da79KjboYjK/" target="_blank" rel="noopener">Watch &#8599;</a></div>
+    </article>
+    <article class="m">
+      <div class="m-tag">Organic TikTok</div>
+      <div class="m-mid">
+        <div><div class="m-num">20<em>K+</em></div><div class="m-lbl">views on TikTok</div></div>
+        <a class="m-vid" href="https://www.tiktok.com/@felix.unstuck/video/7495494866491690262" target="_blank" rel="noopener" aria-label="Watch this video on TikTok"><img src="images/portfolio-thumb-11.webp" alt="" loading="lazy"><span></span></a>
+      </div>
+      <div class="m-sub"><span>Reacting to a business guide</span><a href="https://www.tiktok.com/@felix.unstuck/video/7495494866491690262" target="_blank" rel="noopener">Watch &#8599;</a></div>
+    </article>
   </div>
 
   <p class="perf-footnote">Source: Trybe creator analytics, lifetime totals as of 31 Oct 2026. Hook rate excludes one brand where Meta did not report 3-second views.</p>
@@ -3047,23 +2883,6 @@
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(done, function () {});
     }
-  });
-})();
-(function () {
-  var canHover = window.matchMedia("(hover: hover)").matches;
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!canHover || reduceMotion) return;
-  document.querySelectorAll(".creative-media").forEach(function (btn) {
-    var video = btn.querySelector("video");
-    function stop() { video.pause(); video.currentTime = 0; }
-    btn.addEventListener("mouseenter", function () {
-      if (!video.getAttribute("src")) video.src = video.getAttribute("data-src");
-      video.muted = true;
-      var p = video.play();
-      if (p && p.catch) p.catch(function () {});
-    });
-    btn.addEventListener("mouseleave", stop);
-    btn.addEventListener("click", stop);
   });
 })();
 </script>
