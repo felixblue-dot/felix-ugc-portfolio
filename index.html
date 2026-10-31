@@ -1040,7 +1040,9 @@
     justify-content: center;
   }
   .video-modal-close:hover { background: rgba(0,0,0,0.7); }
-  body.video-modal-open { overflow: hidden; }
+  /* Page lock while a video is open: fixed body (top set in JS), so nothing behind can scroll on desktop or touch */
+  body.video-modal-open { position: fixed; left: 0; right: 0; width: 100%; }
+  .video-modal { overscroll-behavior: contain; }
 
   /* SERIES CARD: story bars across the cover, like Instagram stories */
   .story-bars { position: absolute; top: 8px; left: 8px; right: 8px; z-index: 4; display: flex; gap: 4px; pointer-events: none; }
@@ -2118,12 +2120,29 @@
   var modal = document.getElementById("videoModal");
   var player = document.getElementById("videoModalPlayer");
 
+  var lockedY = 0;
+  function lockPage() {
+    if (document.body.classList.contains("video-modal-open")) return;
+    lockedY = window.pageYOffset;
+    var bar = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.top = -lockedY + "px";
+    if (bar > 0) document.body.style.paddingRight = bar + "px";
+    document.body.classList.add("video-modal-open");
+  }
+  function unlockPage() {
+    if (!document.body.classList.contains("video-modal-open")) return;
+    document.body.classList.remove("video-modal-open");
+    document.body.style.top = "";
+    document.body.style.paddingRight = "";
+    window.scrollTo(0, lockedY);
+  }
+
   function openVideo(src, poster) {
     player.src = src;
     if (poster) player.poster = poster;
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
-    document.body.classList.add("video-modal-open");
+    lockPage();
     player.play().catch(function () {});
   }
 
@@ -2176,7 +2195,7 @@
     seriesNav.hidden = false;
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
-    document.body.classList.add("video-modal-open");
+    lockPage();
     showSeriesPart(startIndex || 0);
   }
 
@@ -2196,7 +2215,7 @@
     player.controls = true;
     modal.classList.remove("open");
     modal.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("video-modal-open");
+    unlockPage();
     player.pause();
     player.removeAttribute("src");
     player.removeAttribute("poster");
