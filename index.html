@@ -204,73 +204,54 @@
   }
   .section-head p { color: var(--muted); }
 
-  /* NICHES */
-  .niche-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 16px;
-  }
-  .niche-card {
+  /* HOW IT WORKS */
+  .how-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 20px; }
+  .how-card {
+    display: flex;
+    flex-direction: column;
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 26px 20px;
-    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    border-radius: 22px;
     box-shadow: var(--shadow);
+    padding: 30px 28px;
   }
-  .niche-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-  .niche-card .icon { font-size: 1.6rem; margin-bottom: 14px; }
-  .niche-card:not(.primary):not(.travel) .icon { margin-top: 35px; }
-  .niche-card h3 { font-size: 1.02rem; margin-bottom: 6px; }
-  .niche-card p { color: var(--muted); font-size: 0.85rem; }
-  .niche-card.primary {
+  .how-card--main {
     border-color: var(--accent);
     background: linear-gradient(160deg, rgba(255,107,74,0.07), var(--card));
   }
-  .niche-card .badge {
-    display: inline-block;
-    background: var(--accent);
-    color: #fff;
-    font-size: 0.76rem;
-    font-weight: 700;
-    padding: 3px 9px;
-    border-radius: 999px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  .niche-card.travel {
-    border-color: #5AA9E6;
-    background: linear-gradient(160deg, rgba(90,169,230,0.08), var(--card));
-  }
-  .niche-card .badge.travel {
-    background: #5AA9E6;
-    color: #fff;
-  }
-  .avatar-mark {
-    width: 96px;
-    height: 96px;
+  .how-card h3 { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 10px; }
+  .how-card p { color: var(--muted); font-size: 0.95rem; }
+  .how-list { list-style: none; margin: 18px 0 26px; flex: 1; }
+  .how-list li { position: relative; padding-left: 20px; font-size: 0.93rem; margin-bottom: 10px; }
+  .how-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    background: var(--sunset);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.6rem;
-    font-weight: 800;
-    z-index: 1;
-    position: relative;
+    background: var(--accent);
   }
-  .avatar-mark.small {
-    width: 64px;
-    height: 64px;
-    font-size: 1.7rem;
+  .how-card .btn { align-self: flex-start; }
+  .how-line {
+    margin-top: 16px;
+    padding: 16px 22px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    color: var(--muted);
+    font-size: 0.9rem;
   }
+  .how-line strong { color: var(--text); font-weight: 600; }
+  .how-tags { margin-top: 20px; color: var(--muted); font-size: 0.88rem; }
+  @media (max-width: 800px) { .how-grid { grid-template-columns: 1fr; } }
 
   /* PORTFOLIO */
   .portfolio-filters {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 10px;
     margin-bottom: 12px;
   }
@@ -292,50 +273,38 @@
     border-color: var(--accent);
     color: #fff;
   }
-  /* German is a hidden-by-default niche (excluded from "All" and every other
-     pill), so it gets a visibly different resting style -- a dashed border
-     sets it apart from the regular niche pills at a glance. */
-  .portfolio-filter-pill--special {
-    border-style: dashed;
-    color: var(--muted);
+  /* German sits outside the regular niches, so it gets a dashed resting style. */
+  .portfolio-filter-pill--special { border-style: dashed; color: var(--muted); }
+  .portfolio-filter-pill--special.is-active { border-style: solid; color: #fff; }
+  .portfolio-showall {
+    margin-left: auto;
+    padding: 9px 4px;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--accent-dim);
+    cursor: pointer;
   }
-  .portfolio-filter-pill--special.is-active {
-    border-style: solid;
-    color: #fff;
-  }
-  .portfolio-filter-count {
-    font-size: 0.82rem;
-    color: var(--muted);
-    margin: 0 0 20px;
-    min-height: 1.2em;
-  }
-  .portfolio-filters-trigger { display: none; }
-  /* Swipeable carousel on all screen sizes: next card peeks at the edge */
+  .portfolio-showall:hover, .portfolio-showall.is-active { text-decoration: underline; }
+  .portfolio-filter-count { font-size: 0.82rem; color: var(--muted); margin: 0 0 20px; min-height: 1.2em; }
   .portfolio-grid {
-    display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
-    overflow-anchor: none;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-    will-change: scroll-position;
-    transform: translateZ(0);
-    gap: 20px;
-    padding-bottom: 4px;
-    scrollbar-width: none;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
   }
-  .portfolio-grid::-webkit-scrollbar { display: none; }
   .portfolio-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow);
-    flex: 0 0 320px;
-    min-width: 320px;
-    scroll-snap-align: start;
   }
+  .portfolio-card[hidden] { display: none; }
   .portfolio-thumb {
     aspect-ratio: 9/16;
     background: var(--bg-alt);
@@ -360,7 +329,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    z-index: 2;
+    z-index: 4;
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -373,47 +342,20 @@
     transition: transform 0.15s;
   }
   .portfolio-brand-badge:hover { transform: scale(1.1); }
-  .portfolio-brand-badge img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 50%;
-  }
-  /* Marks the seam where the recent-work carousel loops back to the start --
-     wider gap plus a vertical three-dot mark. Deliberately not a scroll-snap
-     point: it's a passive marker you scroll past, not a stop. */
-  .loop-divider {
-    flex: 0 0 44px;
-    min-width: 44px;
-    align-self: stretch;
-    margin: 0 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-  }
-  .loop-divider i {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--border);
-    font-style: normal;
-  }
-  .portfolio-thumb .placeholder-label {
+  .portfolio-brand-badge img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+  .portfolio-badge-de {
     position: absolute;
-    bottom: 12px;
-    left: 12px;
-    right: 12px;
-    font-size: 0.7rem;
-    color: var(--muted);
-    text-align: center;
+    top: 10px;
+    left: 10px;
+    z-index: 4;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 0.76rem;
+    font-weight: 600;
   }
-  /* Fixed min-height (not row-relative stretch) so every card is the same
-     total height everywhere -- thumb is a fixed 9/16 aspect-ratio already,
-     so a constant info height makes the whole card constant too, regardless
-     of description length or which cards happen to share a row/filter. */
-  .portfolio-info { padding: 16px 18px; min-height: 160px; }
+  .portfolio-info { flex: 1; padding: 14px 15px; }
   .portfolio-info .tag {
     font-size: 0.76rem;
     color: var(--accent-dim);
@@ -423,72 +365,40 @@
     margin-bottom: 6px;
     display: block;
   }
-  .portfolio-info h4 { font-size: 0.95rem; margin-bottom: 4px; }
-  .portfolio-info p { font-size: 0.8rem; color: var(--muted); }
-
-  /* Desktop: static wrapping grid so every card is visible at once, no
-     horizontal scroll. The swipeable infinite carousel stays mobile-only
-     (see maybeInit/teardownInfiniteCarousel), where peeking/scrolling is
-     the natural interaction. */
-  @media (min-width: 801px) {
-    .portfolio-grid {
-      display: grid;
-      /* auto-fill, not auto-fit: auto-fit collapses columns that have no
-         item in them ANYWHERE in the grid and hands their freed width to
-         the remaining 1fr columns -- with a sparse filter (e.g. 2 German
-         cards out of 4 columns), that inflated columns 1-2 wider than
-         normal, leaving a visible gap between the (capped-width) cards
-         instead of trailing empty space after them. auto-fill leaves
-         unused columns in place at their normal size instead. */
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      /* Default grid alignment stretches every card to match the tallest
-         card in its own row. Card height varies with description length
-         (a one-line vs. two-line .portfolio-info), so which cards land in
-         the same row -- which changes completely between "All" and any
-         filtered view -- changed how tall a given card rendered. Aligning
-         to the start makes each card exactly as tall as its own content,
-         independent of whatever else is in its row. */
-      align-items: start;
-      overflow-x: visible;
-      overflow-y: visible;
-      scroll-snap-type: none;
-    }
-    /* Capping the track itself (minmax(...,280px)) changes how many columns
-       auto-fit counts as fitting -- it tests against the max, not the min,
-       once max is a definite length, so it silently dropped 4-per-row down
-       to 3. Keep the track flexible (1fr, so column count is still driven
-       by the 220px min) and cap the CARD instead: a lone card left after
-       filtering still gets a full-width 1fr cell, but stops there rather
-       than stretching to fill it. */
-    .portfolio-card { min-width: 0; max-width: 280px; }
-    .loop-divider { display: none; }
+  .portfolio-info h4 { font-size: 0.92rem; margin-bottom: 4px; }
+  .portfolio-info p { font-size: 0.78rem; color: var(--muted); }
+  @media (max-width: 800px) {
+    .portfolio-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .portfolio-info { padding: 11px 12px; }
+    .portfolio-info h4 { font-size: 0.86rem; }
+    .portfolio-filter-pill { padding: 8px 14px; font-size: 0.82rem; }
   }
 
-  /* TESTIMONIALS: floating quote bubbles */
+  /* TESTIMONIALS: floating quote bubbles (compact) */
   #testimonials { overflow: clip; padding-bottom: 58px; }
-  .sky { position: relative; height: 692px; margin-top: 10px; isolation: isolate; }
-  .sky-glow { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.55; pointer-events: none; z-index: -1; }
-  .sky-glow--a { width: 380px; height: 380px; background: #ffc6ad; left: 8%; top: 12%; }
-  .sky-glow--b { width: 320px; height: 320px; background: #ffd9c2; right: 6%; top: 40%; }
-  .sky-glow--c { width: 260px; height: 260px; background: #ffb899; left: 40%; bottom: 110px; }
+  .sky { position: relative; height: 420px; margin-top: 6px; isolation: isolate; }
+  .sky-glow { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.55; pointer-events: none; z-index: -1; }
+  .sky-glow--a { width: 280px; height: 280px; background: #ffc6ad; left: 6%; top: 4%; }
+  .sky-glow--b { width: 240px; height: 240px; background: #ffd9c2; right: 5%; top: 30%; }
+  .sky-glow--c { width: 200px; height: 200px; background: #ffb899; left: 42%; top: 38%; }
   .q {
     position: absolute;
-    max-width: 340px;
-    padding: 20px 24px;
-    border-radius: 30px;
+    max-width: 290px;
+    padding: 17px 20px;
+    border-radius: 26px;
     background: rgba(255,255,255,0.72);
-    -webkit-backdrop-filter: blur(18px);
-    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
     border: 1px solid rgba(255,255,255,0.9);
-    box-shadow: 0 24px 50px -28px rgba(140,60,20,0.35), 0 2px 6px rgba(140,60,20,0.04);
-    font-size: 1rem;
+    box-shadow: 0 20px 44px -26px rgba(140,60,20,0.35), 0 2px 6px rgba(140,60,20,0.04);
+    font-size: 0.86rem;
     line-height: 1.5;
     color: var(--text);
     animation: sky-float 7s ease-in-out infinite;
     transition: box-shadow 0.4s;
   }
-  .q:hover { animation-play-state: paused; box-shadow: 0 30px 60px -26px rgba(240,100,60,0.45); }
-  .q-by { display: block; margin-top: 10px; font-size: 0.76rem; color: var(--muted); letter-spacing: 0.01em; }
+  .q:hover { animation-play-state: paused; box-shadow: 0 26px 52px -24px rgba(240,100,60,0.45); }
+  .q-by { display: block; margin-top: 8px; font-size: 0.76rem; color: var(--muted); letter-spacing: 0.01em; }
   .q-by::before {
     content: "";
     display: inline-block;
@@ -499,9 +409,9 @@
     margin-right: 7px;
     vertical-align: 1px;
   }
-  .q-tr { display: block; font-size: 0.82rem; color: var(--muted); font-style: italic; margin-top: 4px; }
-  .q--big { font-size: 1.19rem; max-width: 400px; padding: 26px 30px; }
-  .q--small { font-size: 0.94rem; }
+  .q-tr { display: block; font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 4px; }
+  .q--big { font-size: 1rem; max-width: 340px; padding: 22px 26px; }
+  .q--small { font-size: 0.82rem; }
   .q--accent {
     background: linear-gradient(135deg, #F4693C, #DE4A22);
     color: #fff;
@@ -510,17 +420,24 @@
   }
   .q--accent .q-by { color: rgba(255,255,255,0.9); font-weight: 400; }
   .q--accent .q-by::before { background: #fff; }
-  .q1 { left: 0; top: 10px; animation-delay: 0s; }
-  .q2 { right: 2%; top: 0; animation-delay: -2s; animation-duration: 8s; }
-  .q3 { left: 32%; top: 260px; animation-delay: -4s; animation-duration: 9s; }
-  .q4 { left: 2%; top: 480px; animation-delay: -1s; animation-duration: 7.5s; }
-  .q5 { right: 0; top: 470px; animation-delay: -3s; animation-duration: 8.5s; }
+  .q1 { left: 3%; top: 0; animation-delay: 0s; }
+  .q2 { right: 4%; top: 4px; animation-delay: -2s; animation-duration: 8s; }
+  .q3 { left: 36%; top: 128px; animation-delay: -4s; animation-duration: 9s; }
+  .q4 { left: 8%; top: 238px; animation-delay: -1s; animation-duration: 7.5s; }
+  .q5 { right: 5%; top: 196px; animation-delay: -3s; animation-duration: 8.5s; }
   @keyframes sky-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
   @media (prefers-reduced-motion: reduce) { .q { animation: none; } }
+  @media (max-width: 1150px) {
+    .sky { height: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; align-items: start; }
+    .q { position: relative; left: auto !important; right: auto !important; top: auto !important; max-width: none; }
+    .q2, .q4 { margin-top: 30px; }
+    .q5 { grid-column: 1 / -1; justify-self: center; max-width: 60%; }
+  }
   @media (max-width: 760px) {
-    .sky { height: auto; display: flex; flex-direction: column; gap: 18px; }
-    .q { position: relative; left: auto !important; right: auto !important; top: auto !important; max-width: 88%; }
-    .q2, .q4 { align-self: flex-end; }
+    .sky { display: flex; flex-direction: column; gap: 16px; }
+    .q { max-width: 88%; }
+    .q2, .q4 { align-self: flex-end; margin-top: 0; }
+    .q5 { align-self: flex-start; max-width: 88%; }
   }
 
   /* PERFORMANCE */
@@ -752,6 +669,7 @@
   .stats { display: flex; gap: 32px; margin-top: 28px; flex-wrap: wrap; }
   .stat h3 { font-size: 1.6rem; color: var(--accent-dim); font-weight: 800; }
   .stat p { color: var(--muted); font-size: 0.82rem; margin: 0; }
+  .stat-note { flex-basis: 100%; margin: -14px 0 0; color: var(--muted); font-size: 0.76rem; }
 
   /* CONTACT */
   .contact-box {
@@ -836,104 +754,59 @@
     .about-wrap { grid-template-columns: 1fr; }
     .perf-ranks { grid-template-columns: 1fr; }
     .contact-box { padding: 32px 22px; }
-    /* Swipeable carousel: two cards visible, next one peeks at the edge */
-    .niche-grid {
-      display: flex;
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior-x: contain;
-      will-change: scroll-position;
-      transform: translateZ(0);
-      gap: 14px;
-      padding-bottom: 4px;
-      scrollbar-width: none;
-    }
-    .niche-grid::-webkit-scrollbar { display: none; }
-    .niche-card {
-      flex: 0 0 42%;
-      min-width: 42%;
-      scroll-snap-align: start;
-      transform: translateZ(0);
-    }
   }
 
-  /* BRAND WALL */
+  /* BRAND LOGOS: one slow endless marquee, logos only */
   .marquee-section {
     position: relative;
-    padding: 56px 24px;
+    padding: 40px 24px;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
-    background: var(--bg-alt);
     overflow: hidden;
   }
-  .marquee-section::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 620px;
-    height: 320px;
-    background: var(--sunset);
-    filter: blur(100px);
-    opacity: 0.22;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-  }
   .marquee-label {
-    position: relative;
     text-align: center;
     color: var(--muted);
     font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-bottom: 32px;
+    margin-bottom: 26px;
   }
-  .marquee-track {
-    position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
+  .logo-marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  }
+  .logo-track {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;
+    width: max-content;
+    animation: logo-scroll 70s linear infinite;
   }
-  /* On desktop each row is just a grouping convenience for the mobile ticker
-     below -- display:contents drops it from the box tree so its items flow
-     directly into .marquee-track's own flex-wrap as if unwrapped. */
-  .marquee-row { display: contents; }
-  .marquee-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 24px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    box-shadow: var(--shadow);
-  }
-  .marquee-item img {
-    height: 26px;
+  .logo-marquee:hover .logo-track { animation-play-state: paused; }
+  .logo-set { display: flex; align-items: center; gap: 56px; padding-right: 56px; flex-shrink: 0; }
+  .logo-item { display: flex; align-items: center; }
+  .logo-item img {
+    height: 28px;
     width: auto;
-    max-width: 110px;
+    max-width: 120px;
     object-fit: contain;
-    border-radius: 6px;
+    filter: grayscale(1) opacity(0.55);
+    transition: filter 0.25s ease;
   }
-  .marquee-item.round img {
-    height: 32px;
-    width: 32px;
-    border-radius: 9px;
-    object-fit: cover;
-    box-shadow: 0 0 0 5px rgba(255, 179, 71, 0.14);
+  .logo-item--icon img { height: 36px; width: 36px; border-radius: 9px; object-fit: cover; }
+  .logo-item:hover img { filter: none; }
+  @keyframes logo-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (max-width: 700px) {
+    .logo-set { gap: 40px; padding-right: 40px; }
+    .logo-item img { height: 24px; }
+    .logo-item--icon img { height: 32px; width: 32px; }
   }
-  .marquee-item span {
-    color: var(--text);
-    font-size: 0.88rem;
-    font-weight: 600;
-    white-space: nowrap;
+  @media (prefers-reduced-motion: reduce) {
+    .logo-marquee { -webkit-mask-image: none; mask-image: none; }
+    .logo-track { animation: none; width: auto; justify-content: center; }
+    .logo-set { flex-wrap: wrap; justify-content: center; gap: 22px 40px; padding-right: 0; }
+    .logo-set[aria-hidden="true"] { display: none; }
   }
 
   /* TRAVEL GALLERY */
@@ -967,59 +840,6 @@
     background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
   }
   @media (max-width: 700px) {
-    /* Recent Work filters collapse into a dropdown on mobile -- 6 wrapped
-       pills ate 2-3 lines of vertical space and read as a wall of buttons.
-       The trigger shows a summary of what's active; the panel behind it is
-       the same pill buttons, just relaid out as a vertical list so no
-       markup or click-handling needs to be duplicated. */
-    .portfolio-filters-trigger {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      padding: 12px 18px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      font-weight: 600;
-      font-size: 0.9rem;
-      font-family: inherit;
-      cursor: pointer;
-      margin-bottom: 10px;
-    }
-    .portfolio-filters-trigger-chevron {
-      color: var(--muted);
-      transition: transform 0.15s ease;
-    }
-    .portfolio-filters-trigger[aria-expanded="true"] .portfolio-filters-trigger-chevron {
-      transform: rotate(180deg);
-    }
-    .portfolio-filters {
-      display: none;
-      flex-direction: column;
-      gap: 4px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 8px;
-      margin-bottom: 12px;
-      background: var(--card);
-    }
-    .portfolio-filters.is-open { display: flex; }
-    .portfolio-filters .portfolio-filter-pill {
-      width: 100%;
-      text-align: left;
-      border-color: transparent;
-    }
-    /* Swipeable carousels on mobile: next card peeks at the edge */
-    .portfolio-grid { gap: 14px; }
-    .portfolio-card {
-      flex: 0 0 66%;
-      min-width: 66%;
-      scroll-snap-align: center;
-      box-shadow: none;
-      transform: translateZ(0);
-    }
     .travel-gallery {
       display: flex;
       overflow-x: auto;
@@ -1042,232 +862,7 @@
       box-shadow: none;
       transform: translateZ(0);
     }
-    /* Running band at phone widths: 2 independent rows, each auto-scrolling
-       (opposite directions) so 10 brands read as one lively strip instead of
-       a static grid -- a wrapped pill row looked ragged with this many logos,
-       and a 3-col badge grid felt cramped and mixed round/square icons
-       awkwardly. Each row is duplicated once and translated by exactly -50%
-       so the loop seam is invisible. */
-    .marquee-track {
-      display: block;
-      max-width: none;
-    }
-    .marquee-row {
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: flex-start;
-      width: max-content;
-      gap: 12px;
-    }
-    .marquee-row + .marquee-row { margin-top: 12px; }
-    .marquee-row.marquee-ticker-active {
-      animation: marquee-ticker-scroll 32s linear infinite;
-    }
-    .marquee-row.marquee-ticker-active.reverse {
-      animation-name: marquee-ticker-scroll-reverse;
-    }
-    .marquee-row.marquee-ticker-active:hover { animation-play-state: paused; }
-    .marquee-item { padding: 10px 16px; gap: 8px; }
-    .marquee-item span { font-size: 0.8rem; }
-    .marquee-item img { height: 22px; max-width: 90px; }
-    .marquee-item.round img { height: 26px; width: 26px; }
   }
-  @keyframes marquee-ticker-scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-  @keyframes marquee-ticker-scroll-reverse {
-    from { transform: translateX(-50%); }
-    to { transform: translateX(0); }
-  }
-
-  /* COLLAB TYPES CALLOUT */
-  .collab-types {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 32px;
-  }
-  .collab-card {
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px 22px;
-    background: var(--card);
-    box-shadow: var(--shadow);
-  }
-  .collab-card .collab-label {
-    display: inline-block;
-    font-size: 0.76rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-  .collab-card h3 { font-size: 1.05rem; margin-bottom: 8px; }
-  .collab-card p { color: var(--muted); font-size: 0.88rem; }
-  .collab-card.highlight {
-    background: var(--sunset);
-    border: none;
-    box-shadow: 0 4px 24px rgba(43,35,32,0.12);
-  }
-  .collab-card.highlight .collab-label { color: rgba(255,255,255,0.85); }
-  .collab-card.highlight h3 { color: #fff; }
-  .collab-card.highlight p { color: rgba(255,255,255,0.92); }
-  @media (max-width: 700px) {
-    .collab-types { grid-template-columns: 1fr; }
-  }
-
-  /* PACKAGES */
-  .package-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
-    gap: 20px;
-  }
-  .package-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px 24px;
-    box-shadow: var(--shadow);
-  }
-  .package-card--featured {
-    border-color: var(--accent);
-    background: linear-gradient(160deg, rgba(255,107,74,0.07), var(--card));
-  }
-  .package-badge {
-    position: absolute;
-    top: -12px;
-    left: 24px;
-    display: inline-block;
-    background: var(--accent);
-    color: #fff;
-    font-size: 0.76rem;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 999px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  .package-card h3 { font-size: 1.15rem; margin-bottom: 16px; }
-  .package-features {
-    list-style: none;
-    flex: 1;
-    margin-bottom: 22px;
-  }
-  .package-features li {
-    position: relative;
-    padding-left: 20px;
-    font-size: 0.92rem;
-    color: var(--text);
-    margin-bottom: 10px;
-  }
-  .package-features li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.5em;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-  }
-  .package-cta { text-align: center; }
-  .package-footnote {
-    margin-top: 28px;
-    font-size: 0.85rem;
-    color: var(--muted);
-  }
-
-  /* IG STATS */
-  .ig-dashboard {
-    position: relative;
-    background: var(--sunset);
-    border-radius: var(--radius);
-    padding: 40px 36px;
-    box-shadow: 0 20px 50px rgba(255,140,90,0.25);
-    overflow: hidden;
-  }
-  .ig-dashboard-glow {
-    position: absolute;
-    top: -80px;
-    right: -60px;
-    width: 260px;
-    height: 260px;
-    background: rgba(255,255,255,0.5);
-    filter: blur(70px);
-    opacity: 0.5;
-    pointer-events: none;
-  }
-  .ig-dashboard-top {
-    position: relative;
-    z-index: 1;
-    margin-bottom: 28px;
-  }
-  .ig-dashboard-live {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    color: rgba(255,255,255,0.88);
-    text-transform: uppercase;
-  }
-  .ig-dashboard-live .dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 0 0 rgba(255,255,255,0.6);
-    animation: ig-pulse 2s infinite;
-  }
-  @keyframes ig-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.55); }
-    70% { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
-    100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
-  }
-  .ig-dashboard-row {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .ig-dashboard-stat {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 10px;
-    padding: 0 28px;
-    border-right: 1px solid rgba(255,255,255,0.4);
-  }
-  .ig-dashboard-stat:first-child { padding-left: 0; }
-  .ig-dashboard-stat:last-child { border-right: none; padding-right: 0; }
-  .ig-dashboard-label {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: rgba(255,255,255,0.85);
-  }
-  .ig-dashboard-value {
-    font-size: clamp(1.5rem, 3.4vw, 2.3rem);
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: -0.02em;
-    font-variant-numeric: tabular-nums;
-  }
-  @media (max-width: 640px) {
-    .ig-dashboard { padding: 30px 24px; }
-    .ig-dashboard-row { grid-template-columns: 1fr; gap: 22px; }
-    .ig-dashboard-stat {
-      padding: 0 0 18px 0;
-      border-right: none;
-      border-bottom: 1px solid rgba(255,255,255,0.4);
-    }
-    .ig-dashboard-stat:last-child { border-bottom: none; padding-bottom: 0; }
-  }
-
   /* VIDEO MODAL */
   .video-modal {
     position: fixed;
@@ -1323,172 +918,19 @@
   .video-modal-close:hover { background: rgba(0,0,0,0.7); }
   body.video-modal-open { overflow: hidden; }
 
-  /* PRICING REQUEST MODAL */
-  .pricing-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  .pricing-modal.open { display: flex; }
-  .pricing-backdrop {
+  /* SERIES TILE: a subtle deck of cards; a full row of three videos under Travel */
+  .series-deck { overflow: hidden; background: linear-gradient(160deg, var(--bg-alt), #FFDDC4); }
+  .deck-layer {
     position: absolute;
-    inset: 0;
-    background: rgba(20, 14, 10, 0.7);
-  }
-  .pricing-panel {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 460px;
-    max-height: calc(100vh - 40px);
-    overflow-y: auto;
-    background: var(--card);
-    border-radius: 20px;
-    padding: 28px 28px 0;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-  }
-  .pricing-panel h3 { font-size: 1.4rem; margin-bottom: 6px; padding-right: 36px; }
-  .pricing-intro { color: var(--muted); font-size: 0.95rem; margin-bottom: 18px; }
-  .pricing-intro strong { color: var(--accent-dim); }
-  .pricing-close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    border: none;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 1.3rem;
-    line-height: 1;
-    cursor: pointer;
-  }
-  .pricing-close:hover { background: var(--border); }
-  .pricing-group { border: none; margin: 0 0 16px; padding: 0; min-width: 0; }
-  .pricing-group legend {
-    font-size: 0.9rem;
-    font-weight: 700;
-    margin-bottom: 9px;
-    padding: 0;
-  }
-  .pricing-options { display: flex; flex-wrap: wrap; gap: 8px; }
-  .pricing-chip { position: relative; cursor: pointer; }
-  .pricing-chip input {
-    position: absolute;
-    opacity: 0;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    cursor: pointer;
-  }
-  .pricing-chip span {
-    display: block;
-    padding: 9px 16px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    background: var(--card);
-    transition: border-color 0.15s, background 0.15s, color 0.15s;
-  }
-  .pricing-chip:hover span { border-color: var(--accent); }
-  .pricing-chip input:checked + span {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-  }
-  .pricing-chip input:focus-visible + span { outline: 2px solid var(--accent-dim); outline-offset: 2px; }
-  .pricing-note input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    font: inherit;
-    font-size: 0.95rem;
-    color: var(--text);
-    background: var(--card);
-  }
-  .pricing-note input:focus { outline: none; border-color: var(--accent); }
-  .pricing-actions {
-    position: sticky;
-    bottom: 0;
-    margin: 14px 0 0;
-    padding: 14px 0 28px;
-    background: var(--card);
-    border-top: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-  .pricing-submit { width: 100%; border: none; cursor: pointer; font-family: inherit; text-align: center; }
-  .pricing-hint { font-size: 0.85rem; color: var(--muted); text-align: center; }
-  .pricing-copy {
-    background: none;
-    border: none;
-    padding: 0;
-    font: inherit;
-    font-size: 0.85rem;
-    color: var(--accent-dim);
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  @media (max-width: 600px) {
-    .pricing-panel { padding: 26px 20px 0; border-radius: 18px; }
-    .pricing-actions { padding-bottom: 22px; }
-    .pricing-options { gap: 7px; }
-    .pricing-chip span { padding: 8px 13px; font-size: 0.85rem; }
-  }
-  body.pricing-modal-open { overflow: hidden; }
-
-  /* SERIES TILE: three numbered strips, one per part */
-  .series-strips { overflow: hidden; background: var(--bg-alt); }
-  .series-strip {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: calc((100% - 6px) / 3);
     overflow: hidden;
+    border-radius: 10px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 8px rgba(43,35,32,0.25);
   }
-  .series-strip--1 { left: 0; }
-  .series-strip--2 { left: calc((100% - 6px) / 3 + 3px); }
-  .series-strip--3 { right: 0; }
-  .series-strip img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.3s ease;
-  }
-  .series-strip--2 img { object-position: 43% 50%; }
-  @media (hover: hover) {
-    .series-strip:hover img { transform: scale(1.05); }
-  }
-  .series-num {
-    position: absolute;
-    left: 50%;
-    bottom: 52px;
-    transform: translateX(-50%);
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: #fff;
-    color: var(--text);
-    font-weight: 800;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  }
+  .deck-layer img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .deck-3 { z-index: 1; top: 4px; left: 14%; right: 14%; bottom: 50%; }
+  .deck-2 { z-index: 2; top: 10px; left: 7%; right: 7%; bottom: 40%; }
+  .deck-1 { z-index: 3; top: 16px; left: 0; right: 0; bottom: 0; border-radius: 12px 12px 0 0; border-width: 2px 0 0 0; box-shadow: 0 -2px 10px rgba(43,35,32,0.3); }
   .series-play {
     position: absolute;
     top: 50%;
@@ -1508,18 +950,82 @@
   }
   .series-chip {
     position: absolute;
-    left: 50%;
-    bottom: 12px;
-    transform: translateX(-50%);
+    left: 10px;
+    bottom: 10px;
     z-index: 3;
-    white-space: nowrap;
     background: rgba(0,0,0,0.65);
     color: #fff;
     font-size: 0.76rem;
     font-weight: 600;
-    padding: 5px 12px;
+    padding: 5px 11px;
     border-radius: 999px;
     pointer-events: none;
+  }
+  .series-single { display: flex; flex-direction: column; flex: 1; }
+  .series-row { display: none; }
+  .portfolio-grid[data-view="travel"] .portfolio-series {
+    grid-column: 1 / -1;
+    border: 2px solid var(--accent);
+    border-radius: 22px;
+  }
+  .portfolio-grid[data-view="travel"] .series-single { display: none; }
+  .portfolio-grid[data-view="travel"] .series-row { display: block; padding: 18px 20px 22px; }
+  .series-row-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-dim);
+    margin-bottom: 14px;
+  }
+  .series-row-vids { display: flex; justify-content: center; gap: 16px; }
+  .series-vid {
+    position: relative;
+    flex: 0 1 190px;
+    aspect-ratio: 9/16;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 10px 22px -14px rgba(60,30,10,0.6);
+    transition: transform 0.25s;
+  }
+  .series-vid:hover { transform: translateY(-3px); }
+  .series-vid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .series-vid-num {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--text);
+    font-weight: 800;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .series-vid-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.45);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    pointer-events: none;
+  }
+  @media (max-width: 800px) {
+    .series-row-vids { gap: 10px; }
+    .series-vid { flex: 1 1 0; }
   }
 
   /* SERIES PLAYER CONTROLS (inside the video pop-up) */
@@ -1596,10 +1102,9 @@
   <nav>
     <div class="logo">UGC <span>//</span> felix.unstuck</div>
     <ul>
-      <li><a href="#niches">Niches</a></li>
-      <li><a href="#packages">Packages</a></li>
       <li><a href="#work">Work</a></li>
-      <li><a href="#performance">Proof</a></li>
+      <li><a href="#performance">Results</a></li>
+      <li><a href="#how">How it works</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -1625,121 +1130,44 @@
 
 <section class="marquee-section">
   <p class="marquee-label">Brands I've created content for</p>
-  <div class="marquee-track">
-  <div class="marquee-row">
-      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio logo"><span>Omio</span></div>
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-finanzguru.svg" alt="Finanzguru logo"><span>Finanzguru</span></div>
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify app icon"><span>Speechify</span></div>
-      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-2.svg" alt="David Protein logo"><span>David Protein</span></div>
-      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-carpe.webp" alt="Carpe logo"><span>Carpe</span></div>
-  </div>
-  <div class="marquee-row reverse">
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-9.webp" alt="Slack logo"><span>Slack</span></div>
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-3.webp" alt="Lumenate logo"><span>Lumenate</span></div>
-      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-8.svg" alt="Mansome logo"><span>Mansome</span></div>
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-10.webp" alt="Your Next Store logo"><span>Your Next Store</span></div>
-      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-5.webp" alt="xteink logo"><span>xteink</span></div>
-  </div>
-  <div class="marquee-row">
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-4.webp" alt="BePresent app icon"><span>BePresent</span></div>
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-13.webp" alt="Oxodin app icon"><span>Oxodin</span></div>
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-6.webp" alt="dot.cards logo"><span>dot.cards</span></div>
-      <div class="marquee-item"><img loading="lazy" src="images/marquee-item-11.svg" alt="Adspo logo"><span>Adspo</span></div>
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-7.webp" alt="MaybeReal AI app icon"><span>MaybeReal AI</span></div>
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-12.webp" alt="Whitelistly logo"><span>Whitelistly</span></div>
-      <div class="marquee-item round"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt="LockedIn AI logo"><span>LockedIn AI</span></div>
-  </div>
-  </div>
-</section>
-
-<section id="niches">
-  <div class="section-head">
-    <span class="section-tag">Focus</span>
-    <h2>What I create content around</h2>
-    <p>Tech and lifestyle are my core lanes right now. Fashion and health &amp; fitness are open, and I'm actively pursuing travel collaborations: 70+ countries and counting.</p>
-  </div>
-  <div class="niche-grid">
-    <div class="niche-card travel">
-      <span class="badge travel">Actively seeking</span>
-      <div class="icon">✈️</div>
-      <h3>Travel</h3>
-      <p>70+ countries visited, roughly half solo. Open to trip and destination collabs.</p>
-    </div>
-    <div class="niche-card primary">
-      <span class="badge">Core focus</span>
-      <div class="icon">🌤️</div>
-      <h3>Lifestyle</h3>
-      <p>Day-in-the-life, routines, honest product integration.</p>
-    </div>
-    <div class="niche-card primary">
-      <span class="badge">Core focus</span>
-      <div class="icon">📱</div>
-      <h3>Tech</h3>
-      <p>Unboxings, reviews, first-impressions, app walkthroughs.</p>
-    </div>
-    <div class="niche-card">
-      <div class="icon">💪</div>
-      <h3>Health &amp; Fitness</h3>
-      <p>Gear reviews, routines, supplement content. Open to briefs.</p>
-    </div>
-    <div class="niche-card">
-      <div class="icon">👕</div>
-      <h3>Fashion</h3>
-      <p>Try-ons, hauls, styling. Open to briefs.</p>
+  <div class="logo-marquee">
+    <div class="logo-track">
+      <div class="logo-set">
+        <span class="logo-item" title="Omio"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio"></span>
+        <span class="logo-item logo-item--icon" title="Finanzguru"><img loading="lazy" src="images/marquee-item-finanzguru.svg" alt="Finanzguru"></span>
+        <span class="logo-item logo-item--icon" title="Speechify"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify"></span>
+        <span class="logo-item" title="David Protein"><img loading="lazy" src="images/marquee-item-2.svg" alt="David Protein"></span>
+        <span class="logo-item" title="Carpe"><img loading="lazy" src="images/marquee-item-carpe.webp" alt="Carpe"></span>
+        <span class="logo-item logo-item--icon" title="Slack"><img loading="lazy" src="images/marquee-item-9.webp" alt="Slack"></span>
+        <span class="logo-item logo-item--icon" title="Lumenate"><img loading="lazy" src="images/marquee-item-3.webp" alt="Lumenate"></span>
+        <span class="logo-item" title="Mansome"><img loading="lazy" src="images/marquee-item-8.svg" alt="Mansome"></span>
+        <span class="logo-item logo-item--icon" title="Your Next Store"><img loading="lazy" src="images/marquee-item-10.webp" alt="Your Next Store"></span>
+        <span class="logo-item" title="xteink"><img loading="lazy" src="images/marquee-item-5.webp" alt="xteink"></span>
+        <span class="logo-item logo-item--icon" title="BePresent"><img loading="lazy" src="images/marquee-item-4.webp" alt="BePresent"></span>
+        <span class="logo-item logo-item--icon" title="Oxodin"><img loading="lazy" src="images/marquee-item-13.webp" alt="Oxodin"></span>
+        <span class="logo-item logo-item--icon" title="dot.cards"><img loading="lazy" src="images/marquee-item-6.webp" alt="dot.cards"></span>
+        <span class="logo-item" title="Adspo"><img loading="lazy" src="images/marquee-item-11.svg" alt="Adspo"></span>
+        <span class="logo-item logo-item--icon" title="LockedIn AI"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt="LockedIn AI"></span>
+      </div>
+      <div class="logo-set" aria-hidden="true">
+        <span class="logo-item" title="Omio"><img loading="lazy" src="images/marquee-item-omio.svg" alt=""></span>
+        <span class="logo-item logo-item--icon" title="Finanzguru"><img loading="lazy" src="images/marquee-item-finanzguru.svg" alt=""></span>
+        <span class="logo-item logo-item--icon" title="Speechify"><img loading="lazy" src="images/marquee-item-1.webp" alt=""></span>
+        <span class="logo-item" title="David Protein"><img loading="lazy" src="images/marquee-item-2.svg" alt=""></span>
+        <span class="logo-item" title="Carpe"><img loading="lazy" src="images/marquee-item-carpe.webp" alt=""></span>
+        <span class="logo-item logo-item--icon" title="Slack"><img loading="lazy" src="images/marquee-item-9.webp" alt=""></span>
+        <span class="logo-item logo-item--icon" title="Lumenate"><img loading="lazy" src="images/marquee-item-3.webp" alt=""></span>
+        <span class="logo-item" title="Mansome"><img loading="lazy" src="images/marquee-item-8.svg" alt=""></span>
+        <span class="logo-item logo-item--icon" title="Your Next Store"><img loading="lazy" src="images/marquee-item-10.webp" alt=""></span>
+        <span class="logo-item" title="xteink"><img loading="lazy" src="images/marquee-item-5.webp" alt=""></span>
+        <span class="logo-item logo-item--icon" title="BePresent"><img loading="lazy" src="images/marquee-item-4.webp" alt=""></span>
+        <span class="logo-item logo-item--icon" title="Oxodin"><img loading="lazy" src="images/marquee-item-13.webp" alt=""></span>
+        <span class="logo-item logo-item--icon" title="dot.cards"><img loading="lazy" src="images/marquee-item-6.webp" alt=""></span>
+        <span class="logo-item" title="Adspo"><img loading="lazy" src="images/marquee-item-11.svg" alt=""></span>
+        <span class="logo-item logo-item--icon" title="LockedIn AI"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt=""></span>
+      </div>
     </div>
   </div>
-
-  <div class="collab-types">
-    <div class="collab-card">
-      <span class="collab-label">Option 1</span>
-      <h3>Off-channel UGC</h3>
-      <p>You post it. I script, shoot, and edit hook-driven, short-form video built to run as paid ads on your channels.</p>
-    </div>
-    <div class="collab-card highlight">
-      <span class="collab-label">Option 2</span>
-      <h3>On-channel via @felix.unstuck</h3>
-      <p>I post it. Proper collaborations on my own account, primarily travel, plus health &amp; fitness.</p>
-      <p>Current audience demographics available on request.</p>
-    </div>
-  </div>
-</section>
-
-<section id="packages">
-  <div class="section-head">
-    <span class="section-tag">Packages</span>
-    <h2>Packages</h2>
-    <p>Most brands work with me on a monthly basis. Every package is content-only: I deliver ready-to-run videos for your own channels and paid ads. Pricing is shared on request.</p>
-  </div>
-  <div class="package-grid">
-    <div class="package-card">
-      <h3>Starter</h3>
-      <ul class="package-features">
-        <li>3 videos per month</li>
-        <li>2 hook variations per video</li>
-      </ul>
-      <a href="mailto:hello@unstuck.social?subject=Pricing%20request%3A%20Starter%20package&amp;body=Hi%20Felix%2C%0A%0AI%20came%20across%20your%20website%20unstuck.social%20and%20I%27m%20interested%20in%20the%20Starter%20package.%20What%20does%20the%20current%20pricing%20look%20like%3F%0A%0AA%20few%20quick%20details%3A%0ABrand%20and%20website%3A%20%0AWhat%20I%27d%20like%20to%20promote%3A%20%0AWhere%20the%20videos%20will%20run%20%28organic%2C%20paid%20ads%20or%20both%29%3A%20%0A%0AThanks%21" class="btn btn-outline package-cta" data-pricing="Starter package">Request pricing</a>
-    </div>
-    <div class="package-card package-card--featured">
-      <span class="badge package-badge">Most popular</span>
-      <h3>Growth</h3>
-      <ul class="package-features">
-        <li>5 videos per month</li>
-        <li>3 hook variations per video</li>
-        <li>Raw footage included</li>
-      </ul>
-      <a href="mailto:hello@unstuck.social?subject=Pricing%20request%3A%20Growth%20package&amp;body=Hi%20Felix%2C%0A%0AI%20came%20across%20your%20website%20unstuck.social%20and%20I%27m%20interested%20in%20the%20Growth%20package.%20What%20does%20the%20current%20pricing%20look%20like%3F%0A%0AA%20few%20quick%20details%3A%0ABrand%20and%20website%3A%20%0AWhat%20I%27d%20like%20to%20promote%3A%20%0AWhere%20the%20videos%20will%20run%20%28organic%2C%20paid%20ads%20or%20both%29%3A%20%0A%0AThanks%21" class="btn btn-primary package-cta" data-pricing="Growth package">Request pricing</a>
-    </div>
-    <div class="package-card">
-      <h3>Scale</h3>
-      <ul class="package-features">
-        <li>8 videos per month</li>
-        <li>3 hook variations per video</li>
-        <li>Raw footage included</li>
-      </ul>
-      <a href="mailto:hello@unstuck.social?subject=Pricing%20request%3A%20Scale%20package&amp;body=Hi%20Felix%2C%0A%0AI%20came%20across%20your%20website%20unstuck.social%20and%20I%27m%20interested%20in%20the%20Scale%20package.%20What%20does%20the%20current%20pricing%20look%20like%3F%0A%0AA%20few%20quick%20details%3A%0ABrand%20and%20website%3A%20%0AWhat%20I%27d%20like%20to%20promote%3A%20%0AWhere%20the%20videos%20will%20run%20%28organic%2C%20paid%20ads%20or%20both%29%3A%20%0A%0AThanks%21" class="btn btn-outline package-cta" data-pricing="Scale package">Request pricing</a>
-    </div>
-  </div>
-  <p class="package-footnote">All packages: 3-month minimum, 3 months of usage rights per video including paid ads, 1 revision round per video. Want to start with a single test video first? That works too.</p>
 </section>
 
 <section id="work" style="background: var(--bg-alt);">
@@ -1748,39 +1176,46 @@
     <h2>Recent work</h2>
     <p>Mostly off-channel UGC ads made for brands to run on their own accounts, plus a few personal posts from my Instagram and TikTok. Click through to watch.</p>
   </div>
-  <button type="button" class="portfolio-filters-trigger" aria-expanded="false">
-    <span class="portfolio-filters-trigger-label">Filter: All</span>
-    <span class="portfolio-filters-trigger-chevron">▾</span>
-  </button>
-  <div class="portfolio-filters" role="group" aria-label="Filter recent work by niche">
-    <button type="button" class="portfolio-filter-pill is-active" data-niche="all" data-label="All">All</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="travel" data-label="Travel">Travel</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="lifestyle" data-label="Lifestyle">Lifestyle</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="tech" data-label="Tech">Tech</button>
-    <button type="button" class="portfolio-filter-pill" data-niche="health" data-label="Health &amp; Fitness">Health &amp; Fitness</button>
-    <button type="button" class="portfolio-filter-pill portfolio-filter-pill--special" data-niche="german" data-label="German">German</button>
+  <div class="portfolio-filters" role="group" aria-label="Filter recent work">
+    <button type="button" class="portfolio-filter-pill is-active" data-view="highlights">Highlights</button>
+    <button type="button" class="portfolio-filter-pill" data-view="travel">Travel</button>
+    <button type="button" class="portfolio-filter-pill" data-view="lifestyle">Lifestyle</button>
+    <button type="button" class="portfolio-filter-pill" data-view="tech">Tech</button>
+    <button type="button" class="portfolio-filter-pill" data-view="health">Health &amp; Fitness</button>
+    <button type="button" class="portfolio-filter-pill portfolio-filter-pill--special" data-view="german">German</button>
+    <button type="button" class="portfolio-showall" data-view="all">Show all &#8599;</button>
   </div>
   <p class="portfolio-filter-count" aria-live="polite"></p>
   <div class="portfolio-grid">
-<a class="portfolio-card portfolio-series" href="#" data-series="omio-japan" data-niches="travel" aria-label="Open the Omio series about Japan by rail, 3 parts">
-      <div class="portfolio-thumb series-strips">
-        <span class="series-strip series-strip--1" data-part-index="0"><img src="images/portfolio-thumb-19.webp" alt="Omio series part 1: Felix on Japan's rail network" loading="lazy" decoding="async"><span class="series-num">1</span></span>
-        <span class="series-strip series-strip--2" data-part-index="1"><img src="images/omio-part-2.webp" alt="Omio series part 2: the Hida Limited Express" loading="lazy" decoding="async"><span class="series-num">2</span></span>
-        <span class="series-strip series-strip--3" data-part-index="2"><img src="images/omio-part-3.webp" alt="Omio series part 3: Japan Rail Pass and Omio" loading="lazy" decoding="async"><span class="series-num">3</span></span>
-        <span class="series-play">&#9654;</span>
-        <span class="series-chip">Series &middot; 3 parts</span>
-        <span class="portfolio-brand-badge" data-brand-link="https://www.omio.com"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio"></span>
+<a class="portfolio-card portfolio-series" href="#" data-series="omio-japan" data-niches="travel" data-highlight="1" aria-label="Open the Omio series about Japan by rail, 3 parts">
+      <div class="series-single">
+        <div class="portfolio-thumb series-deck">
+          <span class="deck-layer deck-3"><img src="images/omio-part-3.webp" alt="" loading="lazy" decoding="async"></span>
+          <span class="deck-layer deck-2"><img src="images/omio-part-2.webp" alt="" loading="lazy" decoding="async"></span>
+          <span class="deck-layer deck-1"><img src="images/portfolio-thumb-19.webp" alt="Omio series: Felix on Japan's rail network" loading="lazy" decoding="async"></span>
+          <span class="series-play">&#9654;</span>
+          <span class="series-chip">3-part series</span>
+          <span class="portfolio-brand-badge" data-brand-link="https://www.omio.com"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio"></span>
+        </div>
+        <div class="portfolio-info">
+          <span class="tag">Travel</span>
+          <h4>Japan by rail, with Omio.</h4>
+          <p>Omio collab · series, 3 parts</p>
+        </div>
       </div>
-      <div class="portfolio-info">
-        <span class="tag">Travel</span>
-        <h4>Japan by rail, with Omio.</h4>
-        <p>Omio collab · series, 3 parts</p>
+      <div class="series-row">
+        <p class="series-row-label">Omio · Japan by rail · 3-part series</p>
+        <div class="series-row-vids">
+          <span class="series-vid" data-part-index="0"><img src="images/portfolio-thumb-19.webp" alt="Omio series part 1" loading="lazy" decoding="async"><span class="series-vid-num">1</span><span class="series-vid-play">&#9654;</span></span>
+          <span class="series-vid" data-part-index="1"><img src="images/omio-part-2.webp" alt="Omio series part 2" loading="lazy" decoding="async"><span class="series-vid-num">2</span><span class="series-vid-play">&#9654;</span></span>
+          <span class="series-vid" data-part-index="2"><img src="images/omio-part-3.webp" alt="Omio series part 3" loading="lazy" decoding="async"><span class="series-vid-num">3</span><span class="series-vid-play">&#9654;</span></span>
+        </div>
       </div>
       <span class="series-part" hidden data-label="Part 1" data-href="https://www.instagram.com/reel/DereWbeNRiJ/" data-poster="images/portfolio-thumb-19.webp"></span>
       <span class="series-part" hidden data-label="Part 2" data-src="omio-part-2.mp4" data-poster="images/omio-part-2.webp"></span>
       <span class="series-part" hidden data-label="Part 3" data-src="omio-part-3.mp4" data-poster="images/omio-part-3.webp"></span>
     </a>
-<a class="portfolio-card" href="https://davidprotein.com" target="_blank" rel="noopener" data-video="davidprotein-2.mp4" data-niches="health lifestyle">
+<a class="portfolio-card" data-highlight="1" href="https://davidprotein.com" target="_blank" rel="noopener" data-video="davidprotein-2.mp4" data-niches="health lifestyle">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-16.webp" alt="David Protein bar ad, eating one after training" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://davidprotein.com"><img loading="lazy" src="images/marquee-item-2.svg" alt="David Protein"></span>
@@ -1792,18 +1227,19 @@
         <p>David Protein partnership · off-channel UGC</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://speechify.com" target="_blank" rel="noopener" data-video="speechify-ad-2.mp4" data-niches="tech">
+<a class="portfolio-card" data-highlight="1" href="https://www.lockedinai.com/" target="_blank" rel="noopener" data-video="lockedin-ad.mp4" data-niches="tech">
       <div class="portfolio-thumb">
-        <img src="images/portfolio-thumb-2.webp" alt="Speechify ad: got a ton of books to read before the year is up" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async"><span class="portfolio-brand-badge" data-brand-link="https://speechify.com"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify"></span>
+        <img src="images/portfolio-thumb-24.webp" alt="LockedIn AI ad: testing an AI interview assistant live on a video call" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
+        <span class="portfolio-brand-badge" data-brand-link="https://www.lockedinai.com/"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt="LockedIn AI"></span>
         <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
       </div>
       <div class="portfolio-info">
-        <span class="tag">Tech &amp; Productivity</span>
-        <h4>Too many books, no time to read.</h4>
-        <p>Speechify partnership · off-channel UGC</p>
+        <span class="tag">Tech</span>
+        <h4>I tested an AI interview tool live.</h4>
+        <p>LockedIn AI · skeptic angle &amp; live demo</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://www.instagram.com/p/Da78PRfI2hJ/" target="_blank" rel="noopener" data-niches="travel lifestyle">
+<a class="portfolio-card" data-highlight="1" href="https://www.instagram.com/p/Da78PRfI2hJ/" target="_blank" rel="noopener" data-niches="travel lifestyle">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-1.webp" alt="Storytelling reel: chasing freedom over the traditional path" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async"><span class="portfolio-brand-badge" data-brand-link="https://www.instagram.com/felix.unstuck/"><img loading="lazy" src="images/portfolio-brand-badge-1.webp" alt="Instagram"></span>
         <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
@@ -1814,7 +1250,31 @@
         <p>My most successful storytelling piece · 250K+ views across platforms</p>
       </div>
     </a>
-<a class="portfolio-card" href="#" data-video="lumenate-ad.mp4" data-niches="tech lifestyle health">
+<a class="portfolio-card" href="#" data-video="creative-ai-app-a.mp4" data-niches="tech" data-highlight="1">
+      <div class="portfolio-thumb">
+        <img src="images/creative-ai-app-a.webp" alt="Speechify ad: the lazy way to finish your reading list" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
+        <span class="portfolio-brand-badge" data-brand-link="https://speechify.com"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify"></span>
+        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">&#9654;</div>
+      </div>
+      <div class="portfolio-info">
+        <span class="tag">Tech &amp; Productivity</span>
+        <h4>The LAZYY way to finish your reading list</h4>
+        <p>Speechify · 59% hook rate on Meta</p>
+      </div>
+    </a>
+<a class="portfolio-card" data-highlight="1" href="#" data-video="carpe-ad.mp4" data-niches="lifestyle">
+      <div class="portfolio-thumb">
+        <img src="images/portfolio-thumb-20.webp" alt="Carpe ad: do not buy this deodorant, reverse-psychology hook" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
+        <span class="portfolio-brand-badge" data-brand-link="https://mycarpe.com"><img loading="lazy" src="images/marquee-item-carpe.webp" alt="Carpe"></span>
+        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
+      </div>
+      <div class="portfolio-info">
+        <span class="tag">Lifestyle</span>
+        <h4>Do not buy this deodorant.</h4>
+        <p>Carpe · off-channel UGC</p>
+      </div>
+    </a>
+<a class="portfolio-card" data-highlight="1" href="#" data-video="lumenate-ad.mp4" data-niches="tech lifestyle health">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-18.webp" alt="Lumenate ad: this is exactly what I see with the Nova light mask" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="#"><img loading="lazy" src="images/marquee-item-3.webp" alt="Lumenate"></span>
@@ -1824,6 +1284,41 @@
         <span class="tag">Tech, Lifestyle, Health &amp; Fitness</span>
         <h4>This is exactly what I see.</h4>
         <p>Lumenate partnership · off-channel UGC</p>
+      </div>
+    </a>
+<a class="portfolio-card" data-highlight="1" href="https://slack.com" target="_blank" rel="noopener" data-video="slack-ad.mp4" data-niches="tech">
+      <div class="portfolio-thumb">
+        <img src="images/portfolio-thumb-12.webp" alt="Slack ad: self-employed? you need this" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async"><span class="portfolio-brand-badge" data-brand-link="https://slack.com"><img loading="lazy" src="images/marquee-item-9.webp" alt="Slack"></span>
+        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
+      </div>
+      <div class="portfolio-info">
+        <span class="tag">Tech &amp; Productivity</span>
+        <h4>Self-employed? You need this.</h4>
+        <p>Slack partnership · off-channel UGC</p>
+      </div>
+    </a>
+<a class="portfolio-card" data-highlight="1" href="https://speechify.com" target="_blank" rel="noopener" data-video="speechify-ad-2.mp4" data-niches="tech">
+      <div class="portfolio-thumb">
+        <img src="images/portfolio-thumb-2.webp" alt="Speechify ad: got a ton of books to read before the year is up" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async"><span class="portfolio-brand-badge" data-brand-link="https://speechify.com"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify"></span>
+        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
+      </div>
+      <div class="portfolio-info">
+        <span class="tag">Tech &amp; Productivity</span>
+        <h4>Too many books, no time to read.</h4>
+        <p>Speechify partnership · off-channel UGC</p>
+      </div>
+    </a>
+<a class="portfolio-card" data-highlight="1" href="#" data-video="bepresent-everest.mp4" data-niches="travel lifestyle german">
+      <div class="portfolio-thumb">
+        <span class="portfolio-badge-de">German</span>
+        <img src="images/portfolio-thumb-14.webp" alt="Mount Everest storytelling video for BePresent, in German" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
+        <span class="portfolio-brand-badge" data-brand-link="https://www.bepresentapp.com"><img loading="lazy" src="images/marquee-item-4.webp" alt="BePresent"></span>
+        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
+      </div>
+      <div class="portfolio-info">
+        <span class="tag">Travel, Lifestyle</span>
+        <h4>Mount Everest, aber auf Deutsch.</h4>
+        <p>BePresent partnership · storytelling, in German</p>
       </div>
     </a>
 <a class="portfolio-card" href="https://www.mansome.eu/" target="_blank" rel="noopener" data-video="mansome-ad.mp4" data-niches="lifestyle">
@@ -1836,41 +1331,6 @@
         <span class="tag">Lifestyle</span>
         <h4>The grooming tool I never travel without.</h4>
         <p>Mansome partnership · off-channel UGC</p>
-      </div>
-    </a>
-<a class="portfolio-card" href="https://slack.com" target="_blank" rel="noopener" data-video="slack-ad.mp4" data-niches="tech">
-      <div class="portfolio-thumb">
-        <img src="images/portfolio-thumb-12.webp" alt="Slack ad: self-employed? you need this" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async"><span class="portfolio-brand-badge" data-brand-link="https://slack.com"><img loading="lazy" src="images/marquee-item-9.webp" alt="Slack"></span>
-        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
-      </div>
-      <div class="portfolio-info">
-        <span class="tag">Tech &amp; Productivity</span>
-        <h4>Self-employed? You need this.</h4>
-        <p>Slack partnership · off-channel UGC</p>
-      </div>
-    </a>
-<a class="portfolio-card" href="#" data-video="carpe-ad.mp4" data-niches="lifestyle">
-      <div class="portfolio-thumb">
-        <img src="images/portfolio-thumb-20.webp" alt="Carpe ad: do not buy this deodorant, reverse-psychology hook" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
-        <span class="portfolio-brand-badge" data-brand-link="https://mycarpe.com"><img loading="lazy" src="images/marquee-item-carpe.webp" alt="Carpe"></span>
-        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
-      </div>
-      <div class="portfolio-info">
-        <span class="tag">Lifestyle</span>
-        <h4>Do not buy this deodorant.</h4>
-        <p>Carpe · off-channel UGC</p>
-      </div>
-    </a>
-<a class="portfolio-card" href="https://www.lockedinai.com/" target="_blank" rel="noopener" data-video="lockedin-ad.mp4" data-niches="tech">
-      <div class="portfolio-thumb">
-        <img src="images/portfolio-thumb-24.webp" alt="LockedIn AI ad: testing an AI interview assistant live on a video call" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
-        <span class="portfolio-brand-badge" data-brand-link="https://www.lockedinai.com/"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt="LockedIn AI"></span>
-        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
-      </div>
-      <div class="portfolio-info">
-        <span class="tag">Tech</span>
-        <h4>I tested an AI interview tool live.</h4>
-        <p>LockedIn AI · skeptic angle &amp; live demo</p>
       </div>
     </a>
 <a class="portfolio-card" href="https://www.yournextstore.com" target="_blank" rel="noopener" data-video="yns-reaction.mp4" data-niches="tech">
@@ -1931,18 +1391,6 @@
         <span class="tag">Tech</span>
         <h4>Und irgendwann hat es Klick gemacht.</h4>
         <p>Oxodin partnership · off-channel UGC, in German</p>
-      </div>
-    </a>
-<a class="portfolio-card" href="#" data-video="bepresent-everest.mp4" data-niches="travel lifestyle german">
-      <div class="portfolio-thumb">
-        <img src="images/portfolio-thumb-14.webp" alt="Mount Everest storytelling video for BePresent, in German" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
-        <span class="portfolio-brand-badge" data-brand-link="https://www.bepresentapp.com"><img loading="lazy" src="images/marquee-item-4.webp" alt="BePresent"></span>
-        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
-      </div>
-      <div class="portfolio-info">
-        <span class="tag">Travel, Lifestyle</span>
-        <h4>Mount Everest, aber auf Deutsch.</h4>
-        <p>BePresent partnership · storytelling, in German</p>
       </div>
     </a>
 <a class="portfolio-card" href="https://www.ahead-nutrition.com/" target="_blank" rel="noopener" data-video="ahead-ad.mp4" data-niches="health lifestyle german">
@@ -2052,21 +1500,6 @@
       </div>
     </a>
     </div>
-</section>
-<section id="testimonials">
-  <div class="section-head">
-    <span class="section-tag">Testimonials</span>
-    <h2>What brands say</h2>
-    <p>A few notes from brands I've worked with, in their own words.</p>
-  </div>
-<div class="sky">
-    <div class="sky-glow sky-glow--a"></div><div class="sky-glow sky-glow--b"></div><div class="sky-glow sky-glow--c"></div>
-    <div class="q q--big q1">"The video turned out great, and we're very happy with the final result! We really enjoyed working with Felix. Booked a follow-up video right after the first delivery."<span class="q-by">Men's grooming brand, EU expansion</span></div>
-    <div class="q q--small q2">"Overall content is amazing!"<span class="q-by">AI shopping platform</span></div>
-    <div class="q q--accent q--big q3">"Felix's skeptic angle with a live demo is the best one we've gotten on Trybe. I want to work with Felix long term as one of our UGC creators."<span class="q-by">AI interview assistant, COO</span></div>
-    <div class="q q4">"We've checked out Felix's Reel, and we really love how it turned out! Felix did a fantastic job showcasing the product in a personal style, and we truly appreciate the creativity and effort put into it."<span class="q-by">E-reader brand</span></div>
-    <div class="q q--small q5">"Die neue Version ist super, wir bedanken uns recht herzlich."<span class="q-tr">"The new version is great, thank you so much."</span><span class="q-by">AI concierge service, Germany</span></div>
-  </div>
 </section>
 <section id="performance">
   <div class="section-head">
@@ -2199,34 +1632,46 @@
   <p class="perf-footnote">Source: Trybe creator analytics, lifetime totals as of 31 Oct 2026. Hook rate excludes one brand where Meta did not report 3-second views.</p>
 </section>
 
-<section id="stats">
+<section id="testimonials">
   <div class="section-head">
-    <span class="section-tag">Instagram</span>
-    <h2>Current stats: @felix.unstuck</h2>
-    <p>My personal brand page, Instagram only. Stats exclude cross-posts to TikTok and YouTube Shorts. Last 30 days, as of 27 September 2026.</p>
+    <span class="section-tag">Testimonials</span>
+    <h2>What brands say</h2>
+    <p>A few notes from brands I've worked with, in their own words.</p>
   </div>
-  <div class="ig-dashboard">
-    <div class="ig-dashboard-glow"></div>
-    <div class="ig-dashboard-top">
-      <span class="ig-dashboard-live"><span class="dot"></span>From Instagram Insights</span>
-    </div>
-    <div class="ig-dashboard-row">
-      <div class="ig-dashboard-stat">
-        <span class="ig-dashboard-value">775,733</span>
-        <span class="ig-dashboard-label">Views · 30 days</span>
-      </div>
-      <div class="ig-dashboard-stat">
-        <span class="ig-dashboard-value">25,030</span>
-        <span class="ig-dashboard-label">Interactions · 30 days</span>
-      </div>
-      <div class="ig-dashboard-stat">
-        <span class="ig-dashboard-value">2,773</span>
-        <span class="ig-dashboard-label">Followers</span>
-      </div>
-    </div>
+<div class="sky">
+    <div class="sky-glow sky-glow--a"></div><div class="sky-glow sky-glow--b"></div><div class="sky-glow sky-glow--c"></div>
+    <div class="q q--big q1">"The video turned out great, and we're very happy with the final result! We really enjoyed working with Felix. Booked a follow-up video right after the first delivery."<span class="q-by">Men's grooming brand, EU expansion</span></div>
+    <div class="q q--small q2">"Overall content is amazing!"<span class="q-by">AI shopping platform</span></div>
+    <div class="q q--accent q--big q3">"Felix's skeptic angle with a live demo is the best one we've gotten on Trybe. I want to work with Felix long term as one of our UGC creators."<span class="q-by">AI interview assistant, COO</span></div>
+    <div class="q q4">"We've checked out Felix's Reel, and we really love how it turned out! Felix did a fantastic job showcasing the product in a personal style, and we truly appreciate the creativity and effort put into it."<span class="q-by">E-reader brand</span></div>
+    <div class="q q--small q5">"Die neue Version ist super, wir bedanken uns recht herzlich."<span class="q-tr">"The new version is great, thank you so much."</span><span class="q-by">AI concierge service, Germany</span></div>
   </div>
 </section>
-
+<section id="how">
+  <div class="section-head">
+    <span class="section-tag">How it works</span>
+    <h2>Start with one video.</h2>
+  </div>
+  <div class="how-grid">
+    <article class="how-card how-card--main">
+      <h3>One video, made for your ads</h3>
+      <p>A tailored short-form ad, scripted, shot and edited by me.</p>
+      <ul class="how-list">
+        <li>3 hook variations</li>
+        <li>3 months of usage on your channels and for paid ads (longer on request)</li>
+        <li>1 revision round</li>
+        <li>Pricing on request</li>
+      </ul>
+      <a class="btn btn-primary" href="mailto:hello@unstuck.social?subject=Quote%20request%3A%20one%20video&amp;body=Hi%20Felix%2C%0A%0AI%27d%20like%20a%20quote%20for%20one%20video.%0A%0ABrand%20and%20website%3A%20%0AWhat%20I%27d%20like%20to%20promote%3A%20%0A%0AThanks%21">Request a quote</a>
+    </article>
+    <article class="how-card">
+      <h3>Then go monthly</h3>
+      <p>Most brands roll into a monthly package after the first video: a set number of videos per month, more hooks, raw footage. Ask me for the options.</p>
+    </article>
+  </div>
+  <div class="how-line"><strong>On my own channel:</strong> for the right brand or trip, I also feature products on @felix.unstuck. Case by case.</div>
+  <p class="how-tags">I create for: Tech &middot; Lifestyle &middot; Travel &middot; Health &amp; Fitness &middot; Fashion</p>
+</section>
 <section id="about">
   <div class="about-wrap">
     <div class="about-photo">
@@ -2238,7 +1683,7 @@
       <p>I'm Felix, 25, and I work from wherever I happen to be. I travel about half the year, and when I'm not on the road I'm based in Mannheim, Germany. I speak German and American English fluently, plus conversational Chinese.</p>
       <p>I started creating UGC in 2026, after two years of hands-on social media work for other brands: building communities, running Meta ads and turning warm leads into paying customers. That work taught me what actually makes people stop scrolling and act, and I bring it into every video I make.</p>
       <p>I script, shoot and edit everything myself. My focus is ad-ready creative built to perform on your own channels and as paid social. I work with brands on single videos or ongoing monthly content, depending on what you need.</p>
-      <p>Outside of content, I run an AI automation agency and have visited 70+ countries, about half of them solo. I'm especially keen on travel collaborations, so if you want someone who can turn a destination into a scroll-stopping story, let's talk.</p>
+      <p>Before UGC I ran an AI automation agency. I've also visited 70+ countries, about half of them solo. I'm especially keen on travel collaborations, so if you want someone who can turn a destination into a scroll-stopping story, let's talk.</p>
       <div class="stats">
         <div class="stat">
           <h3>2+</h3>
@@ -2252,6 +1697,15 @@
           <h3>3</h3>
           <p>Languages (DE / EN / ZH)</p>
         </div>
+        <div class="stat">
+          <h3>775K</h3>
+          <p>Views in 30 days</p>
+        </div>
+        <div class="stat">
+          <h3>2.7K</h3>
+          <p>Followers</p>
+        </div>
+        <p class="stat-note">Instagram, as of 27 Sep 2026</p>
       </div>
     </div>
   </div>
@@ -2329,39 +1783,6 @@
     <button class="series-arrow series-arrow--next" id="seriesNext" type="button" aria-label="Next part" hidden>&rsaquo;</button>
     <a class="series-external" id="seriesExternal" href="#" target="_blank" rel="noopener" hidden>Watch part 1 on Instagram &#8599;</a>
   </div>
-</div>
-
-<div class="pricing-modal" id="pricingModal" role="dialog" aria-modal="true" aria-labelledby="pricingTitle" aria-hidden="true">
-  <div class="pricing-backdrop" data-close-pricing></div>
-  <form class="pricing-panel" id="pricingForm">
-    <button class="pricing-close" type="button" aria-label="Close" data-close-pricing>&times;</button>
-    <h3 id="pricingTitle">Request pricing</h3>
-    <p class="pricing-intro"><strong id="pricingPkg"></strong> Two taps and your email is ready.</p>
-    <fieldset class="pricing-group">
-      <legend>Videos will run</legend>
-      <div class="pricing-options">
-        <label class="pricing-chip"><input type="radio" name="channel" value="Organic, on my own channels"><span>Organic</span></label>
-        <label class="pricing-chip"><input type="radio" name="channel" value="Paid ads"><span>Paid ads</span></label>
-        <label class="pricing-chip"><input type="radio" name="channel" value="Both organic and paid ads"><span>Both</span></label>
-      </div>
-    </fieldset>
-    <fieldset class="pricing-group">
-      <legend>Monthly budget</legend>
-      <div class="pricing-options">
-        <label class="pricing-chip"><input type="radio" name="budget" value="Under &euro;1,000"><span>Under &euro;1k</span></label>
-        <label class="pricing-chip"><input type="radio" name="budget" value="&euro;1,000 to &euro;3,000"><span>&euro;1k to 3k</span></label>
-        <label class="pricing-chip"><input type="radio" name="budget" value="&euro;3,000 to &euro;5,000"><span>&euro;3k to 5k</span></label>
-        <label class="pricing-chip"><input type="radio" name="budget" value="&euro;5,000 or more"><span>&euro;5k+</span></label>
-      </div>
-    </fieldset>
-    <div class="pricing-note">
-      <input type="text" id="pricingNote" placeholder="Your brand and website (optional)" aria-label="Your brand and website (optional)" autocomplete="off">
-    </div>
-    <div class="pricing-actions">
-      <button class="btn btn-primary pricing-submit" type="submit">Open my email</button>
-      <p class="pricing-hint" id="pricingHint" hidden>Email not opening? <button class="pricing-copy" type="button" id="pricingCopy">Copy the message</button> and send it to hello@unstuck.social.</p>
-    </div>
-  </form>
 </div>
 
 <script>
@@ -2499,147 +1920,54 @@
     delete container.dataset.infiniteInit;
   }
 
-  // Mobile-only running band for the brand marquee: each .marquee-row is
-  // duplicated once and a CSS animation translates it by exactly -50%, so
-  // the seam where it loops back to the start is invisible. Plain CSS
-  // translateX rather than the scrollLeft-based infinite carousel above --
-  // a scrollLeft fight with scroll-snap is what caused the earlier marquee
-  // bugs on this site.
-  function initMarqueeTicker(row) {
-    if (row.dataset.tickerInit === "1") return;
-    var items = Array.prototype.slice.call(row.children);
-    if (items.length < 2) return;
-    items.forEach(function (el) {
-      var clone = el.cloneNode(true);
-      clone.dataset.tickerClone = "1";
-      row.appendChild(clone);
-    });
-    row.classList.add("marquee-ticker-active");
-    row.dataset.tickerInit = "1";
-  }
-
-  function teardownMarqueeTicker(row) {
-    if (row.dataset.tickerInit !== "1") return;
-    Array.prototype.slice.call(row.querySelectorAll('[data-ticker-clone="1"]')).forEach(function (el) {
-      el.remove();
-    });
-    row.classList.remove("marquee-ticker-active");
-    delete row.dataset.tickerInit;
-  }
-
   function maybeInit() {
-    var portfolio = document.querySelector(".portfolio-grid");
-    var portfolioMobile = window.matchMedia("(max-width: 800px)").matches;
-    if (portfolio) {
-      if (portfolioMobile) initInfiniteCarousel(portfolio, { loopDivider: true });
-      else teardownInfiniteCarousel(portfolio);
-    }
-
     var isMobile = window.matchMedia("(max-width: 700px)").matches;
-
     document.querySelectorAll(".travel-gallery").forEach(function (el) {
       if (isMobile) initInfiniteCarousel(el);
       else teardownInfiniteCarousel(el);
-    });
-
-    document.querySelectorAll(".marquee-row").forEach(function (row) {
-      if (isMobile) initMarqueeTicker(row);
-      else teardownMarqueeTicker(row);
     });
   }
 
   document.addEventListener("DOMContentLoaded", maybeInit);
   window.addEventListener("resize", maybeInit);
 
-  // Recent-work niche filters: pills are single-select, "All" clears the
-  // selection back to the default. activeSet holds at most one niche, but
-  // matching still checks for overlap since a card can carry more than one
-  // niche in data-niches (space-separated) -- e.g. selecting "Travel" also
-  // matches a card tagged "travel lifestyle".
-  function applyPortfolioFilter(activeSet) {
-    var grid = document.querySelector(".portfolio-grid");
-    if (!grid) return;
-    var cards = Array.prototype.slice.call(
-      grid.querySelectorAll('.portfolio-card:not([data-carousel-clone="1"])')
-    );
+  // Work filters. Highlights is the default view. German videos only show
+  // under German, except the highlight card that is flagged as a highlight.
+  var portfolioGrid = document.querySelector(".portfolio-grid");
+  var viewButtons = Array.prototype.slice.call(document.querySelectorAll("[data-view]"));
+  function applyView(view) {
+    if (!portfolioGrid) return;
+    portfolioGrid.setAttribute("data-view", view);
+    var cards = Array.prototype.slice.call(portfolioGrid.querySelectorAll(".portfolio-card"));
     cards.forEach(function (card) {
       var niches = (card.dataset.niches || "").split(" ");
-      // German-tagged cards are gated behind an explicit click on the German
-      // pill -- they never show in the default "All" view or via any other
-      // pill, even if they'd otherwise also match on niche.
       var isGerman = niches.indexOf("german") !== -1;
-      var match = isGerman
-        ? activeSet.has("german")
-        : (activeSet.size === 0 || niches.some(function (n) { return activeSet.has(n); }));
-      card.hidden = !match;
+      var show;
+      if (view === "highlights") show = card.hasAttribute("data-highlight");
+      else if (view === "german") show = isGerman;
+      else if (view === "all") show = !isGerman;
+      else show = !isGerman && niches.indexOf(view) !== -1;
+      card.hidden = !show;
     });
-    // The mobile carousel clones the full child set (~3x the real cards'
-    // worth of base64 thumbnails, which is close to 1MB apiece already) for
-    // its seamless loop. Tearing that down and rebuilding it synchronously
-    // in the same tick as the click blocked the browser from painting
-    // ANYTHING -- not even the pill highlight -- until the rebuild finished,
-    // which is what made the filter dropdown feel laggy. Deferring it one
-    // frame lets the cheap, immediate feedback (pill state, hidden cards,
-    // label, dropdown close) paint first.
-    if (grid.dataset.infiniteInit === "1") {
-      requestAnimationFrame(function () {
-        teardownInfiniteCarousel(grid);
-        if (window.matchMedia("(max-width: 800px)").matches) {
-          initInfiniteCarousel(grid, { loopDivider: true });
-        }
-      });
-    }
-
+    viewButtons.forEach(function (b) {
+      b.classList.toggle("is-active", b.getAttribute("data-view") === view);
+    });
     var countEl = document.querySelector(".portfolio-filter-count");
     if (countEl) {
-      // German videos are their own separate pool, not part of the regular
-      // niche count -- selecting German should read "2 of 2", not "2 of
-      // 15", and every other pill (including "All") excludes them too.
       var visible = cards.filter(function (c) { return !c.hidden; }).length;
-      var pool = activeSet.has("german")
-        ? cards.filter(function (c) { return (c.dataset.niches || "").indexOf("german") !== -1; }).length
-        : cards.filter(function (c) { return (c.dataset.niches || "").indexOf("german") === -1; }).length;
-      countEl.textContent = "Showing " + visible + " of " + pool + " videos";
+      var pool = cards.filter(function (c) {
+        var g = (c.dataset.niches || "").indexOf("german") !== -1;
+        return view === "german" ? g : !g;
+      }).length;
+      countEl.textContent = view === "highlights"
+        ? "Showing " + visible + " highlights. Tap Show all for the full portfolio."
+        : "Showing " + visible + " of " + pool + " videos";
     }
   }
-
-  var portfolioFilterPills = Array.prototype.slice.call(document.querySelectorAll(".portfolio-filter-pill"));
-  var activePortfolioFilters = new Set();
-  // Single-select: clicking a pill replaces the current filter outright
-  // rather than adding to it -- multi-select read as counterintuitive here
-  // (picking Lifestyle after Travel looked like it should replace Travel,
-  // not combine with it).
-  portfolioFilterPills.forEach(function (pill) {
-    pill.addEventListener("click", function () {
-      var niche = pill.dataset.niche;
-      activePortfolioFilters.clear();
-      if (niche !== "all") activePortfolioFilters.add(niche);
-
-      portfolioFilterPills.forEach(function (p) {
-        p.classList.toggle("is-active", p === pill);
-      });
-      applyPortfolioFilter(activePortfolioFilters);
-
-      var triggerLabel = document.querySelector(".portfolio-filters-trigger-label");
-      if (triggerLabel) {
-        triggerLabel.textContent = "Filter: " + pill.dataset.label;
-      }
-    });
+  viewButtons.forEach(function (b) {
+    b.addEventListener("click", function () { applyView(b.getAttribute("data-view")); });
   });
-
-  var portfolioFiltersTrigger = document.querySelector(".portfolio-filters-trigger");
-  var portfolioFiltersPanel = document.querySelector(".portfolio-filters");
-  if (portfolioFiltersTrigger && portfolioFiltersPanel) {
-    portfolioFiltersTrigger.addEventListener("click", function () {
-      var isOpen = portfolioFiltersPanel.classList.toggle("is-open");
-      portfolioFiltersTrigger.setAttribute("aria-expanded", String(isOpen));
-    });
-  }
-
-  // Apply the (empty) default filter on load -- without this, German-tagged
-  // cards were visible on first paint since the gating logic only ran after
-  // a pill was clicked.
-  applyPortfolioFilter(activePortfolioFilters);
+  applyView("highlights");
 
   // Mobile nav menu: .menu-toggle existed in CSS with no button or JS wired
   // to it, so nav ul's display:none on mobile left Niches/Work/Proof/About/
@@ -2795,94 +2123,6 @@
     if (e.key === "Escape") closeVideo();
     else if (seriesParts && e.key === "ArrowRight" && seriesIndex < seriesParts.length - 1) showSeriesPart(seriesIndex + 1);
     else if (seriesParts && e.key === "ArrowLeft" && seriesIndex > 0) showSeriesPart(seriesIndex - 1);
-  });
-})();
-
-(function () {
-  var modal = document.getElementById("pricingModal");
-  var form = document.getElementById("pricingForm");
-  var note = document.getElementById("pricingNote");
-  var hint = document.getElementById("pricingHint");
-  var copyBtn = document.getElementById("pricingCopy");
-  var pkgLabel = document.getElementById("pricingPkg");
-  var lastTrigger = null;
-  var currentPackage = "";
-  var EMAIL = "hello@unstuck.social";
-
-  function pick(name) {
-    var el = form.querySelector('input[name="' + name + '"]:checked');
-    return el ? el.value : "";
-  }
-
-  function buildMessage() {
-    var pkg = currentPackage;
-    var lines = ["Hi Felix,", "", "I came across your website unstuck.social and I'd like to know the current pricing.", ""];
-    var details = [
-      ["Interested in", pkg],
-      ["Videos will run", pick("channel")],
-      ["Monthly budget", pick("budget")]
-    ];
-    details.forEach(function (d) { if (d[1]) lines.push(d[0] + ": " + d[1]); });
-    var extra = note.value.trim();
-    if (extra) lines.push("Brand and website: " + extra);
-    lines.push("", "Thanks!");
-    return {
-      subject: "Pricing request" + (pkg ? ": " + pkg : ""),
-      body: lines.join("\n")
-    };
-  }
-
-  function openModal(pkg, trigger) {
-    lastTrigger = trigger;
-    form.reset();
-    hint.hidden = true;
-    currentPackage = pkg || "";
-    pkgLabel.textContent = currentPackage ? currentPackage + "." : "";
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden", "false");
-    document.body.classList.add("pricing-modal-open");
-    var firstGroup = form.querySelector('input[name="channel"]');
-    if (firstGroup) firstGroup.focus({ preventScroll: true });
-  }
-
-  function closeModal() {
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("pricing-modal-open");
-    if (lastTrigger) lastTrigger.focus({ preventScroll: true });
-  }
-
-  document.addEventListener("click", function (e) {
-    var trigger = e.target.closest("[data-pricing]");
-    if (trigger) {
-      e.preventDefault();
-      openModal(trigger.getAttribute("data-pricing"), trigger);
-      return;
-    }
-    if (e.target.closest("[data-close-pricing]")) closeModal();
-  });
-
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
-  });
-
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    var m = buildMessage();
-    hint.hidden = false;
-    window.location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(m.subject) + "&body=" + encodeURIComponent(m.body);
-  });
-
-  copyBtn.addEventListener("click", function () {
-    var m = buildMessage();
-    var text = "To: " + EMAIL + "\nSubject: " + m.subject + "\n\n" + m.body;
-    function done() {
-      copyBtn.textContent = "Copied";
-      setTimeout(function () { copyBtn.textContent = "Copy the message"; }, 2000);
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, function () {});
-    }
   });
 })();
 </script>
