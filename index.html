@@ -148,23 +148,22 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
-    max-width: 400px;
+    max-width: 440px;
     margin-top: 28px;
   }
   .hero-proof-box {
-    padding: 12px 14px;
+    padding: 14px 16px 15px;
     border: 1px solid #e6e2de;
     border-radius: 14px;
     background: transparent;
     color: #8b8580;
   }
-  .hero-proof-num { display: block; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; color: #8b8580; }
-  .hero-proof-label { display: block; margin-top: 3px; font-size: 0.78rem; line-height: 1.3; color: #8b8580; }
-  .hero-proof-sub { display: block; margin-top: 2px; font-size: 0.72rem; color: #a8a29c; }
+  .hero-proof-num { display: block; font-size: 2.9rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; color: #8b8580; }
+  .hero-proof-label { display: block; margin-top: 6px; font-size: 0.78rem; line-height: 1.3; color: #8b8580; }
   @media (max-width: 420px) {
     .hero-proof { gap: 8px; }
     .hero-proof-box { padding: 10px 11px; }
-    .hero-proof-num { font-size: 1.2rem; }
+    .hero-proof-num { font-size: 2.2rem; }
     .hero-proof-label { font-size: 0.72rem; }
   }
   .btn {
@@ -346,7 +345,7 @@
     top: -0.75em;
     left: 20px;
     padding: 0 8px;
-    background: var(--bg-alt);
+    background: var(--bg);
     color: var(--accent-dim);
     font-size: 0.76rem;
     font-weight: 700;
@@ -839,29 +838,18 @@
   }
 
   /* HERO PROOF BAND: one logo marquee plus the best numbers */
-  .marquee-section {
-    position: relative;
-    padding: 40px 24px 32px;
-    background: var(--bg-alt);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+  .marquee-section { padding: 0 24px; }
+  .logo-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 30px 0 8px;
     overflow: hidden;
-  }
-  .marquee-section::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 620px;
-    height: 320px;
-    background: var(--sunset);
-    filter: blur(100px);
-    opacity: 0.22;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
   }
   .marquee-label {
     position: relative;
+    padding: 0 24px;
     text-align: center;
     color: var(--muted);
     font-size: 0.78rem;
@@ -1130,8 +1118,8 @@
       <a href="#contact" class="btn btn-outline">Get in touch</a>
     </div>
     <div class="hero-proof">
-      <div class="hero-proof-box"><span class="hero-proof-num">59%</span><span class="hero-proof-label">hook rate on my best paid ad</span><span class="hero-proof-sub">strong is 30%+</span></div>
-      <div class="hero-proof-box"><span class="hero-proof-num">1.96%</span><span class="hero-proof-label">link CTR on Meta</span><span class="hero-proof-sub">strong is 1.5%+</span></div>
+      <div class="hero-proof-box"><span class="hero-proof-num">59%</span><span class="hero-proof-label">hook rate on my best paid ad</span></div>
+      <div class="hero-proof-box"><span class="hero-proof-num">1.96%</span><span class="hero-proof-label">link CTR on Meta</span></div>
     </div>
   </div>
   <div class="hero-visual">
@@ -1140,48 +1128,50 @@
 </section>
 
 <section class="marquee-section">
+ <div class="logo-card">
   <p class="marquee-label">Brands I've created content for</p>
   <div class="logo-marquee">
     <div class="logo-row"><div class="logo-track">
         <div class="logo-set">
-          <span class="logo-item"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio"><span class="logo-name" aria-hidden="true">Omio</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-finanzguru.svg" alt="Finanzguru"><span class="logo-name" aria-hidden="true">Finanzguru</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify"><span class="logo-name" aria-hidden="true">Speechify</span></span>
-          <span class="logo-item"><img loading="lazy" src="images/marquee-item-2.svg" alt="David Protein"><span class="logo-name" aria-hidden="true">David Protein</span></span>
-          <span class="logo-item"><img loading="lazy" src="images/marquee-item-carpe.webp" alt="Carpe"><span class="logo-name" aria-hidden="true">Carpe</span></span>
           <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-9.webp" alt="Slack"><span class="logo-name" aria-hidden="true">Slack</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-3.webp" alt="Lumenate"><span class="logo-name" aria-hidden="true">Lumenate</span></span>
-          <span class="logo-item"><img loading="lazy" src="images/marquee-item-8.svg" alt="Mansome"><span class="logo-name" aria-hidden="true">Mansome</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-10.webp" alt="Your Next Store"><span class="logo-name" aria-hidden="true">Your Next Store</span></span>
-          <span class="logo-item"><img loading="lazy" src="images/marquee-item-5.webp" alt="xteink"><span class="logo-name" aria-hidden="true">xteink</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-4.webp" alt="BePresent"><span class="logo-name" aria-hidden="true">BePresent</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-13.webp" alt="Oxodin"><span class="logo-name" aria-hidden="true">Oxodin</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-6.webp" alt="dot.cards"><span class="logo-name" aria-hidden="true">dot.cards</span></span>
-          <span class="logo-item"><img loading="lazy" src="images/marquee-item-11.svg" alt="Adspo"><span class="logo-name" aria-hidden="true">Adspo</span></span>
           <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt="LockedIn AI"><span class="logo-name" aria-hidden="true">LockedIn AI</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio"><span class="logo-name" aria-hidden="true">Omio</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-8.svg" alt="Mansome"><span class="logo-name" aria-hidden="true">Mansome</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify"><span class="logo-name" aria-hidden="true">Speechify</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-10.webp" alt="Your Next Store"><span class="logo-name" aria-hidden="true">Your Next Store</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-finanzguru.svg" alt="Finanzguru"><span class="logo-name" aria-hidden="true">Finanzguru</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-5.webp" alt="xteink"><span class="logo-name" aria-hidden="true">xteink</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-2.svg" alt="David Protein"><span class="logo-name" aria-hidden="true">David Protein</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-11.svg" alt="Adspo"><span class="logo-name" aria-hidden="true">Adspo</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-carpe.webp" alt="Carpe"><span class="logo-name" aria-hidden="true">Carpe</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-6.webp" alt="dot.cards"><span class="logo-name" aria-hidden="true">dot.cards</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-3.webp" alt="Lumenate"><span class="logo-name" aria-hidden="true">Lumenate</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-13.webp" alt="Oxodin"><span class="logo-name" aria-hidden="true">Oxodin</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-4.webp" alt="BePresent"><span class="logo-name" aria-hidden="true">BePresent</span></span>
         </div>
         <div class="logo-set" aria-hidden="true">
-          <span class="logo-item"><img loading="lazy" src="images/marquee-item-omio.svg" alt=""><span class="logo-name" aria-hidden="true">Omio</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-finanzguru.svg" alt=""><span class="logo-name" aria-hidden="true">Finanzguru</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-1.webp" alt=""><span class="logo-name" aria-hidden="true">Speechify</span></span>
-          <span class="logo-item"><img loading="lazy" src="images/marquee-item-2.svg" alt=""><span class="logo-name" aria-hidden="true">David Protein</span></span>
-          <span class="logo-item"><img loading="lazy" src="images/marquee-item-carpe.webp" alt=""><span class="logo-name" aria-hidden="true">Carpe</span></span>
           <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-9.webp" alt=""><span class="logo-name" aria-hidden="true">Slack</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-3.webp" alt=""><span class="logo-name" aria-hidden="true">Lumenate</span></span>
-          <span class="logo-item"><img loading="lazy" src="images/marquee-item-8.svg" alt=""><span class="logo-name" aria-hidden="true">Mansome</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-10.webp" alt=""><span class="logo-name" aria-hidden="true">Your Next Store</span></span>
-          <span class="logo-item"><img loading="lazy" src="images/marquee-item-5.webp" alt=""><span class="logo-name" aria-hidden="true">xteink</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-4.webp" alt=""><span class="logo-name" aria-hidden="true">BePresent</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-13.webp" alt=""><span class="logo-name" aria-hidden="true">Oxodin</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-6.webp" alt=""><span class="logo-name" aria-hidden="true">dot.cards</span></span>
-          <span class="logo-item"><img loading="lazy" src="images/marquee-item-11.svg" alt=""><span class="logo-name" aria-hidden="true">Adspo</span></span>
           <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt=""><span class="logo-name" aria-hidden="true">LockedIn AI</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-omio.svg" alt=""><span class="logo-name" aria-hidden="true">Omio</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-8.svg" alt=""><span class="logo-name" aria-hidden="true">Mansome</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-1.webp" alt=""><span class="logo-name" aria-hidden="true">Speechify</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-10.webp" alt=""><span class="logo-name" aria-hidden="true">Your Next Store</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-finanzguru.svg" alt=""><span class="logo-name" aria-hidden="true">Finanzguru</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-5.webp" alt=""><span class="logo-name" aria-hidden="true">xteink</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-2.svg" alt=""><span class="logo-name" aria-hidden="true">David Protein</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-11.svg" alt=""><span class="logo-name" aria-hidden="true">Adspo</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-carpe.webp" alt=""><span class="logo-name" aria-hidden="true">Carpe</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-6.webp" alt=""><span class="logo-name" aria-hidden="true">dot.cards</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-3.webp" alt=""><span class="logo-name" aria-hidden="true">Lumenate</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-13.webp" alt=""><span class="logo-name" aria-hidden="true">Oxodin</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-4.webp" alt=""><span class="logo-name" aria-hidden="true">BePresent</span></span>
         </div>
     </div></div>
   </div>
+ </div>
 </section>
 
-<section id="work" style="background: var(--bg-alt);">
+<section id="work">
   <div class="section-head">
     <span class="section-tag">Portfolio</span>
     <h2>Recent work</h2>
