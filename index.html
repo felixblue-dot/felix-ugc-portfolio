@@ -276,18 +276,59 @@
   /* German sits outside the regular niches, so it gets a dashed resting style. */
   .portfolio-filter-pill--special { border-style: dashed; color: var(--muted); }
   .portfolio-filter-pill--special.is-active { border-style: solid; color: #fff; }
-  .portfolio-showall {
-    margin-left: auto;
-    padding: 9px 4px;
+  .portfolio-toggle { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .portfolio-toggle-label { font-size: 0.86rem; font-weight: 600; color: var(--text); }
+  .toggle-switch {
+    position: relative;
+    width: 46px;
+    height: 28px;
+    padding: 0;
     border: 0;
-    background: none;
-    font: inherit;
-    font-size: 0.86rem;
-    font-weight: 600;
-    color: var(--accent-dim);
+    border-radius: 999px;
+    background: #d9cdc2;
     cursor: pointer;
+    transition: background 0.2s ease;
+    flex-shrink: 0;
   }
-  .portfolio-showall:hover, .portfolio-showall.is-active { text-decoration: underline; }
+  .toggle-switch::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease;
+  }
+  .toggle-switch[aria-checked="true"] { background: var(--accent); }
+  .toggle-switch[aria-checked="true"]::after { transform: translateX(18px); }
+  .toggle-switch:focus-visible { outline: 2px solid var(--accent-dim); outline-offset: 3px; }
+  /* The three Omio parts sit in one outlined group under Travel */
+  .omio-group {
+    position: relative;
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    padding: 10px;
+    border: 2px solid var(--accent);
+    border-radius: 22px;
+  }
+  .omio-group[hidden] { display: none; }
+  .omio-group-label {
+    position: absolute;
+    top: -0.75em;
+    left: 20px;
+    padding: 0 8px;
+    background: var(--bg-alt);
+    color: var(--accent-dim);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+  }
   .portfolio-filter-count { font-size: 0.82rem; color: var(--muted); margin: 0 0 20px; min-height: 1.2em; }
   .portfolio-grid {
     display: grid;
@@ -343,18 +384,6 @@
   }
   .portfolio-brand-badge:hover { transform: scale(1.1); }
   .portfolio-brand-badge img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
-  .portfolio-badge-de {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 4;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    font-size: 0.76rem;
-    font-weight: 600;
-  }
   .portfolio-info { flex: 1; padding: 14px 15px; }
   .portfolio-info .tag {
     font-size: 0.76rem;
@@ -369,6 +398,7 @@
   .portfolio-info p { font-size: 0.78rem; color: var(--muted); }
   @media (max-width: 800px) {
     .portfolio-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .omio-group { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     .portfolio-info { padding: 11px 12px; }
     .portfolio-info h4 { font-size: 0.86rem; }
     .portfolio-filter-pill { padding: 8px 14px; font-size: 0.82rem; }
@@ -556,9 +586,7 @@
     border: 1px solid var(--border);
     border-radius: 22px;
     padding: 20px 20px 18px;
-    transition: transform 0.3s, box-shadow 0.3s;
   }
-  .m:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -24px rgba(140,60,20,0.35); }
   .m-tag {
     font-size: 0.76rem;
     font-weight: 700;
@@ -584,10 +612,9 @@
     cursor: pointer;
     background: #e8d9cc;
     box-shadow: 0 10px 20px -12px rgba(60,30,10,0.6);
-    transition: transform 0.25s;
   }
-  .m-vid:hover { transform: scale(1.06); }
-  .m-vid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .m-vid img { width: 100%; height: 100%; object-fit: cover; display: block; transition: filter 0.2s ease; }
+  .m-vid:hover img { filter: brightness(1.1); }
   .m-vid span {
     position: absolute;
     left: 50%;
@@ -756,10 +783,10 @@
     .contact-box { padding: 32px 22px; }
   }
 
-  /* BRAND LOGOS: one slow endless marquee, logos only */
+  /* BRAND LOGOS: two slow rows drifting in opposite directions, logos only */
   .marquee-section {
     position: relative;
-    padding: 40px 24px;
+    padding: 40px 24px 28px;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     overflow: hidden;
@@ -771,21 +798,22 @@
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-bottom: 26px;
+    margin-bottom: 22px;
   }
   .logo-marquee {
     overflow: hidden;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
     mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
   }
+  .logo-row { padding: 6px 0 26px; }
   .logo-track {
     display: flex;
     width: max-content;
-    animation: logo-scroll 70s linear infinite;
+    animation: logo-scroll 90s linear infinite;
   }
-  .logo-marquee:hover .logo-track { animation-play-state: paused; }
-  .logo-set { display: flex; align-items: center; gap: 56px; padding-right: 56px; flex-shrink: 0; }
-  .logo-item { display: flex; align-items: center; }
+  .logo-row--rev .logo-track { animation-direction: reverse; }
+  .logo-set { display: flex; align-items: center; gap: 64px; padding-right: 64px; flex-shrink: 0; }
+  .logo-item { position: relative; display: flex; align-items: center; cursor: default; }
   .logo-item img {
     height: 28px;
     width: auto;
@@ -796,6 +824,20 @@
   }
   .logo-item--icon img { height: 36px; width: 36px; border-radius: 9px; object-fit: cover; }
   .logo-item:hover img { filter: none; }
+  .logo-name {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+  .logo-item:hover .logo-name { opacity: 1; }
   @keyframes logo-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (max-width: 700px) {
     .logo-set { gap: 40px; padding-right: 40px; }
@@ -962,72 +1004,6 @@
     pointer-events: none;
   }
   .series-single { display: flex; flex-direction: column; flex: 1; }
-  .series-row { display: none; }
-  .portfolio-grid[data-view="travel"] .portfolio-series {
-    grid-column: 1 / -1;
-    border: 2px solid var(--accent);
-    border-radius: 22px;
-  }
-  .portfolio-grid[data-view="travel"] .series-single { display: none; }
-  .portfolio-grid[data-view="travel"] .series-row { display: block; padding: 18px 20px 22px; }
-  .series-row-label {
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--accent-dim);
-    margin-bottom: 14px;
-  }
-  .series-row-vids { display: flex; justify-content: center; gap: 16px; }
-  .series-vid {
-    position: relative;
-    flex: 0 1 190px;
-    aspect-ratio: 9/16;
-    border-radius: 14px;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 10px 22px -14px rgba(60,30,10,0.6);
-    transition: transform 0.25s;
-  }
-  .series-vid:hover { transform: translateY(-3px); }
-  .series-vid img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .series-vid-num {
-    position: absolute;
-    left: 10px;
-    top: 10px;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: #fff;
-    color: var(--text);
-    font-weight: 800;
-    font-size: 0.85rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  }
-  .series-vid-play {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(0,0,0,0.45);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    pointer-events: none;
-  }
-  @media (max-width: 800px) {
-    .series-row-vids { gap: 10px; }
-    .series-vid { flex: 1 1 0; }
-  }
-
   /* SERIES PLAYER CONTROLS (inside the video pop-up) */
   .series-nav[hidden], .series-arrow[hidden], .series-external[hidden] { display: none; }
   .series-nav {
@@ -1131,42 +1107,48 @@
 <section class="marquee-section">
   <p class="marquee-label">Brands I've created content for</p>
   <div class="logo-marquee">
-    <div class="logo-track">
-      <div class="logo-set">
-        <span class="logo-item" title="Omio"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio"></span>
-        <span class="logo-item logo-item--icon" title="Finanzguru"><img loading="lazy" src="images/marquee-item-finanzguru.svg" alt="Finanzguru"></span>
-        <span class="logo-item logo-item--icon" title="Speechify"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify"></span>
-        <span class="logo-item" title="David Protein"><img loading="lazy" src="images/marquee-item-2.svg" alt="David Protein"></span>
-        <span class="logo-item" title="Carpe"><img loading="lazy" src="images/marquee-item-carpe.webp" alt="Carpe"></span>
-        <span class="logo-item logo-item--icon" title="Slack"><img loading="lazy" src="images/marquee-item-9.webp" alt="Slack"></span>
-        <span class="logo-item logo-item--icon" title="Lumenate"><img loading="lazy" src="images/marquee-item-3.webp" alt="Lumenate"></span>
-        <span class="logo-item" title="Mansome"><img loading="lazy" src="images/marquee-item-8.svg" alt="Mansome"></span>
-        <span class="logo-item logo-item--icon" title="Your Next Store"><img loading="lazy" src="images/marquee-item-10.webp" alt="Your Next Store"></span>
-        <span class="logo-item" title="xteink"><img loading="lazy" src="images/marquee-item-5.webp" alt="xteink"></span>
-        <span class="logo-item logo-item--icon" title="BePresent"><img loading="lazy" src="images/marquee-item-4.webp" alt="BePresent"></span>
-        <span class="logo-item logo-item--icon" title="Oxodin"><img loading="lazy" src="images/marquee-item-13.webp" alt="Oxodin"></span>
-        <span class="logo-item logo-item--icon" title="dot.cards"><img loading="lazy" src="images/marquee-item-6.webp" alt="dot.cards"></span>
-        <span class="logo-item" title="Adspo"><img loading="lazy" src="images/marquee-item-11.svg" alt="Adspo"></span>
-        <span class="logo-item logo-item--icon" title="LockedIn AI"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt="LockedIn AI"></span>
-      </div>
-      <div class="logo-set" aria-hidden="true">
-        <span class="logo-item" title="Omio"><img loading="lazy" src="images/marquee-item-omio.svg" alt=""></span>
-        <span class="logo-item logo-item--icon" title="Finanzguru"><img loading="lazy" src="images/marquee-item-finanzguru.svg" alt=""></span>
-        <span class="logo-item logo-item--icon" title="Speechify"><img loading="lazy" src="images/marquee-item-1.webp" alt=""></span>
-        <span class="logo-item" title="David Protein"><img loading="lazy" src="images/marquee-item-2.svg" alt=""></span>
-        <span class="logo-item" title="Carpe"><img loading="lazy" src="images/marquee-item-carpe.webp" alt=""></span>
-        <span class="logo-item logo-item--icon" title="Slack"><img loading="lazy" src="images/marquee-item-9.webp" alt=""></span>
-        <span class="logo-item logo-item--icon" title="Lumenate"><img loading="lazy" src="images/marquee-item-3.webp" alt=""></span>
-        <span class="logo-item" title="Mansome"><img loading="lazy" src="images/marquee-item-8.svg" alt=""></span>
-        <span class="logo-item logo-item--icon" title="Your Next Store"><img loading="lazy" src="images/marquee-item-10.webp" alt=""></span>
-        <span class="logo-item" title="xteink"><img loading="lazy" src="images/marquee-item-5.webp" alt=""></span>
-        <span class="logo-item logo-item--icon" title="BePresent"><img loading="lazy" src="images/marquee-item-4.webp" alt=""></span>
-        <span class="logo-item logo-item--icon" title="Oxodin"><img loading="lazy" src="images/marquee-item-13.webp" alt=""></span>
-        <span class="logo-item logo-item--icon" title="dot.cards"><img loading="lazy" src="images/marquee-item-6.webp" alt=""></span>
-        <span class="logo-item" title="Adspo"><img loading="lazy" src="images/marquee-item-11.svg" alt=""></span>
-        <span class="logo-item logo-item--icon" title="LockedIn AI"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt=""></span>
-      </div>
-    </div>
+    <div class="logo-row"><div class="logo-track">
+        <div class="logo-set">
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio"><span class="logo-name" aria-hidden="true">Omio</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-finanzguru.svg" alt="Finanzguru"><span class="logo-name" aria-hidden="true">Finanzguru</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify"><span class="logo-name" aria-hidden="true">Speechify</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-2.svg" alt="David Protein"><span class="logo-name" aria-hidden="true">David Protein</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-carpe.webp" alt="Carpe"><span class="logo-name" aria-hidden="true">Carpe</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-9.webp" alt="Slack"><span class="logo-name" aria-hidden="true">Slack</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-3.webp" alt="Lumenate"><span class="logo-name" aria-hidden="true">Lumenate</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-8.svg" alt="Mansome"><span class="logo-name" aria-hidden="true">Mansome</span></span>
+        </div>
+        <div class="logo-set" aria-hidden="true">
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-omio.svg" alt=""><span class="logo-name" aria-hidden="true">Omio</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-finanzguru.svg" alt=""><span class="logo-name" aria-hidden="true">Finanzguru</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-1.webp" alt=""><span class="logo-name" aria-hidden="true">Speechify</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-2.svg" alt=""><span class="logo-name" aria-hidden="true">David Protein</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-carpe.webp" alt=""><span class="logo-name" aria-hidden="true">Carpe</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-9.webp" alt=""><span class="logo-name" aria-hidden="true">Slack</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-3.webp" alt=""><span class="logo-name" aria-hidden="true">Lumenate</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-8.svg" alt=""><span class="logo-name" aria-hidden="true">Mansome</span></span>
+        </div>
+      </div></div>
+    <div class="logo-row logo-row--rev"><div class="logo-track">
+        <div class="logo-set">
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-10.webp" alt="Your Next Store"><span class="logo-name" aria-hidden="true">Your Next Store</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-5.webp" alt="xteink"><span class="logo-name" aria-hidden="true">xteink</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-4.webp" alt="BePresent"><span class="logo-name" aria-hidden="true">BePresent</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-13.webp" alt="Oxodin"><span class="logo-name" aria-hidden="true">Oxodin</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-6.webp" alt="dot.cards"><span class="logo-name" aria-hidden="true">dot.cards</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-11.svg" alt="Adspo"><span class="logo-name" aria-hidden="true">Adspo</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt="LockedIn AI"><span class="logo-name" aria-hidden="true">LockedIn AI</span></span>
+        </div>
+        <div class="logo-set" aria-hidden="true">
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-10.webp" alt=""><span class="logo-name" aria-hidden="true">Your Next Store</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-5.webp" alt=""><span class="logo-name" aria-hidden="true">xteink</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-4.webp" alt=""><span class="logo-name" aria-hidden="true">BePresent</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-13.webp" alt=""><span class="logo-name" aria-hidden="true">Oxodin</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-6.webp" alt=""><span class="logo-name" aria-hidden="true">dot.cards</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-11.svg" alt=""><span class="logo-name" aria-hidden="true">Adspo</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt=""><span class="logo-name" aria-hidden="true">LockedIn AI</span></span>
+        </div>
+      </div></div>
   </div>
 </section>
 
@@ -1183,11 +1165,14 @@
     <button type="button" class="portfolio-filter-pill" data-view="tech">Tech</button>
     <button type="button" class="portfolio-filter-pill" data-view="health">Health &amp; Fitness</button>
     <button type="button" class="portfolio-filter-pill portfolio-filter-pill--special" data-view="german">German</button>
-    <button type="button" class="portfolio-showall" data-view="all">Show all &#8599;</button>
+    <div class="portfolio-toggle">
+      <span class="portfolio-toggle-label" id="showAllLabel">Show all</span>
+      <button type="button" class="toggle-switch" id="showAllToggle" role="switch" aria-checked="false" aria-labelledby="showAllLabel"></button>
+    </div>
   </div>
   <p class="portfolio-filter-count" aria-live="polite"></p>
   <div class="portfolio-grid">
-<a class="portfolio-card portfolio-series" href="#" data-series="omio-japan" data-niches="travel" data-highlight="1" aria-label="Open the Omio series about Japan by rail, 3 parts">
+<a data-id="omio" class="portfolio-card portfolio-series" href="#" data-series="omio-japan" aria-label="Open the Omio series about Japan by rail, 3 parts">
       <div class="series-single">
         <div class="portfolio-thumb series-deck">
           <span class="deck-layer deck-3"><img src="images/omio-part-3.webp" alt="" loading="lazy" decoding="async"></span>
@@ -1203,19 +1188,11 @@
           <p>Omio · travel series: Mt. Fuji, the Hida Limited Express and the Japan Rail Pass</p>
         </div>
       </div>
-      <div class="series-row">
-        <p class="series-row-label">Omio · Japan by rail · 3-part series</p>
-        <div class="series-row-vids">
-          <span class="series-vid" data-part-index="0"><img src="images/portfolio-thumb-19.webp" alt="Omio series part 1" loading="lazy" decoding="async"><span class="series-vid-num">1</span><span class="series-vid-play">&#9654;</span></span>
-          <span class="series-vid" data-part-index="1"><img src="images/omio-part-2.webp" alt="Omio series part 2" loading="lazy" decoding="async"><span class="series-vid-num">2</span><span class="series-vid-play">&#9654;</span></span>
-          <span class="series-vid" data-part-index="2"><img src="images/omio-part-3.webp" alt="Omio series part 3" loading="lazy" decoding="async"><span class="series-vid-num">3</span><span class="series-vid-play">&#9654;</span></span>
-        </div>
-      </div>
       <span class="series-part" hidden data-label="Part 1" data-src="omio-part-1.mp4" data-poster="images/portfolio-thumb-19.webp"></span>
       <span class="series-part" hidden data-label="Part 2" data-src="omio-part-2.mp4" data-poster="images/omio-part-2.webp"></span>
       <span class="series-part" hidden data-label="Part 3" data-src="omio-part-3.mp4" data-poster="images/omio-part-3.webp"></span>
     </a>
-<a class="portfolio-card" data-highlight="1" href="https://davidprotein.com" target="_blank" rel="noopener" data-video="davidprotein-2.mp4" data-niches="health lifestyle">
+<a data-id="david" class="portfolio-card" href="https://davidprotein.com" target="_blank" rel="noopener" data-video="davidprotein-2.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-16.webp" alt="David Protein bar ad, eating one after training" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://davidprotein.com"><img loading="lazy" src="images/marquee-item-2.svg" alt="David Protein"></span>
@@ -1227,7 +1204,7 @@
         <p>David Protein · post-workout ad</p>
       </div>
     </a>
-<a class="portfolio-card" data-highlight="1" href="https://www.lockedinai.com/" target="_blank" rel="noopener" data-video="lockedin-ad.mp4" data-niches="tech">
+<a data-id="lockedin" class="portfolio-card" href="https://www.lockedinai.com/" target="_blank" rel="noopener" data-video="lockedin-ad.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-24.webp" alt="LockedIn AI ad: testing an AI interview assistant live on a video call" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://www.lockedinai.com/"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt="LockedIn AI"></span>
@@ -1239,7 +1216,7 @@
         <p>LockedIn AI · skeptic angle with a live demo</p>
       </div>
     </a>
-<a class="portfolio-card" data-highlight="1" href="https://www.instagram.com/p/Da78PRfI2hJ/" target="_blank" rel="noopener" data-niches="travel lifestyle">
+<a data-id="freedom" class="portfolio-card" href="https://www.instagram.com/p/Da78PRfI2hJ/" target="_blank" rel="noopener">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-1.webp" alt="Storytelling reel: chasing freedom over the traditional path" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async"><span class="portfolio-brand-badge" data-brand-link="https://www.instagram.com/felix.unstuck/"><img loading="lazy" src="images/portfolio-brand-badge-1.webp" alt="Instagram"></span>
         <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
@@ -1250,7 +1227,7 @@
         <p>Personal storytelling reel · 200K+ views on Instagram</p>
       </div>
     </a>
-<a class="portfolio-card" href="#" data-video="creative-ai-app-a.mp4" data-niches="tech" data-highlight="1">
+<a data-id="lazy" class="portfolio-card" href="#" data-video="creative-ai-app-a.mp4">
       <div class="portfolio-thumb">
         <img src="images/creative-ai-app-a.webp" alt="Speechify ad: the lazy way to finish your reading list" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://speechify.com"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify"></span>
@@ -1262,7 +1239,7 @@
         <p>Speechify · 59% hook rate on Meta</p>
       </div>
     </a>
-<a class="portfolio-card" data-highlight="1" href="#" data-video="carpe-ad.mp4" data-niches="lifestyle">
+<a data-id="carpe" class="portfolio-card" href="#" data-video="carpe-ad.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-20.webp" alt="Carpe ad: do not buy this deodorant, reverse-psychology hook" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://mycarpe.com"><img loading="lazy" src="images/marquee-item-carpe.webp" alt="Carpe"></span>
@@ -1274,7 +1251,7 @@
         <p>Carpe · reverse-psychology hook</p>
       </div>
     </a>
-<a class="portfolio-card" data-highlight="1" href="#" data-video="lumenate-ad.mp4" data-niches="tech lifestyle health">
+<a data-id="lumenate" class="portfolio-card" href="#" data-video="lumenate-ad.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-18.webp" alt="Lumenate ad: this is exactly what I see with the Nova light mask" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="#"><img loading="lazy" src="images/marquee-item-3.webp" alt="Lumenate"></span>
@@ -1286,7 +1263,7 @@
         <p>Lumenate · first-person experience ad</p>
       </div>
     </a>
-<a class="portfolio-card" data-highlight="1" href="https://slack.com" target="_blank" rel="noopener" data-video="slack-ad.mp4" data-niches="tech">
+<a data-id="slack" class="portfolio-card" href="https://slack.com" target="_blank" rel="noopener" data-video="slack-ad.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-12.webp" alt="Slack ad: self-employed? you need this" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async"><span class="portfolio-brand-badge" data-brand-link="https://slack.com"><img loading="lazy" src="images/marquee-item-9.webp" alt="Slack"></span>
         <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
@@ -1297,7 +1274,7 @@
         <p>Slack · ad for freelancers</p>
       </div>
     </a>
-<a class="portfolio-card" data-highlight="1" href="https://speechify.com" target="_blank" rel="noopener" data-video="speechify-ad-2.mp4" data-niches="tech">
+<a data-id="books" class="portfolio-card" href="https://speechify.com" target="_blank" rel="noopener" data-video="speechify-ad-2.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-2.webp" alt="Speechify ad: got a ton of books to read before the year is up" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async"><span class="portfolio-brand-badge" data-brand-link="https://speechify.com"><img loading="lazy" src="images/marquee-item-1.webp" alt="Speechify"></span>
         <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
@@ -1308,9 +1285,8 @@
         <p>Speechify · relatable-problem hook</p>
       </div>
     </a>
-<a class="portfolio-card" data-highlight="1" href="#" data-video="bepresent-everest.mp4" data-niches="travel lifestyle german">
+<a data-id="everest" class="portfolio-card" href="#" data-video="bepresent-everest.mp4">
       <div class="portfolio-thumb">
-        <span class="portfolio-badge-de">German</span>
         <img src="images/portfolio-thumb-14.webp" alt="Mount Everest storytelling video for BePresent, in German" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://www.bepresentapp.com"><img loading="lazy" src="images/marquee-item-4.webp" alt="BePresent"></span>
         <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
@@ -1321,7 +1297,7 @@
         <p>BePresent · cinematic storytelling, in German</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://www.mansome.eu/" target="_blank" rel="noopener" data-video="mansome-ad.mp4" data-niches="lifestyle">
+<a data-id="mansome" class="portfolio-card" href="https://www.mansome.eu/" target="_blank" rel="noopener" data-video="mansome-ad.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-8.webp" alt="Mansome Lowrider grooming tool ad" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://www.mansome.eu/"><img loading="lazy" src="images/marquee-item-8.svg" alt="Mansome"></span>
@@ -1333,7 +1309,7 @@
         <p>Mansome · Lowrider, from a full-time traveler</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://www.yournextstore.com" target="_blank" rel="noopener" data-video="yns-reaction.mp4" data-niches="tech">
+<a data-id="yns" class="portfolio-card" href="https://www.yournextstore.com" target="_blank" rel="noopener" data-video="yns-reaction.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-9.webp" alt="Reaction video: what even is 2026, AI and online shopping merged" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://www.yournextstore.com"><img loading="lazy" src="images/portfolio-brand-badge-2.webp" alt="Your Next Store"></span>
@@ -1345,7 +1321,7 @@
         <p>Your Next Store · reaction plus screen walkthrough</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://www.bepresentapp.com" target="_blank" rel="noopener" data-video="bepresent-ad.mp4" data-niches="tech lifestyle health">
+<a data-id="dopamine" class="portfolio-card" href="https://www.bepresentapp.com" target="_blank" rel="noopener" data-video="bepresent-ad.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-3.webp" alt="BePresent ad: your brain can't tell real dopamine from fake" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://www.bepresentapp.com"><img loading="lazy" src="images/marquee-item-4.webp" alt="BePresent"></span>
@@ -1357,7 +1333,7 @@
         <p>BePresent · science hook with voiceover</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://www.xteink.com/" target="_blank" rel="noopener" data-video="xteink-ad.mp4" data-niches="tech lifestyle travel">
+<a data-id="xteink" class="portfolio-card" href="https://www.xteink.com/" target="_blank" rel="noopener" data-video="xteink-ad.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-17.webp" alt="xteink ad: a day with no signal, kayaking and camping" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://www.xteink.com/"><img loading="lazy" src="images/marquee-item-5.webp" alt="xteink"></span>
@@ -1369,7 +1345,7 @@
         <p>xteink · kayaking and camping, on my channel</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://app.adspo.co" target="_blank" rel="noopener" data-video="adspo-ad.mp4" data-niches="tech">
+<a data-id="adspo" class="portfolio-card" href="https://app.adspo.co" target="_blank" rel="noopener" data-video="adspo-ad.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-4.webp" alt="Adspo ad: stop using Meta's ad library" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://app.adspo.co"><img loading="lazy" src="images/marquee-item-11.svg" alt="Adspo"></span>
@@ -1381,7 +1357,7 @@
         <p>Adspo · pattern-interrupt hook for marketers</p>
       </div>
     </a>
-<a class="portfolio-card" href="#" data-video="oxodin-ad.mp4" data-niches="tech german">
+<a data-id="oxodin" class="portfolio-card" href="#" data-video="oxodin-ad.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-15.webp" alt="Oxodin ad, in German" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="#"><img loading="lazy" src="images/marquee-item-13.webp" alt="Oxodin"></span>
@@ -1393,7 +1369,7 @@
         <p>Oxodin · AI voice assistant, ad in German</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://www.ahead-nutrition.com/" target="_blank" rel="noopener" data-video="ahead-ad.mp4" data-niches="health lifestyle german">
+<a data-id="ahead" class="portfolio-card" href="https://www.ahead-nutrition.com/" target="_blank" rel="noopener" data-video="ahead-ad.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-21.webp" alt="ahead ad, in German: three nut-nougat spreads compared" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://www.ahead-nutrition.com/"><img loading="lazy" src="images/brand-ahead.svg" alt="ahead"></span>
@@ -1405,7 +1381,7 @@
         <p>ahead · off-channel UGC, in German</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://pammys.com/" target="_blank" rel="noopener" data-video="pammys-ad.mp4" data-niches="lifestyle german">
+<a data-id="pammys" class="portfolio-card" href="https://pammys.com/" target="_blank" rel="noopener" data-video="pammys-ad.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-22.webp" alt="Pammys ad, in German: what to check before buying your next sneaker" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://pammys.com/"><img loading="lazy" src="images/brand-pammys.webp" alt="Pammys"></span>
@@ -1417,7 +1393,7 @@
         <p>Pammys · off-channel UGC, in German</p>
       </div>
     </a>
-<a class="portfolio-card" href="#" data-video="gardpro-ad.mp4" data-niches="tech lifestyle german">
+<a data-id="gardpro" class="portfolio-card" href="#" data-video="gardpro-ad.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-23.webp" alt="Gard Pro ad, in German: open-ear headphones that let you hear your surroundings" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
@@ -1428,7 +1404,7 @@
         <p>Gard Pro · off-channel UGC, in German</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://dotcards.net" target="_blank" rel="noopener" data-video="dotcards-ad.mp4" data-niches="tech">
+<a data-id="dotcards" class="portfolio-card" href="https://dotcards.net" target="_blank" rel="noopener" data-video="dotcards-ad.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-6.webp" alt="dot.cards ad: back of the NFC business card" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://dotcards.net"><img loading="lazy" src="images/marquee-item-6.webp" alt="dot.cards"></span>
@@ -1440,7 +1416,7 @@
         <p>dot.cards · NFC card demo and reaction</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://www.instagram.com/reel/C6KJc_TNniC/" target="_blank" rel="noopener" data-video="india-train-ad.mp4" data-niches="travel lifestyle">
+<a data-id="rails" class="portfolio-card" href="https://www.instagram.com/reel/C6KJc_TNniC/" target="_blank" rel="noopener" data-video="india-train-ad.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-10.webp" alt="Riding India's rails: train travel through India" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://www.instagram.com/felix.unstuck/"><img loading="lazy" src="images/portfolio-brand-badge-1.webp" alt="Instagram"></span>
@@ -1452,7 +1428,7 @@
         <p>Personal travel reel · India by train</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://www.instagram.com/reel/DJ3OUlTxur1/" target="_blank" rel="noopener" data-video="dotcards-reel-2.mp4" data-niches="travel lifestyle">
+<a data-id="shanghai" class="portfolio-card" href="https://www.instagram.com/reel/DJ3OUlTxur1/" target="_blank" rel="noopener" data-video="dotcards-reel-2.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-5.webp" alt="Dinner with friends on the Bund, Shanghai" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://www.instagram.com/felix.unstuck/"><img loading="lazy" src="images/portfolio-brand-badge-1.webp" alt="Instagram"></span>
@@ -1464,7 +1440,7 @@
         <p>Personal travel reel · Shanghai with friends</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://www.instagram.com/reel/Clh1AvNpiFd/" target="_blank" rel="noopener" data-video="clip-Clh1AvNpiFd.mp4" data-niches="travel lifestyle">
+<a data-id="coast" class="portfolio-card" href="https://www.instagram.com/reel/Clh1AvNpiFd/" target="_blank" rel="noopener" data-video="clip-Clh1AvNpiFd.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-7.webp" alt="Chasing the coast on two wheels" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://www.instagram.com/felix.unstuck/"><img loading="lazy" src="images/portfolio-brand-badge-1.webp" alt="Instagram"></span>
@@ -1476,7 +1452,7 @@
         <p>Personal travel reel · coastal scooter ride</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://www.instagram.com/reel/C6wN1M7taLX/" target="_blank" rel="noopener" data-video="clip-C6wN1M7taLX.mp4" data-niches="travel lifestyle">
+<a data-id="motorbike" class="portfolio-card" href="https://www.instagram.com/reel/C6wN1M7taLX/" target="_blank" rel="noopener" data-video="clip-C6wN1M7taLX.mp4">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-13.webp" alt="Motorcycle trip through India" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
         <span class="portfolio-brand-badge" data-brand-link="https://www.instagram.com/felix.unstuck/"><img loading="lazy" src="images/portfolio-brand-badge-1.webp" alt="Instagram"></span>
@@ -1488,7 +1464,7 @@
         <p>Personal travel reel · India</p>
       </div>
     </a>
-<a class="portfolio-card" href="https://www.tiktok.com/@felix.unstuck/video/7495494866491690262" target="_blank" rel="noopener" data-niches="lifestyle">
+<a data-id="callum" class="portfolio-card" href="https://www.tiktok.com/@felix.unstuck/video/7495494866491690262" target="_blank" rel="noopener">
       <div class="portfolio-thumb">
         <img src="images/portfolio-thumb-11.webp" alt="Reacting to Callum Carver's business guide" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async"><span class="portfolio-brand-badge" data-brand-link="https://www.instagram.com/felix.unstuck/"><img loading="lazy" src="images/portfolio-brand-badge-1.webp" alt="Instagram"></span>
         <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
@@ -1499,6 +1475,48 @@
         <p>Personal reel · 20K+ views on TikTok, 990 saves</p>
       </div>
     </a>
+<div class="omio-group" data-id="omio-group" data-series="omio-japan" hidden>
+    <span class="omio-group-label">Omio · 3-part series</span>
+    <a class="portfolio-card" href="#" data-part-index="0">
+      <div class="portfolio-thumb">
+        <img src="images/portfolio-thumb-19.webp" alt="Omio series part 1" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
+        <span class="portfolio-brand-badge" data-brand-link="https://www.omio.com"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio"></span>
+        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">&#9654;</div>
+      </div>
+      <div class="portfolio-info">
+        <span class="tag">Travel</span>
+        <h4>Part 1: Mt. Fuji from the bullet train.</h4>
+        <p>Omio · Japan by rail</p>
+      </div>
+    </a>
+    <a class="portfolio-card" href="#" data-part-index="1">
+      <div class="portfolio-thumb">
+        <img src="images/omio-part-2.webp" alt="Omio series part 2" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
+        <span class="portfolio-brand-badge" data-brand-link="https://www.omio.com"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio"></span>
+        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">&#9654;</div>
+      </div>
+      <div class="portfolio-info">
+        <span class="tag">Travel</span>
+        <h4>Part 2: the Hida Limited Express.</h4>
+        <p>Omio · Japan by rail</p>
+      </div>
+    </a>
+    <a class="portfolio-card" href="#" data-part-index="2">
+      <div class="portfolio-thumb">
+        <img src="images/omio-part-3.webp" alt="Omio series part 3" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
+        <span class="portfolio-brand-badge" data-brand-link="https://www.omio.com"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio"></span>
+        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">&#9654;</div>
+      </div>
+      <div class="portfolio-info">
+        <span class="tag">Travel</span>
+        <h4>Part 3: the Japan Rail Pass.</h4>
+        <p>Omio · Japan by rail</p>
+      </div>
+    </a>
+      <span class="series-part" hidden data-label="Part 1" data-src="omio-part-1.mp4" data-poster="images/portfolio-thumb-19.webp"></span>
+      <span class="series-part" hidden data-label="Part 2" data-src="omio-part-2.mp4" data-poster="images/omio-part-2.webp"></span>
+      <span class="series-part" hidden data-label="Part 3" data-src="omio-part-3.mp4" data-poster="images/omio-part-3.webp"></span>
+  </div>
     </div>
 </section>
 <section id="performance">
@@ -1680,10 +1698,7 @@
     <div class="about-text">
       <span class="section-tag">About</span>
       <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 16px;">A bit about me</h2>
-      <p>I'm Felix, 25, and I work from wherever I happen to be. I travel about half the year, and when I'm not on the road I'm based in Mannheim, Germany. I speak German and American English fluently, plus conversational Chinese.</p>
-      <p>I started creating UGC in 2026, after two years of hands-on social media work for other brands: building communities, running Meta ads and turning warm leads into paying customers. That work taught me what actually makes people stop scrolling and act, and I bring it into every video I make.</p>
-      <p>I script, shoot and edit everything myself. My focus is ad-ready creative built to perform on your own channels and as paid social. I work with brands on single videos or ongoing monthly content, depending on what you need.</p>
-      <p>Before UGC I ran an AI automation agency. I've also visited 70+ countries, about half of them solo. I'm especially keen on travel collaborations, so if you want someone who can turn a destination into a scroll-stopping story, let's talk.</p>
+      <p>I'm Felix, 25, based in Mannheim and usually somewhere else. Before UGC I spent two years running Meta ads and social media for other brands, so I build every video to make people stop and act. I script, shoot and edit everything myself, in English or German.</p>
       <div class="stats">
         <div class="stat">
           <h3>2+</h3>
@@ -1931,43 +1946,82 @@
   document.addEventListener("DOMContentLoaded", maybeInit);
   window.addEventListener("resize", maybeInit);
 
-  // Work filters. Highlights is the default view. German videos only show
-  // under German, except the highlight card that is flagged as a highlight.
+  // Work filters. Each view lists the cards it shows, best first; German
+  // videos only appear under German. The Show all switch overrides the pill
+  // selection, and switching it off returns to the last selected pill.
+  var VIEW_LISTS = {
+    highlights: ["omio", "lockedin", "lazy", "david", "freedom", "carpe", "slack", "lumenate", "dopamine", "books"],
+    travel: ["omio-group", "freedom", "shanghai", "rails", "motorbike", "coast"],
+    lifestyle: ["freedom", "carpe", "dopamine", "lumenate", "callum", "mansome", "xteink", "shanghai", "rails", "motorbike", "coast"],
+    tech: ["lockedin", "lazy", "slack", "books", "adspo", "dopamine", "lumenate", "yns", "xteink", "dotcards"],
+    health: ["david", "lumenate", "dopamine"],
+    german: ["everest", "oxodin", "ahead", "pammys", "gardpro"]
+  };
   var portfolioGrid = document.querySelector(".portfolio-grid");
-  var viewButtons = Array.prototype.slice.call(document.querySelectorAll("[data-view]"));
-  function applyView(view) {
+  var viewPills = Array.prototype.slice.call(document.querySelectorAll(".portfolio-filter-pill"));
+  var showAllToggle = document.getElementById("showAllToggle");
+  var lastView = "highlights";
+  var showAll = false;
+
+  function allOrder() {
+    var ids = Array.prototype.map.call(portfolioGrid.querySelectorAll(":scope > [data-id]"), function (el) { return el.dataset.id; });
+    var rest = ids.filter(function (id) {
+      return id !== "omio-group" && VIEW_LISTS.german.indexOf(id) === -1 && VIEW_LISTS.highlights.indexOf(id) === -1;
+    });
+    return VIEW_LISTS.highlights.concat(rest);
+  }
+
+  function render() {
     if (!portfolioGrid) return;
-    portfolioGrid.setAttribute("data-view", view);
-    var cards = Array.prototype.slice.call(portfolioGrid.querySelectorAll(".portfolio-card"));
-    cards.forEach(function (card) {
-      var niches = (card.dataset.niches || "").split(" ");
-      var isGerman = niches.indexOf("german") !== -1;
-      var show;
-      if (view === "highlights") show = card.hasAttribute("data-highlight");
-      else if (view === "german") show = isGerman;
-      else if (view === "all") show = !isGerman;
-      else show = !isGerman && niches.indexOf(view) !== -1;
-      card.hidden = !show;
+    var order = showAll ? allOrder() : VIEW_LISTS[lastView];
+    Array.prototype.forEach.call(portfolioGrid.querySelectorAll(":scope > [data-id]"), function (el) {
+      var i = order.indexOf(el.dataset.id);
+      el.hidden = i < 0;
+      el.style.order = i < 0 ? 0 : i;
     });
-    viewButtons.forEach(function (b) {
-      b.classList.toggle("is-active", b.getAttribute("data-view") === view);
+    viewPills.forEach(function (p) {
+      p.classList.toggle("is-active", !showAll && p.getAttribute("data-view") === lastView);
     });
+    if (showAllToggle) showAllToggle.setAttribute("aria-checked", String(showAll));
     var countEl = document.querySelector(".portfolio-filter-count");
     if (countEl) {
-      var visible = cards.filter(function (c) { return !c.hidden; }).length;
-      var pool = cards.filter(function (c) {
-        var g = (c.dataset.niches || "").indexOf("german") !== -1;
-        return view === "german" ? g : !g;
-      }).length;
-      countEl.textContent = view === "highlights"
-        ? "Showing " + visible + " highlights. Tap Show all for the full portfolio."
-        : "Showing " + visible + " of " + pool + " videos";
+      var visible = order.reduce(function (n, id) { return n + (id === "omio-group" ? 3 : 1); }, 0);
+      countEl.textContent = !showAll && lastView === "highlights"
+        ? "Showing " + visible + " highlights. Switch on Show all for the full portfolio."
+        : "Showing " + visible + " of " + allOrder().length + " videos";
     }
   }
-  viewButtons.forEach(function (b) {
-    b.addEventListener("click", function () { applyView(b.getAttribute("data-view")); });
+
+  viewPills.forEach(function (p) {
+    p.addEventListener("click", function () {
+      lastView = p.getAttribute("data-view");
+      showAll = false;
+      render();
+    });
   });
-  applyView("highlights");
+  if (showAllToggle) {
+    showAllToggle.addEventListener("click", function () {
+      showAll = !showAll;
+      render();
+    });
+  }
+  render();
+
+  // Brand logo strip: both rows ease down to a quarter of their speed while
+  // the pointer is over the strip, and back to full speed afterwards.
+  var logoMarquee = document.querySelector(".logo-marquee");
+  if (logoMarquee && logoMarquee.getAnimations && window.matchMedia("(hover: hover)").matches) {
+    var logoRate = 1, logoTarget = 1, logoFrame = null;
+    var logoStep = function () {
+      logoRate += (logoTarget - logoRate) * 0.12;
+      if (Math.abs(logoTarget - logoRate) < 0.01) logoRate = logoTarget;
+      logoMarquee.getAnimations({ subtree: true }).forEach(function (a) { a.playbackRate = logoRate; });
+      logoFrame = logoRate === logoTarget ? null : requestAnimationFrame(logoStep);
+    };
+    var logoGo = function (t) { logoTarget = t; if (!logoFrame) logoFrame = requestAnimationFrame(logoStep); };
+    logoMarquee.addEventListener("mouseenter", function () { logoGo(0.25); });
+    logoMarquee.addEventListener("mouseleave", function () { logoGo(1); });
+  }
 
   // Mobile nav menu: .menu-toggle existed in CSS with no button or JS wired
   // to it, so nav ul's display:none on mobile left Niches/Work/Proof/About/
