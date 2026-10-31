@@ -312,7 +312,8 @@
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
-    padding: 10px;
+    margin: -10px;
+    padding: 8px;
     border: 2px solid var(--accent);
     border-radius: 22px;
   }
@@ -334,7 +335,13 @@
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 16px;
+    align-content: start;
+    padding: 10px;
+    margin: -10px;
+    overflow-anchor: none;
+    transition: opacity 0.15s ease;
   }
+  @media (prefers-reduced-motion: reduce) { .portfolio-grid { transition: none; } }
   .portfolio-card {
     display: flex;
     flex-direction: column;
@@ -393,9 +400,32 @@
     font-weight: 700;
     margin-bottom: 6px;
     display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .portfolio-info h4 { font-size: 0.92rem; margin-bottom: 4px; }
-  .portfolio-info p { font-size: 0.78rem; color: var(--muted); }
+  .portfolio-info h4 {
+    font-size: 0.92rem;
+    line-height: 1.3;
+    margin-bottom: 4px;
+    min-height: 2.6em;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+  }
+  .portfolio-info p {
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: var(--muted);
+    min-height: 2.8em;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+  }
   @media (max-width: 800px) {
     .portfolio-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     .omio-group { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
@@ -599,6 +629,7 @@
   .m-num { font-size: 42px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; color: var(--text); }
   .m-num em { font-style: normal; color: var(--accent); }
   .m-lbl { font-size: 0.875rem; font-weight: 600; margin-top: 6px; }
+  .m-lbl-sub { font-size: 0.76rem; color: var(--muted); margin-top: 3px; }
   .m-vid {
     flex: 0 0 64px;
     width: 64px;
@@ -654,6 +685,8 @@
     gap: 4px 8px;
   }
   .m-bar + .m-bench + .m-sub { margin-top: auto; }
+  .m-brand { display: inline-flex; align-items: center; gap: 7px; color: var(--text); font-weight: 600; }
+  .m-brand img { height: 16px; width: auto; max-width: 56px; object-fit: contain; border-radius: 4px; }
   .m-sub a { color: var(--accent-dim); font-weight: 600; text-decoration: none; }
   .m-sub a:hover { text-decoration: underline; }
   .m-mid + .m-sub { margin-top: auto; }
@@ -783,15 +816,30 @@
     .contact-box { padding: 32px 22px; }
   }
 
-  /* BRAND LOGOS: two slow rows drifting in opposite directions, logos only */
+  /* HERO PROOF BAND: one logo marquee plus the best numbers */
   .marquee-section {
     position: relative;
-    padding: 40px 24px 28px;
+    padding: 40px 24px 32px;
+    background: var(--bg-alt);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     overflow: hidden;
   }
+  .marquee-section::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 620px;
+    height: 320px;
+    background: var(--sunset);
+    filter: blur(100px);
+    opacity: 0.22;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
   .marquee-label {
+    position: relative;
     text-align: center;
     color: var(--muted);
     font-size: 0.78rem;
@@ -801,6 +849,7 @@
     margin-bottom: 22px;
   }
   .logo-marquee {
+    position: relative;
     overflow: hidden;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
     mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
@@ -811,7 +860,6 @@
     width: max-content;
     animation: logo-scroll 90s linear infinite;
   }
-  .logo-row--rev .logo-track { animation-direction: reverse; }
   .logo-set { display: flex; align-items: center; gap: 64px; padding-right: 64px; flex-shrink: 0; }
   .logo-item { position: relative; display: flex; align-items: center; cursor: default; }
   .logo-item img {
@@ -839,10 +887,47 @@
   }
   .logo-item:hover .logo-name { opacity: 1; }
   @keyframes logo-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .band-stats {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    max-width: 880px;
+    margin: 4px auto 0;
+  }
+  .band-stat {
+    background: rgba(255,255,255,0.72);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.9);
+    border-radius: 22px;
+    box-shadow: 0 20px 44px -26px rgba(140,60,20,0.35), 0 2px 6px rgba(140,60,20,0.04);
+    padding: 20px 22px;
+    text-align: center;
+  }
+  .band-stat-num { display: block; font-size: 2.3rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--accent); }
+  .band-stat-label { display: block; margin-top: 6px; font-size: 0.92rem; font-weight: 600; color: var(--text); }
+  .band-stat-sub { display: block; margin-top: 4px; font-size: 0.8rem; color: var(--muted); }
+  .band-link {
+    position: relative;
+    display: block;
+    width: max-content;
+    margin: 20px auto 0;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--accent-dim);
+  }
+  .band-link:hover { text-decoration: underline; }
   @media (max-width: 700px) {
     .logo-set { gap: 40px; padding-right: 40px; }
     .logo-item img { height: 24px; }
     .logo-item--icon img { height: 32px; width: 32px; }
+  }
+  @media (max-width: 600px) {
+    .band-stats { grid-template-columns: 1fr; gap: 10px; }
+    .band-stat { display: flex; align-items: center; gap: 16px; padding: 14px 18px; text-align: left; }
+    .band-stat-num { flex: 0 0 88px; font-size: 1.8rem; }
+    .band-stat-label { margin-top: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
     .logo-marquee { -webkit-mask-image: none; mask-image: none; }
@@ -960,78 +1045,56 @@
   .video-modal-close:hover { background: rgba(0,0,0,0.7); }
   body.video-modal-open { overflow: hidden; }
 
-  /* SERIES TILE: a subtle deck of cards; a full row of three videos under Travel */
-  .series-deck { overflow: hidden; background: linear-gradient(160deg, var(--bg-alt), #FFDDC4); }
-  .deck-layer {
-    position: absolute;
-    overflow: hidden;
-    border-radius: 10px;
-    border: 2px solid #fff;
-    box-shadow: 0 2px 8px rgba(43,35,32,0.25);
-  }
-  .deck-layer img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .deck-3 { z-index: 1; top: 4px; left: 14%; right: 14%; bottom: 50%; }
-  .deck-2 { z-index: 2; top: 10px; left: 7%; right: 7%; bottom: 40%; }
-  .deck-1 { z-index: 3; top: 16px; left: 0; right: 0; bottom: 0; border-radius: 12px 12px 0 0; border-width: 2px 0 0 0; box-shadow: 0 -2px 10px rgba(43,35,32,0.3); }
-  .series-play {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background: rgba(0,0,0,0.45);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    pointer-events: none;
-  }
+  /* SERIES CARD: story bars across the cover, like Instagram stories */
+  .story-bars { position: absolute; top: 8px; left: 8px; right: 8px; z-index: 4; display: flex; gap: 4px; pointer-events: none; }
+  .story-bars i { flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.45); }
+  .story-bars i:first-child { background: #fff; }
   .series-chip {
     position: absolute;
     left: 10px;
     bottom: 10px;
     z-index: 3;
-    background: rgba(0,0,0,0.65);
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: rgba(24,16,12,0.4);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.35);
     color: #fff;
     font-size: 0.76rem;
     font-weight: 600;
-    padding: 5px 11px;
-    border-radius: 999px;
     pointer-events: none;
   }
-  .series-single { display: flex; flex-direction: column; flex: 1; }
-  /* SERIES PLAYER CONTROLS (inside the video pop-up) */
-  .series-nav[hidden], .series-arrow[hidden], .series-external[hidden] { display: none; }
-  .series-nav {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(0,0,0,0.55);
-    color: #fff;
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 7px 12px;
+  .portfolio-series .portfolio-brand-badge { top: 18px; }
+  /* SERIES PLAYER: story bars across the top, tap left or right to skip */
+  .story-nav[hidden], .series-arrow[hidden], .series-tap[hidden] { display: none; }
+  .story-nav { position: absolute; top: 12px; left: 12px; right: 56px; z-index: 3; pointer-events: none; }
+  .story-nav-bars { display: flex; gap: 4px; }
+  .story-nav-bars i { position: relative; flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.45); overflow: hidden; }
+  .story-nav-bars b { position: absolute; top: 0; left: 0; bottom: 0; width: 0; background: #fff; }
+  .story-nav-label {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 4px 10px;
     border-radius: 999px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    font-size: 0.76rem;
+    font-weight: 600;
   }
-  .series-dots { display: flex; gap: 5px; }
-  .series-dot {
-    width: 8px;
-    height: 8px;
+  .series-tap {
+    position: absolute;
+    top: 72px;
+    bottom: 72px;
+    width: 30%;
+    z-index: 2;
     padding: 0;
-    border: none;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.4);
+    border: 0;
+    background: transparent;
     cursor: pointer;
   }
-  .series-dot.is-active { background: #fff; }
+  .series-tap--prev { left: 0; }
+  .series-tap--next { right: 0; }
   .series-arrow {
     position: absolute;
     top: 50%;
@@ -1053,23 +1116,6 @@
   .series-arrow:hover { background: rgba(0,0,0,0.75); }
   .series-arrow--prev { left: 8px; }
   .series-arrow--next { right: 8px; }
-  .series-external {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: 2;
-    transform: translate(-50%, -50%);
-    width: max-content;
-    max-width: 85%;
-    text-align: center;
-    background: var(--accent);
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.95rem;
-    padding: 13px 22px;
-    border-radius: 999px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
-  }
 </style>
 </head>
 <body>
@@ -1105,7 +1151,7 @@
 </section>
 
 <section class="marquee-section">
-  <p class="marquee-label">Brands I've created content for</p>
+  <p class="marquee-label">Brands I've created for, and how the ads performed</p>
   <div class="logo-marquee">
     <div class="logo-row"><div class="logo-track">
         <div class="logo-set">
@@ -1117,6 +1163,13 @@
           <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-9.webp" alt="Slack"><span class="logo-name" aria-hidden="true">Slack</span></span>
           <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-3.webp" alt="Lumenate"><span class="logo-name" aria-hidden="true">Lumenate</span></span>
           <span class="logo-item"><img loading="lazy" src="images/marquee-item-8.svg" alt="Mansome"><span class="logo-name" aria-hidden="true">Mansome</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-10.webp" alt="Your Next Store"><span class="logo-name" aria-hidden="true">Your Next Store</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-5.webp" alt="xteink"><span class="logo-name" aria-hidden="true">xteink</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-4.webp" alt="BePresent"><span class="logo-name" aria-hidden="true">BePresent</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-13.webp" alt="Oxodin"><span class="logo-name" aria-hidden="true">Oxodin</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-6.webp" alt="dot.cards"><span class="logo-name" aria-hidden="true">dot.cards</span></span>
+          <span class="logo-item"><img loading="lazy" src="images/marquee-item-11.svg" alt="Adspo"><span class="logo-name" aria-hidden="true">Adspo</span></span>
+          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt="LockedIn AI"><span class="logo-name" aria-hidden="true">LockedIn AI</span></span>
         </div>
         <div class="logo-set" aria-hidden="true">
           <span class="logo-item"><img loading="lazy" src="images/marquee-item-omio.svg" alt=""><span class="logo-name" aria-hidden="true">Omio</span></span>
@@ -1127,19 +1180,6 @@
           <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-9.webp" alt=""><span class="logo-name" aria-hidden="true">Slack</span></span>
           <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-3.webp" alt=""><span class="logo-name" aria-hidden="true">Lumenate</span></span>
           <span class="logo-item"><img loading="lazy" src="images/marquee-item-8.svg" alt=""><span class="logo-name" aria-hidden="true">Mansome</span></span>
-        </div>
-      </div></div>
-    <div class="logo-row logo-row--rev"><div class="logo-track">
-        <div class="logo-set">
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-10.webp" alt="Your Next Store"><span class="logo-name" aria-hidden="true">Your Next Store</span></span>
-          <span class="logo-item"><img loading="lazy" src="images/marquee-item-5.webp" alt="xteink"><span class="logo-name" aria-hidden="true">xteink</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-4.webp" alt="BePresent"><span class="logo-name" aria-hidden="true">BePresent</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-13.webp" alt="Oxodin"><span class="logo-name" aria-hidden="true">Oxodin</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-6.webp" alt="dot.cards"><span class="logo-name" aria-hidden="true">dot.cards</span></span>
-          <span class="logo-item"><img loading="lazy" src="images/marquee-item-11.svg" alt="Adspo"><span class="logo-name" aria-hidden="true">Adspo</span></span>
-          <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt="LockedIn AI"><span class="logo-name" aria-hidden="true">LockedIn AI</span></span>
-        </div>
-        <div class="logo-set" aria-hidden="true">
           <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-10.webp" alt=""><span class="logo-name" aria-hidden="true">Your Next Store</span></span>
           <span class="logo-item"><img loading="lazy" src="images/marquee-item-5.webp" alt=""><span class="logo-name" aria-hidden="true">xteink</span></span>
           <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-4.webp" alt=""><span class="logo-name" aria-hidden="true">BePresent</span></span>
@@ -1148,8 +1188,14 @@
           <span class="logo-item"><img loading="lazy" src="images/marquee-item-11.svg" alt=""><span class="logo-name" aria-hidden="true">Adspo</span></span>
           <span class="logo-item logo-item--icon"><img loading="lazy" src="images/marquee-item-lockedin.svg" alt=""><span class="logo-name" aria-hidden="true">LockedIn AI</span></span>
         </div>
-      </div></div>
+    </div></div>
   </div>
+  <div class="band-stats">
+    <div class="band-stat"><span class="band-stat-num">59%</span><div class="band-stat-body"><span class="band-stat-label">hook rate on my best paid ad</span><span class="band-stat-sub">strong is 30%+</span></div></div>
+    <div class="band-stat"><span class="band-stat-num">1.96%</span><div class="band-stat-body"><span class="band-stat-label">link CTR across 143K Meta impressions</span><span class="band-stat-sub">strong is 1.5%+</span></div></div>
+    <div class="band-stat"><span class="band-stat-num">128</span><div class="band-stat-body"><span class="band-stat-label">ads approved by brands</span><span class="band-stat-sub">76% of everything I submitted</span></div></div>
+  </div>
+  <a class="band-link" href="#performance">See all results &#8595;</a>
 </section>
 
 <section id="work" style="background: var(--bg-alt);">
@@ -1173,20 +1219,17 @@
   <p class="portfolio-filter-count" aria-live="polite"></p>
   <div class="portfolio-grid">
 <a data-id="omio" class="portfolio-card portfolio-series" href="#" data-series="omio-japan" aria-label="Open the Omio series about Japan by rail, 3 parts">
-      <div class="series-single">
-        <div class="portfolio-thumb series-deck">
-          <span class="deck-layer deck-3"><img src="images/omio-part-3.webp" alt="" loading="lazy" decoding="async"></span>
-          <span class="deck-layer deck-2"><img src="images/omio-part-2.webp" alt="" loading="lazy" decoding="async"></span>
-          <span class="deck-layer deck-1"><img src="images/portfolio-thumb-19.webp" alt="Omio series: Felix on Japan's rail network" loading="lazy" decoding="async"></span>
-          <span class="series-play">&#9654;</span>
-          <span class="series-chip">3-part series</span>
-          <span class="portfolio-brand-badge" data-brand-link="https://www.omio.com"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio"></span>
-        </div>
-        <div class="portfolio-info">
-          <span class="tag">Travel</span>
-          <h4>Japan by rail, in three parts.</h4>
-          <p>Omio · travel series: Mt. Fuji, the Hida Limited Express and the Japan Rail Pass</p>
-        </div>
+      <div class="portfolio-thumb">
+        <img src="images/portfolio-thumb-19.webp" alt="Omio series: Felix on Japan's rail network" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
+        <div class="story-bars" aria-hidden="true"><i></i><i></i><i></i></div>
+        <span class="portfolio-brand-badge" data-brand-link="https://www.omio.com"><img loading="lazy" src="images/marquee-item-omio.svg" alt="Omio"></span>
+        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">&#9654;</div>
+        <span class="series-chip">3-part series</span>
+      </div>
+      <div class="portfolio-info">
+        <span class="tag">Travel</span>
+        <h4>Japan by rail, in three parts.</h4>
+        <p>Omio · travel series: Mt. Fuji, the Hida Limited Express and the Japan Rail Pass</p>
       </div>
       <span class="series-part" hidden data-label="Part 1" data-src="omio-part-1.mp4" data-poster="images/portfolio-thumb-19.webp"></span>
       <span class="series-part" hidden data-label="Part 2" data-src="omio-part-2.mp4" data-poster="images/omio-part-2.webp"></span>
@@ -1258,7 +1301,7 @@
         <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
       </div>
       <div class="portfolio-info">
-        <span class="tag">Tech, Lifestyle, Health &amp; Fitness</span>
+        <span class="tag">Tech, Lifestyle</span>
         <h4>What I actually see with the Nova mask.</h4>
         <p>Lumenate · first-person experience ad</p>
       </div>
@@ -1328,7 +1371,7 @@
         <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">▶</div>
       </div>
       <div class="portfolio-info">
-        <span class="tag">Tech, Lifestyle, Health &amp; Fitness</span>
+        <span class="tag">Tech, Lifestyle</span>
         <h4>Your brain can't tell real dopamine from fake.</h4>
         <p>BePresent · science hook with voiceover</p>
       </div>
@@ -1580,12 +1623,12 @@
     <article class="m">
       <div class="m-tag">Paid Meta ad</div>
       <div class="m-mid">
-        <div><div class="m-num">59<em>%</em></div><div class="m-lbl">hook rate</div></div>
+        <div><div class="m-num">59<em>%</em></div><div class="m-lbl">hook rate</div><div class="m-lbl-sub">also 1.22% link CTR</div></div>
         <button class="m-vid" type="button" data-video="creative-ai-app-a.mp4" data-poster="images/creative-ai-app-a.webp" aria-label="Play this paid ad"><img src="images/creative-ai-app-a.webp" alt="" loading="lazy"><span></span></button>
       </div>
       <div class="m-bar"><i style="width:98%"></i><b style="left:50%"></b></div>
       <div class="m-bench"><span>0%</span><span>Strong <strong>30%</strong></span><span>60%</span></div>
-      <div class="m-sub"><span>also 1.22% link CTR</span><a href="https://jointrybe.com/s/cmtfr9vpv003tno0wxf9ihi6e" target="_blank" rel="noopener">Verify &#8599;</a></div>
+      <div class="m-sub"><span class="m-brand"><img src="images/marquee-item-1.webp" alt="" loading="lazy">Speechify</span><a href="https://jointrybe.com/s/cmtfr9vpv003tno0wxf9ihi6e" target="_blank" rel="noopener">Verify &#8599;</a></div>
     </article>
     <article class="m">
       <div class="m-tag">Paid Meta ad</div>
@@ -1595,7 +1638,7 @@
       </div>
       <div class="m-bar"><i style="width:62%"></i><b style="left:50%"></b></div>
       <div class="m-bench"><span>0%</span><span>Strong <strong>1.5%</strong></span><span>3%</span></div>
-      <div class="m-sub"><span>Ad strategy tool</span><a href="https://jointrybe.com/s/cmtfrajz4004hjq0wm7xj92ht" target="_blank" rel="noopener">Verify &#8599;</a></div>
+      <div class="m-sub"><span class="m-brand"><img src="images/marquee-item-11.svg" alt="" loading="lazy">Adspo</span><a href="https://jointrybe.com/s/cmtfrajz4004hjq0wm7xj92ht" target="_blank" rel="noopener">Verify &#8599;</a></div>
     </article>
     <article class="m">
       <div class="m-tag">Paid Meta ad</div>
@@ -1605,7 +1648,7 @@
       </div>
       <div class="m-bar"><i style="width:68%"></i><b style="left:50%"></b></div>
       <div class="m-bench"><span>0%</span><span>Strong <strong>30%</strong></span><span>60%</span></div>
-      <div class="m-sub"><span>AI reading app</span></div>
+      <div class="m-sub"><span class="m-brand"><img src="images/marquee-item-1.webp" alt="" loading="lazy">Speechify</span></div>
     </article>
     <article class="m">
       <div class="m-tag">Paid Meta ad</div>
@@ -1615,7 +1658,7 @@
       </div>
       <div class="m-bar"><i style="width:62%"></i><b style="left:50%"></b></div>
       <div class="m-bench"><span>0%</span><span>Strong <strong>30%</strong></span><span>60%</span></div>
-      <div class="m-sub"><span>Protein snack brand</span></div>
+      <div class="m-sub"><span class="m-brand"><img src="images/marquee-item-2.svg" alt="" loading="lazy">David Protein</span></div>
     </article>
   </div>
 
@@ -1790,13 +1833,14 @@
   <div class="video-modal-content">
     <button class="video-modal-close" type="button" aria-label="Close video" data-close-video>&times;</button>
     <video id="videoModalPlayer" controls playsinline></video>
-    <div class="series-nav" id="seriesNav" hidden>
-      <span id="seriesLabel">Part 1 of 3</span>
-      <span class="series-dots" id="seriesDots"></span>
+    <div class="story-nav" id="seriesNav" hidden>
+      <div class="story-nav-bars" id="seriesBars"></div>
+      <span class="story-nav-label" id="seriesLabel">Part 1 of 3</span>
     </div>
+    <button class="series-tap series-tap--prev" id="seriesTapPrev" type="button" aria-label="Previous part" hidden></button>
+    <button class="series-tap series-tap--next" id="seriesTapNext" type="button" aria-label="Next part" hidden></button>
     <button class="series-arrow series-arrow--prev" id="seriesPrev" type="button" aria-label="Previous part" hidden>&lsaquo;</button>
     <button class="series-arrow series-arrow--next" id="seriesNext" type="button" aria-label="Next part" hidden>&rsaquo;</button>
-    <a class="series-external" id="seriesExternal" href="#" target="_blank" rel="noopener" hidden>Watch part 1 on Instagram &#8599;</a>
   </div>
 </div>
 
@@ -1960,8 +2004,10 @@
   var portfolioGrid = document.querySelector(".portfolio-grid");
   var viewPills = Array.prototype.slice.call(document.querySelectorAll(".portfolio-filter-pill"));
   var showAllToggle = document.getElementById("showAllToggle");
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var lastView = "highlights";
   var showAll = false;
+  var swapTimer = null;
 
   function allOrder() {
     var ids = Array.prototype.map.call(portfolioGrid.querySelectorAll(":scope > [data-id]"), function (el) { return el.dataset.id; });
@@ -1971,18 +2017,34 @@
     return VIEW_LISTS.highlights.concat(rest);
   }
 
-  function render() {
-    if (!portfolioGrid) return;
+  // The grid never gets shorter than the Highlights grid (all cards share one
+  // height), so switching to a smaller filter does not pull the page up.
+  function updateMinHeight() {
+    portfolioGrid.style.minHeight = "";
+    var cards = Array.prototype.slice.call(portfolioGrid.querySelectorAll(".portfolio-card"));
+    var card = cards.filter(function (c) { return c.offsetHeight > 0; })[0];
+    if (!card) return;
+    var cs = getComputedStyle(portfolioGrid);
+    var cols = cs.gridTemplateColumns.split(" ").length;
+    var rows = Math.ceil(VIEW_LISTS.highlights.length / cols);
+    var pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+    portfolioGrid.style.minHeight = Math.ceil(rows * card.offsetHeight + (rows - 1) * parseFloat(cs.rowGap) + pad) + "px";
+  }
+
+  function paintControls() {
+    viewPills.forEach(function (p) {
+      p.classList.toggle("is-active", !showAll && p.getAttribute("data-view") === lastView);
+    });
+    if (showAllToggle) showAllToggle.setAttribute("aria-checked", String(showAll));
+  }
+
+  function paintCards() {
     var order = showAll ? allOrder() : VIEW_LISTS[lastView];
     Array.prototype.forEach.call(portfolioGrid.querySelectorAll(":scope > [data-id]"), function (el) {
       var i = order.indexOf(el.dataset.id);
       el.hidden = i < 0;
       el.style.order = i < 0 ? 0 : i;
     });
-    viewPills.forEach(function (p) {
-      p.classList.toggle("is-active", !showAll && p.getAttribute("data-view") === lastView);
-    });
-    if (showAllToggle) showAllToggle.setAttribute("aria-checked", String(showAll));
     var countEl = document.querySelector(".portfolio-filter-count");
     if (countEl) {
       var visible = order.reduce(function (n, id) { return n + (id === "omio-group" ? 3 : 1); }, 0);
@@ -1990,24 +2052,41 @@
         ? "Showing " + visible + " highlights. Switch on Show all for the full portfolio."
         : "Showing " + visible + " of " + allOrder().length + " videos";
     }
+    updateMinHeight();
+  }
+
+  // Short crossfade: fade out, swap the cards, fade back in. No slide and no
+  // height animation, and nothing here scrolls the page.
+  function render(animate) {
+    if (!portfolioGrid) return;
+    paintControls();
+    clearTimeout(swapTimer);
+    if (!animate || reduceMotion) { paintCards(); return; }
+    portfolioGrid.style.opacity = "0";
+    swapTimer = setTimeout(function () {
+      paintCards();
+      portfolioGrid.style.opacity = "1";
+    }, 150);
   }
 
   viewPills.forEach(function (p) {
     p.addEventListener("click", function () {
       lastView = p.getAttribute("data-view");
       showAll = false;
-      render();
+      render(true);
     });
   });
   if (showAllToggle) {
     showAllToggle.addEventListener("click", function () {
       showAll = !showAll;
-      render();
+      render(true);
     });
   }
-  render();
+  render(false);
+  window.addEventListener("load", updateMinHeight);
+  window.addEventListener("resize", updateMinHeight);
 
-  // Brand logo strip: both rows ease down to a quarter of their speed while
+  // Brand logo strip: the row eases down to a quarter of its speed while
   // the pointer is over the strip, and back to full speed afterwards.
   var logoMarquee = document.querySelector(".logo-marquee");
   if (logoMarquee && logoMarquee.getAnimations && window.matchMedia("(hover: hover)").matches) {
@@ -2057,37 +2136,34 @@
 
   var seriesNav = document.getElementById("seriesNav");
   var seriesLabel = document.getElementById("seriesLabel");
-  var seriesDots = document.getElementById("seriesDots");
+  var seriesBars = document.getElementById("seriesBars");
   var seriesPrev = document.getElementById("seriesPrev");
   var seriesNext = document.getElementById("seriesNext");
-  var seriesExternal = document.getElementById("seriesExternal");
+  var seriesTapPrev = document.getElementById("seriesTapPrev");
+  var seriesTapNext = document.getElementById("seriesTapNext");
   var seriesParts = null;
   var seriesIndex = 0;
+
+  // Story bars: finished parts are full, the current part fills with playback.
+  function paintBars(progress) {
+    Array.prototype.forEach.call(seriesBars.children, function (bar, n) {
+      var fill = n < seriesIndex ? 100 : (n === seriesIndex ? Math.round(progress * 100) : 0);
+      bar.firstChild.style.width = fill + "%";
+    });
+  }
 
   function showSeriesPart(i) {
     var part = seriesParts[i];
     seriesIndex = i;
     player.pause();
     seriesLabel.textContent = part.label + " of " + seriesParts.length;
-    Array.prototype.forEach.call(seriesDots.children, function (d, n) {
-      d.classList.toggle("is-active", n === i);
-    });
-    seriesPrev.hidden = i === 0;
-    seriesNext.hidden = i === seriesParts.length - 1;
+    seriesPrev.hidden = seriesTapPrev.hidden = i === 0;
+    seriesNext.hidden = seriesTapNext.hidden = i === seriesParts.length - 1;
+    paintBars(0);
     player.poster = part.poster;
-    if (part.src) {
-      seriesExternal.hidden = true;
-      player.controls = true;
-      player.src = part.src;
-      player.play().catch(function () {});
-    } else {
-      player.removeAttribute("src");
-      player.load();
-      player.controls = false;
-      seriesExternal.textContent = "Watch " + part.label.toLowerCase() + " on Instagram \u2197";
-      seriesExternal.href = part.href;
-      seriesExternal.hidden = false;
-    }
+    player.controls = true;
+    player.src = part.src;
+    player.play().catch(function () {});
   }
 
   function openSeries(card, startIndex) {
@@ -2095,18 +2171,14 @@
       return {
         label: el.getAttribute("data-label"),
         src: el.getAttribute("data-src"),
-        href: el.getAttribute("data-href"),
         poster: el.getAttribute("data-poster")
       };
     });
-    seriesDots.innerHTML = "";
-    seriesParts.forEach(function (p, n) {
-      var dot = document.createElement("button");
-      dot.type = "button";
-      dot.className = "series-dot";
-      dot.setAttribute("aria-label", "Go to " + p.label.toLowerCase());
-      dot.setAttribute("data-series-goto", n);
-      seriesDots.appendChild(dot);
+    seriesBars.innerHTML = "";
+    seriesParts.forEach(function () {
+      var bar = document.createElement("i");
+      bar.appendChild(document.createElement("b"));
+      seriesBars.appendChild(bar);
     });
     seriesNav.hidden = false;
     modal.classList.add("open");
@@ -2115,6 +2187,10 @@
     showSeriesPart(startIndex || 0);
   }
 
+  player.addEventListener("timeupdate", function () {
+    if (seriesParts && player.duration) paintBars(player.currentTime / player.duration);
+  });
+
   player.addEventListener("ended", function () {
     if (seriesParts && seriesIndex < seriesParts.length - 1) showSeriesPart(seriesIndex + 1);
   });
@@ -2122,9 +2198,8 @@
   function closeVideo() {
     seriesParts = null;
     seriesNav.hidden = true;
-    seriesPrev.hidden = true;
-    seriesNext.hidden = true;
-    seriesExternal.hidden = true;
+    seriesPrev.hidden = seriesNext.hidden = true;
+    seriesTapPrev.hidden = seriesTapNext.hidden = true;
     player.controls = true;
     modal.classList.remove("open");
     modal.setAttribute("aria-hidden", "true");
@@ -2151,10 +2226,8 @@
       return;
     }
     if (seriesParts) {
-      if (e.target.closest("#seriesPrev") && seriesIndex > 0) { showSeriesPart(seriesIndex - 1); return; }
-      if (e.target.closest("#seriesNext") && seriesIndex < seriesParts.length - 1) { showSeriesPart(seriesIndex + 1); return; }
-      var dotBtn = e.target.closest("[data-series-goto]");
-      if (dotBtn) { showSeriesPart(parseInt(dotBtn.getAttribute("data-series-goto"), 10)); return; }
+      if (e.target.closest("#seriesPrev, #seriesTapPrev") && seriesIndex > 0) { showSeriesPart(seriesIndex - 1); return; }
+      if (e.target.closest("#seriesNext, #seriesTapNext") && seriesIndex < seriesParts.length - 1) { showSeriesPart(seriesIndex + 1); return; }
     }
     var trigger = e.target.closest("[data-video]");
     if (trigger) {
