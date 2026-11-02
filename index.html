@@ -359,6 +359,7 @@
     border-radius: 22px;
   }
   .omio-group[hidden] { display: none; }
+  .omio-group--two { grid-column: span 2; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .omio-group-label {
     position: absolute;
     top: -0.75em;
@@ -1543,6 +1544,35 @@
         <p>Personal reel · 20K+ views on TikTok, 990 saves</p>
       </div>
     </a>
+<div class="omio-group omio-group--two" data-id="finanzguru-group" data-series="finanzguru" hidden>
+    <span class="omio-group-label">Finanzguru · 2-part series</span>
+    <a class="portfolio-card" href="#" data-part-index="0">
+      <div class="portfolio-thumb">
+        <img src="images/finanzguru-part-1.webp" alt="Finanzguru series part 1" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
+        <span class="portfolio-brand-badge" data-brand-link="https://www.finanzguru.de"><img loading="lazy" src="images/marquee-item-finanzguru.svg" alt="Finanzguru"></span>
+        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">&#9654;</div>
+      </div>
+      <div class="portfolio-info">
+        <span class="tag">Tech, Finance</span>
+        <h4>Part 1: Where do my subscriptions go?</h4>
+        <p>Finanzguru · subscriptions and spending</p>
+      </div>
+    </a>
+    <a class="portfolio-card" href="#" data-part-index="1">
+      <div class="portfolio-thumb">
+        <img src="images/finanzguru-part-2.webp" alt="Finanzguru series part 2" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" decoding="async">
+        <span class="portfolio-brand-badge" data-brand-link="https://www.finanzguru.de"><img loading="lazy" src="images/marquee-item-finanzguru.svg" alt="Finanzguru"></span>
+        <div class="play" style="position:relative;z-index:1;background:rgba(0,0,0,0.45);">&#9654;</div>
+      </div>
+      <div class="portfolio-info">
+        <span class="tag">Tech, Finance</span>
+        <h4>Part 2: Where does my monthly money go?</h4>
+        <p>Finanzguru · subscriptions and spending</p>
+      </div>
+    </a>
+      <span class="series-part" hidden data-label="Part 1" data-src="finanzguru-part-1.mp4" data-poster="images/finanzguru-part-1.webp"></span>
+      <span class="series-part" hidden data-label="Part 2" data-src="finanzguru-part-2.mp4" data-poster="images/finanzguru-part-2.webp"></span>
+  </div>
 <div class="omio-group" data-id="omio-group" data-series="omio-japan" hidden>
     <span class="omio-group-label">Omio · 3-part series</span>
     <a class="portfolio-card" href="#" data-part-index="0">
@@ -2021,7 +2051,7 @@
     highlights: ["finanzguru", "omio", "lockedin", "david", "freedom", "carpe", "slack", "lumenate", "dopamine", "books"],
     travel: ["omio-group", "freedom", "shanghai", "rails", "motorbike", "coast"],
     lifestyle: ["freedom", "carpe", "dopamine", "lumenate", "callum", "mansome", "xteink", "shanghai", "rails", "motorbike", "coast"],
-    tech: ["finanzguru", "lockedin", "lazy", "slack", "books", "adspo", "dopamine", "lumenate", "yns", "xteink", "dotcards"],
+    tech: ["finanzguru-group", "lockedin", "lazy", "slack", "books", "adspo", "dopamine", "lumenate", "yns", "xteink", "dotcards"],
     health: ["david", "lumenate", "dopamine"],
     german: ["everest", "oxodin", "ahead", "pammys", "gardpro"]
   };
@@ -2036,7 +2066,7 @@
   function allOrder() {
     var ids = Array.prototype.map.call(portfolioGrid.querySelectorAll(":scope > [data-id]"), function (el) { return el.dataset.id; });
     var rest = ids.filter(function (id) {
-      return id !== "omio-group" && VIEW_LISTS.german.indexOf(id) === -1 && VIEW_LISTS.highlights.indexOf(id) === -1;
+      return id !== "omio-group" && id !== "finanzguru-group" && VIEW_LISTS.german.indexOf(id) === -1 && VIEW_LISTS.highlights.indexOf(id) === -1;
     });
     return VIEW_LISTS.highlights.concat(rest);
   }
@@ -2071,7 +2101,7 @@
     });
     var countEl = document.querySelector(".portfolio-filter-count");
     if (countEl) {
-      var visible = order.reduce(function (n, id) { return n + (id === "omio-group" ? 3 : 1); }, 0);
+      var visible = order.reduce(function (n, id) { return n + (id === "omio-group" ? 3 : id === "finanzguru-group" ? 2 : 1); }, 0);
       countEl.textContent = !showAll && lastView === "highlights"
         ? "Showing " + visible + " highlights. Switch on Show all for the full portfolio."
         : "Showing " + visible + " of " + allOrder().length + " videos";
