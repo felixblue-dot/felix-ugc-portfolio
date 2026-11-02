@@ -477,7 +477,7 @@
 
   /* TESTIMONIALS: floating quote bubbles (compact) */
   #testimonials { overflow: clip; padding-bottom: 58px; }
-  .sky { position: relative; height: 360px; margin-top: 6px; isolation: isolate; }
+  .sky { position: relative; height: 500px; margin-top: 6px; isolation: isolate; }
   .sky-glow { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.55; pointer-events: none; z-index: -1; }
   .sky-glow--a { width: 280px; height: 280px; background: #ffc6ad; left: 6%; top: 4%; }
   .sky-glow--b { width: 240px; height: 240px; background: #ffd9c2; right: 5%; top: 30%; }
@@ -523,9 +523,10 @@
   .q--accent .q-by::before { background: #fff; }
   .q1 { left: 3%; top: 0; animation-delay: 0s; }
   .q2 { right: 4%; top: 4px; animation-delay: -2s; animation-duration: 8s; }
-  .q3 { left: 36%; top: 128px; animation-delay: -4s; animation-duration: 9s; }
-  .q4 { left: 8%; top: 238px; animation-delay: -1s; animation-duration: 7.5s; }
-  .q5 { right: 5%; top: 196px; animation-delay: -3s; animation-duration: 8.5s; }
+  .q3 { left: 3%; top: 200px; animation-delay: -4s; animation-duration: 9s; }
+  .q4 { left: 36%; top: 350px; animation-delay: -1s; animation-duration: 7.5s; }
+  .q6 { left: 36%; top: 100px; max-width: 380px; z-index: 1; animation-delay: -5s; animation-duration: 8s; }
+  .q5 { right: 4%; top: 270px; animation-delay: -3s; animation-duration: 8.5s; }
   @keyframes sky-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
   @media (prefers-reduced-motion: reduce) { .q { animation: none; } }
   @media (max-width: 1150px) {
@@ -533,12 +534,14 @@
     .q { position: relative; left: auto !important; right: auto !important; top: auto !important; max-width: none; }
     .q2, .q4 { margin-top: 30px; }
     .q5 { grid-column: 1 / -1; justify-self: center; max-width: 60%; }
+    .q6 { grid-column: 1 / -1; justify-self: center; max-width: 70%; }
   }
   @media (max-width: 760px) {
     .sky { display: flex; flex-direction: column; gap: 16px; }
     .q { max-width: 88%; }
     .q2, .q4 { align-self: flex-end; margin-top: 0; }
     .q5 { align-self: flex-start; max-width: 88%; }
+    .q6 { align-self: center; max-width: 94%; }
   }
 
   /* PERFORMANCE */
@@ -1722,9 +1725,10 @@
   </div>
 <div class="sky">
     <div class="sky-glow sky-glow--a"></div><div class="sky-glow sky-glow--b"></div><div class="sky-glow sky-glow--c"></div>
+    <div class="q q--accent q--big q6">"Working with Felix was great! He delivered on time, the quality was top notch, and we didn’t need any unnecessary feedback rounds. Fast, reliable and a real pleasure to work with."<span class="q-by">Finanzguru</span></div>
     <div class="q q--big q1">"The video turned out great. We're very happy with the final result and really enjoyed working with Felix."<span class="q-by">Men's grooming brand, EU launch · asked for a second video right after the first</span></div>
     <div class="q q--small q2">"Overall content is amazing!"<span class="q-by">AI shopping platform</span></div>
-    <div class="q q--accent q--big q3">"Felix's skeptic angle with a live demo is the best one we've gotten. I want to work with Felix long term."<span class="q-by">AI interview assistant, COO</span></div>
+    <div class="q q--big q3">"Felix's skeptic angle with a live demo is the best one we've gotten. I want to work with Felix long term."<span class="q-by">AI interview assistant, COO</span></div>
     <div class="q q4">"We really love how it turned out. Felix did a fantastic job showcasing the product in a personal style."<span class="q-by">E-reader brand</span></div>
     <div class="q q--small q5">"Die neue Version ist super, wir bedanken uns recht herzlich."<span class="q-tr">"The new version is great, thank you so much."</span><span class="q-by">AI concierge service, Germany</span></div>
   </div>
