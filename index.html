@@ -476,6 +476,7 @@
   }
 
   /* TESTIMONIALS: floating quote bubbles (compact) */
+  #testimonials[hidden] { display: none; }
   #testimonials { overflow: clip; padding-bottom: 58px; }
   .sky { position: relative; height: 500px; margin-top: 6px; isolation: isolate; }
   .sky-glow { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.55; pointer-events: none; z-index: -1; }
@@ -1717,7 +1718,8 @@
   <p class="perf-footnote">Source: Trybe creator analytics, lifetime totals as of 31 Oct 2026. Hook rate excludes one brand where Meta did not report 3-second views.</p>
 </section>
 
-<section id="testimonials">
+<!-- Testimonials hidden for now: remove the hidden attribute to restore -->
+<section id="testimonials" hidden>
   <div class="section-head">
     <span class="section-tag">Testimonials</span>
     <h2>What brands say</h2>
