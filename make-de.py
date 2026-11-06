@@ -4,7 +4,7 @@ link-preview tags, so WhatsApp / Slack / LinkedIn show German text for unstuck.s
 Run after every change to index.html:  python3 make-de.py"""
 import re
 src = open('index.html', encoding='utf-8').read()
-TITLE = 'Felix | UGC-Ads für Apps, Tech- und Travel-Marken'
+TITLE = 'felix.unstuck | UGC Creator für App-, Tech- &amp; Travel-Ads'
 DESC = 'Short-Form-Ads für Apps, Tech- und Travel-Marken, gebaut auf Hook Rate und Link-CTR. Starte mit einem Testvideo.'
 def sub(pattern, repl):
     global src
