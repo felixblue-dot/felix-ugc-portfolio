@@ -622,6 +622,27 @@ html[lang=de] .hstat span{font-size:12px}
 @media (max-width:620px){.bubbles{align-items:stretch !important}.bubbles>.bq{height:auto}.bq blockquote{flex:1 1 auto}}
 .swipe-hint{display:none;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:10px}
 
+/* line breaks, grid height, swipe rows, German filter order, delivery visual, mobile brand band */
+h1,h2,.lede,.hero h1 em{text-wrap:balance}
+.hero h1 em{display:block}
+.vc h4,.bq blockquote,.stages p,.faq p,.cs dd,.hero .sub,.organic,.fcount,.rc .s{text-wrap:pretty}
+.grid{align-content:start}
+html[lang=de] .filters button.de{order:-1}
+.deliv{flex-wrap:nowrap}
+.deliv>*{flex:none}
+@media (max-width:620px){
+  .rcards,.ads,.bubbles,.cs-grid,.filters{overflow-y:hidden;overscroll-behavior-x:contain}
+  .rcards .reveal,.bubbles .reveal,.cs-grid .reveal{transform:none}
+  .lpill{padding:18px 0 20px !important}
+  .lpill .lab{padding:0 18px;margin-bottom:14px}
+  .lpill .marq{padding:2px 0 2px;margin-bottom:0;mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+  .lpill .marq+.marq{margin-top:10px}
+  .lpill .track{gap:26px;animation-duration:34s}
+  .lpill .track.trev{animation-direction:reverse}
+  .lpill .lgo{font-size:14px;gap:7px}
+  .lpill .lgo img{height:21px}
+  .lpill .lgo.icon img{height:19px}
+}
 /* VIDEO MODAL (real playback; page is locked while open) */
 .vm{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:24px;overscroll-behavior:contain}
 .vm.open{display:flex}
@@ -679,7 +700,7 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
 <div class="lpill-wrap">
   <div class="lpill am">
     <div class="lab">Brands I've created <b>ads for</b></div>
-    <div class="marq"><div class="track" id="track"></div></div>
+    <div id="bandwrap"></div>
   </div>
 </div>
 
@@ -1293,9 +1314,17 @@ const BRANDS=[
  {name:'Pammys',        logo:'brand-pammys.webp',          type:'word', show:0},
  {name:'Gard Pro',      logo:null,                         type:'icon', show:0},
 ];
-const t=document.getElementById('track');
-const bandHTML=BRANDS.filter(b=>b.show&&b.logo).map(b=>`<span class="lgo ${b.type}" data-name="${b.name}"><img src="${IMG(b.logo)}" alt="${b.type==='word'?b.name:''}">${b.type==='icon'?b.name:''}</span>`).join('');
-t.innerHTML=bandHTML+bandHTML;
+const shown=BRANDS.filter(b=>b.show&&b.logo);
+const lgo=b=>`<span class="lgo ${b.type}" data-name="${b.name}"><img src="${IMG(b.logo)}" alt="${b.type==='word'?b.name:''}">${b.type==='icon'?b.name:''}</span>`;
+// desktop: one marquee. phones: three rows moving in alternating directions, so more logos are in view at once.
+function buildBand(){
+  const mob=matchMedia('(max-width:620px)').matches,m=document.getElementById('bandwrap'),mode=mob?'m':'d';
+  if(m.dataset.mode===mode)return;m.dataset.mode=mode;
+  if(!mob){const h=shown.map(lgo).join('');m.innerHTML=`<div class="marq"><div class="track">${h}${h}</div></div>`;return}
+  const n=Math.ceil(shown.length/3),rows=[0,1,2].map(i=>shown.slice(i*n,(i+1)*n).map(lgo).join('')).filter(Boolean);
+  m.innerHTML=rows.map((h,i)=>`<div class="marq"><div class="track${i%2?' trev':''}">${h}${h}${h}${h}</div></div>`).join('');
+}
+buildBand();addEventListener('resize',buildBand);
 const I='images/';
 // single videos: [thumb, category, title, subtitle, tags, highlight, pill, pillClass]
 // series: {s:1, label, cat, title, sub, tags, hl, pill, parts:[[thumb,title,sub],...]}
@@ -1473,6 +1502,16 @@ if(document.readyState==='complete')start();else addEventListener('load',start,{
 const DEK=[{n:'Omio',f:'travel',logo:'marquee-item-omio.svg'},{n:'Finanzguru',f:'tech',logo:'marquee-item-finanzguru.svg'},{n:'Mous',f:null,logo:'marquee-item-mous.png'}];
 document.getElementById('dekr').innerHTML=DEK.map(d=>`<button class="dk" ${d.f?`data-f="${d.f}"`:'disabled'} title="${d.n}"><span class="ci"><img src="${IMG(d.logo)}" alt=""></span><span class="dn">${d.n}</span></button>`).join('');
 document.querySelectorAll('.dk[data-f]').forEach(b=>b.onclick=()=>{document.querySelector(`#filters button[data-f="${b.dataset.f}"]`).click()});
+function fitDeliv(){
+  const st=document.getElementById('stage');if(!st)return;
+  st.querySelectorAll('.deliv').forEach(el=>{
+    const v=el.closest('.viz'),cs=getComputedStyle(v),px=parseFloat(cs.paddingLeft),py=parseFloat(cs.paddingTop);
+    el.style.scale='1';
+    const k=Math.min(1,(st.clientWidth-2*px-44)/el.offsetWidth,(st.clientHeight-2*py-44)/el.offsetHeight);
+    el.style.scale=k.toFixed(3);
+  });
+}
+addEventListener('resize',fitDeliv);addEventListener('load',fitDeliv);
 var setLang=function(l,save){
   LANG=l;document.documentElement.lang=l;tr(document.body);
   document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));
@@ -1486,7 +1525,7 @@ var setLang=function(l,save){
 document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l,true));
 const TITLES={en:'Felix | UGC ads for apps, tech and travel brands',de:'Felix | UGC-Ads für Apps, Tech- und Travel-Marken'};
 const _setLang=setLang;
-setLang=function(l,save){_setLang(l,save);document.title=TITLES[l];holdHeight()};
+setLang=function(l,save){_setLang(l,save);document.title=TITLES[l];holdHeight();fitDeliv()};
 setLang(pickLang(),false);
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
