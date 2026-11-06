@@ -1581,6 +1581,7 @@ const FORM_ENDPOINT='https://formspree.io/f/xqppjvwq';
 const cform=document.getElementById('cform');
 const OKMSG={en:"Thanks, I'll get back to you within one working day.",de:'Danke, ich melde mich innerhalb eines Werktags.'};
 const ERRMSG={en:'Please add your name and a valid work email.',de:'Bitte Name und eine gültige E-Mail angeben.'};
+const SENDMSG={en:'Sending ...',de:'Wird gesendet ...'};
 const FAILMSG={en:'That did not send. Please email hello@unstuck.social.',de:'Das hat nicht geklappt. Bitte schreib an hello@unstuck.social.'};
 cform.addEventListener('submit',async e=>{
   e.preventDefault();
@@ -1594,7 +1595,7 @@ cform.addEventListener('submit',async e=>{
     location.href='mailto:hello@unstuck.social?subject='+encodeURIComponent(data._subject)+'&body='+encodeURIComponent(body);
     note.textContent=OKMSG[LANG];return;
   }
-  btn.disabled=true;
+  btn.disabled=true;note.textContent=SENDMSG[LANG];
   try{
     const r=await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)});
     if(!r.ok)throw 0;
