@@ -1462,10 +1462,13 @@ document.addEventListener('keydown',e=>{
 });
 const pcs=[...document.querySelectorAll('.pc')];
 pcs.forEach(d=>d.querySelector('summary').addEventListener('click',e=>{e.preventDefault();const o=!d.open;pcs.forEach(x=>x.open=o)}));
-// hero count-up: starts at 0 on load, eases up to the real value
-(function(){const els=[...document.querySelectorAll('.cu')];if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-els.forEach(e=>e.textContent=num((0).toFixed(+e.dataset.d)));const t0=performance.now()+250,D=1600;
-function f(t){const k=Math.min(1,Math.max(0,(t-t0)/D)),e=1-Math.pow(1-k,3);els.forEach(el=>el.textContent=num((el.dataset.to*e).toFixed(+el.dataset.d)));if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)})();
+// hero count-up: shows 0 until the page has loaded, then eases up to the real value over about 3.2s
+let cuDone=matchMedia('(prefers-reduced-motion: reduce)').matches;
+(function(){const els=[...document.querySelectorAll('.cu')];if(cuDone)return;
+const zero=()=>els.forEach(e=>e.textContent=num((0).toFixed(+e.dataset.d)));zero();
+function start(){const t0=performance.now()+300,D=3200;
+function f(t){const k=Math.min(1,Math.max(0,(t-t0)/D)),e=1-Math.pow(1-k,3);els.forEach(el=>el.textContent=num((el.dataset.to*e).toFixed(+el.dataset.d)));if(k<1)requestAnimationFrame(f);else cuDone=true}requestAnimationFrame(f)}
+if(document.readyState==='complete')start();else addEventListener('load',start,{once:true})})();
 // German-only row: brands well known in Germany whose ads I made in English. de:1 marks them in BRANDS.
 const DEK=[{n:'Omio',f:'travel',logo:'marquee-item-omio.svg'},{n:'Finanzguru',f:'tech',logo:'marquee-item-finanzguru.svg'},{n:'Mous',f:null,logo:'marquee-item-mous.png'}];
 document.getElementById('dekr').innerHTML=DEK.map(d=>`<button class="dk" ${d.f?`data-f="${d.f}"`:'disabled'} title="${d.n}"><span class="ci"><img src="${IMG(d.logo)}" alt=""></span><span class="dn">${d.n}</span></button>`).join('');
@@ -1477,7 +1480,7 @@ var setLang=function(l,save){
   document.querySelectorAll('#filters button').forEach(x=>x.classList.toggle('on',x.dataset.f===filt));
   document.getElementById('dek').hidden=l!=='de';
   render();
-  document.querySelectorAll('.cu').forEach(e=>e.textContent=num(e.dataset.to));
+  if(cuDone)document.querySelectorAll('.cu').forEach(e=>e.textContent=num(e.dataset.to));
   if(save){try{localStorage.setItem('lang',l)}catch(e){}}
 };
 document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l,true));
