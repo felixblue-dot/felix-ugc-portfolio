@@ -629,6 +629,11 @@ html[lang=de] .hstat span{font-size:12px}
 :root{--grain-l:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .top{position:relative;isolation:isolate}
 .top::after{content:"";position:absolute;inset:0;background-image:var(--grain-l);opacity:.11;pointer-events:none;z-index:60}
+/* grain bands further down: What brands say, and About through the footer */
+.gr{position:relative;isolation:isolate}
+.gr::after{content:"";position:absolute;inset:0;background-image:var(--grain-l);opacity:.11;pointer-events:none;z-index:60}
+.gr-line{border-top:1px solid var(--line)}
+.t-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 /* marker underline under the first word of the hero line, drawn in once on load */
 .mk{position:relative;display:inline-block;white-space:nowrap}
 .mk::after{content:"";position:absolute;left:-3%;bottom:-.16em;width:106%;height:.3em;pointer-events:none;
@@ -769,7 +774,7 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
 </section>
 
 <!-- TESTIMONIALS: speech bubbles -->
-<section class="sec" style="padding-top:20px">
+<section class="sec gr t-band" style="padding:70px 0 80px">
   <div class="wrap">
     <div class="eyebrow">What brands say</div>
     <h2>From the people who signed off on the videos.</h2>
@@ -792,7 +797,7 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
 </section>
 
 <!-- PACKAGES -->
-<section class="sec" id="packages" style="padding-top:20px">
+<section class="sec" id="packages" style="padding-top:70px">
   <div class="wrap">
     <div class="eyebrow">Packages</div>
     <h2>Start with one video. Or test more angles at once.</h2>
@@ -951,6 +956,7 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
   </div>
 </section>
 
+<div class="gr gr-line">
 <!-- ABOUT -->
 <section class="sec" id="about">
   <div class="wrap agrid">
@@ -1015,6 +1021,7 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
     <span class="soc"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a></span></div>
 </footer>
 
+</div>
 </main>
 
 <div class="vm" id="vm" aria-hidden="true">
