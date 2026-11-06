@@ -789,7 +789,7 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
       </figure>
       <figure class="bq reveal">
         <blockquote>The video turned out great. We're very happy with the final result and really enjoyed working with Felix.<span class="trn">✦ Aus dem Englischen übersetzt</span></blockquote>
-        <figcaption><span class="av gen">G</span><span><b>Men's grooming brand</b><small>EU launch, ordered a second video</small></span></figcaption>
+        <figcaption><span class="av gen">G</span><span><b>Men's grooming brand</b><small>EU launch, repeat order</small></span></figcaption>
       </figure>
     </div>
     <p class="swipe-hint">Swipe →</p>
@@ -1099,7 +1099,7 @@ const DE={
 "Finance app": "Finanz-App",
 "AI interview copilot": "KI-Interview-Copilot",
 "Men's grooming brand": "Grooming-Marke für Männer",
-"EU launch, ordered a second video": "EU-Launch, Folgeauftrag",
+"EU launch, repeat order": "EU-Launch, Folgeauftrag",
 "One video": "Ein Video",
 "Two videos": "Zwei Videos",
 "Three videos": "Drei Videos",
@@ -1307,7 +1307,7 @@ function tr(root){
 }
 function pickLang(){
   const q=new URLSearchParams(location.search).get('lang');if(q==='de'||q==='en')return q;
-  if(/^\/de(\/|$)/.test(location.pathname))return 'de';
+  if(/^\/de(\.html|\/|$)/.test(location.pathname))return 'de';
   try{const s=localStorage.getItem('lang');if(s)return s}catch(e){}
   return (navigator.language||'').toLowerCase().startsWith('de')?'de':'en';
 }

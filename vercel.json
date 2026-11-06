@@ -3,6 +3,6 @@
     { "source": "/de/", "destination": "/de", "permanent": false }
   ],
   "rewrites": [
-    { "source": "/de", "destination": "/index.html" }
+    { "source": "/de", "destination": "/de.html" }
   ]
 }
