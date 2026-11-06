@@ -632,11 +632,17 @@ html[lang=de] .hstat span{font-size:12px}
 
 /* light grain over the first screen (nav, hero, brand band); everything below stays flat */
 :root{--grain-l:url("/images/grain-light.png")}
+/* desktop only, photos stay clean (they sit above the grain layer) */
 .top{position:relative;isolation:isolate}
-.top::after{content:"";position:absolute;inset:0;background-image:var(--grain-l);opacity:.11;pointer-events:none;z-index:60}
-/* grain bands further down: What brands say, and About through the footer */
 .gr{position:relative;isolation:isolate}
-.gr::after{content:"";position:absolute;inset:0;background-image:var(--grain-l);opacity:.11;pointer-events:none;z-index:60}
+@media (min-width:861px){
+  .top::after,.gr::after{content:"";position:absolute;inset:0;background-image:var(--grain-l);opacity:.11;pointer-events:none;z-index:60}
+  .photo .img,.aphoto .img{position:relative;z-index:61}
+}
+/* one tile pixel per device pixel on retina screens, so the grain stays as fine as the old SVG noise */
+@media (min-resolution:2dppx){
+  .top::after,.gr::after,.grain::after{background-size:32px 32px}
+}
 .gr-line{border-top:1px solid var(--line)}
 .t-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 /* marker underline under the first word of the hero line, drawn in once on load */
