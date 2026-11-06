@@ -725,7 +725,7 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
       <div class="ad"><div><div class="k">Speechify</div><b>41%</b><span>hook rate</span></div><button class="adv" data-v="creative-ai-app-b.webp" data-t="Speechify · 41% hook rate"><img src="images/creative-ai-app-b.webp" alt=""><span class="mini"></span></button></div>
     </div>
     <p class="swipe-hint">Swipe →</p>
-    <p class="organic">On my own channel: <a href="https://www.instagram.com/reel/Da78PRfI2hJ/">200K+</a> and <a href="https://www.instagram.com/reel/Da79KjboYjK/">61K+</a> views on Instagram, <a href="https://www.tiktok.com/@felix.unstuck/video/7495494866491690262">20K+</a> on TikTok.</p>
+    <p class="organic">On my own channel: <a href="https://www.instagram.com/reel/Da78PRfI2hJ/" target="_blank" rel="noopener">200K+</a> and <a href="https://www.instagram.com/reel/Da79KjboYjK/" target="_blank" rel="noopener">61K+</a> views on Instagram, <a href="https://www.tiktok.com/@felix.unstuck/video/7495494866491690262" target="_blank" rel="noopener">20K+</a> on TikTok.</p>
     <p class="src">Source: Meta ad results via my creator analytics, lifetime as of 31 Oct 2026.</p>
   </div>
 </section>
@@ -973,7 +973,7 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
 
 <footer>
   <div class="wrap"><span>© 2026 Felix Meissgeier · UGC ads</span><a href="mailto:hello@unstuck.social">hello@unstuck.social</a>
-    <span class="soc"><a href="https://www.instagram.com/felix.unstuck/">Instagram</a><a href="https://www.tiktok.com/@felix.unstuck">TikTok</a><a href="https://www.youtube.com/@felix.unstuck">YouTube</a></span>
+    <span class="soc"><a href="https://www.instagram.com/felix.unstuck/" target="_blank" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@felix.unstuck" target="_blank" rel="noopener">TikTok</a><a href="https://www.youtube.com/@felix.unstuck" target="_blank" rel="noopener">YouTube</a></span>
     <span class="soc"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a></span></div>
 </footer>
 
@@ -1408,7 +1408,7 @@ function unlockPage(){
   scrollTo({top:lockedY,left:0,behavior:'instant'});
 }
 function openVideo(src,poster){
-  vmv.poster=poster||'';vmv.src=src;vm.classList.add('open');vm.setAttribute('aria-hidden','false');lockPage();
+  vmv.preload='auto';vmv.poster=poster||'';vmv.src=src;vm.classList.add('open');vm.setAttribute('aria-hidden','false');lockPage();
   vmv.play().catch(()=>{});
 }
 function paintBars(p){[...snb.children].forEach((bar,n)=>{bar.firstChild.style.width=(n<pidx?100:n===pidx?Math.round(p*100):0)+'%'})}
@@ -1416,7 +1416,7 @@ function showPart(i){
   pidx=i;vmv.pause();
   snl.textContent=LANG==='de'?`Teil ${i+1} von ${parts.length}`:`Part ${i+1} of ${parts.length}`;
   sap.hidden=stp.hidden=i===0;san.hidden=stn.hidden=i===parts.length-1;
-  paintBars(0);vmv.poster=I+parts[i][0];vmv.src=parts[i][1];vmv.play().catch(()=>{});
+  paintBars(0);vmv.preload='auto';vmv.poster=I+parts[i][0];vmv.src=parts[i][1];vmv.play().catch(()=>{});
 }
 function openSeries(v,start){
   parts=v.parts.map(p=>[p[0],VIDEO[p[0]]]);
