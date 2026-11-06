@@ -559,8 +559,11 @@ footer .soc{display:flex;gap:18px}
   .pgrid{margin-top:28px;gap:8px}
   .pc summary{min-height:0;padding:16px 18px 14px}
   .pc h3{font-size:22px}
-  .stage{height:300px !important}
-  .stages button{font-size:16px;padding:12px 0}
+  .stage{height:244px !important}
+  .viz{padding:12px !important}
+  .stages button{font-size:16px;padding:9px 0}
+  .stages p{padding-bottom:12px}
+  .viz:nth-child(1)>*,.viz:nth-child(3)>*{scale:.6}
   .hhead{margin-bottom:0}
   .agrid{display:block}
   .aphoto{float:none;width:100%;max-width:none;margin:0 0 18px}
@@ -622,6 +625,10 @@ html[lang=de] .hstat span{font-size:12px}
 @media (max-width:620px){.bubbles{align-items:stretch !important}.bubbles>.bq{height:auto}.bq blockquote{flex:1 1 auto}}
 .swipe-hint{display:none;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:10px}
 
+/* light grain over the first screen (nav, hero, brand band); everything below stays flat */
+:root{--grain-l:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.top{position:relative;isolation:isolate}
+.top::after{content:"";position:absolute;inset:0;background-image:var(--grain-l);opacity:.11;pointer-events:none;z-index:60}
 /* line breaks, grid height, swipe rows, German filter order, delivery visual, mobile brand band */
 h1,h2,.lede,.hero h1 em{text-wrap:balance}
 .hero h1 em{display:block}
@@ -669,6 +676,7 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
 </head>
 <body>
 
+<div class="top">
 <nav>
   <div class="wrap">
     <a class="logo-t" href="#">UGC <span>//</span> felix.unstuck</a>
@@ -702,6 +710,8 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
     <div class="lab">Brands I've created <b>ads for</b></div>
     <div id="bandwrap"></div>
   </div>
+</div>
+
 </div>
 
 </div>
