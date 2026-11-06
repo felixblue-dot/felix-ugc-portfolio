@@ -17,6 +17,7 @@
 <link rel="alternate" hreflang="x-default" href="https://www.unstuck.social/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.unstuck.social/">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="Felix | UGC ads for apps, tech and travel brands">
 <meta property="og:description" content="Short-form video ads built around hook rate and link CTR. Start with one test video.">
 <meta property="og:image" content="https://www.unstuck.social/og-image.jpg">
@@ -1559,17 +1560,22 @@ var setLang=function(l,save){
 };
 document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l,true));
 const TITLES={en:'Felix | UGC ads for apps, tech and travel brands',de:'Felix | UGC-Ads für Apps, Tech- und Travel-Marken'};
+const DESCS={en:'UGC creator making short-form video ads for apps, tech and travel brands, built around hook rate and link CTR. Start with one test video.',de:'Short-Form-Ads für Apps, Tech- und Travel-Marken, gebaut auf Hook Rate und Link-CTR. Starte mit einem Testvideo.'};
+function setMeta(l){const m=(q,v)=>{const e=document.querySelector(q);if(e)e.setAttribute('content',v)};
+  m('meta[name=description]',DESCS[l]);m('meta[property="og:description"]',DESCS[l]);m('meta[name="twitter:description"]',DESCS[l]);
+  m('meta[property="og:title"]',TITLES[l]);m('meta[name="twitter:title"]',TITLES[l]);m('meta[property="og:locale"]',l==='de'?'de_DE':'en_US');
+  m('meta[property="og:url"]',l==='de'?'https://www.unstuck.social/de':'https://www.unstuck.social/')}
 const _setLang=setLang;
-setLang=function(l,save){_setLang(l,save);document.title=TITLES[l];holdHeight();fitDeliv();fitHero()};
+setLang=function(l,save){_setLang(l,save);document.title=TITLES[l];setMeta(l);holdHeight();fitDeliv();fitHero()};
 setLang(pickLang(),false);
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
 // package buttons preselect the package in the form
 document.querySelectorAll('[data-pkg]').forEach(a=>a.addEventListener('click',()=>{const sel=document.getElementById('f-pkg');if(sel)sel.value=a.dataset.pkg}));
-// CONTACT FORM. Set FORM_ENDPOINT to a Formspree / Netlify / own endpoint that delivers to hello@unstuck.social.
-// While it is empty, the form falls back to opening a pre-filled email to hello@unstuck.social.
-const FORM_ENDPOINT='';
+// CONTACT FORM. Posts to Formspree, which emails the enquiry to hello@unstuck.social (the visitor's email is the reply-to).
+// If FORM_ENDPOINT is ever emptied, the form falls back to opening a pre-filled email.
+const FORM_ENDPOINT='https://formspree.io/f/xqppjvwq';
 const cform=document.getElementById('cform');
 const OKMSG={en:"Thanks, I'll get back to you within one working day.",de:'Danke, ich melde mich innerhalb eines Werktags.'};
 const ERRMSG={en:'Please add your name and a valid work email.',de:'Bitte Name und eine gültige E-Mail angeben.'};
