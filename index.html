@@ -383,6 +383,10 @@ a.hstat:hover i{color:var(--orange)}
 .pc summary{list-style:none;cursor:pointer;padding:22px 22px 18px;position:relative}
 .pc summary::-webkit-details-marker{display:none}
 .pc .sum{font-size:13.5px;opacity:.75;margin-top:6px}
+.pc .pre{font-family:var(--mono);font-size:11px;letter-spacing:.06em;opacity:.7;margin-top:10px}
+.pc h3{display:flex;align-items:baseline;gap:8px;margin-top:2px}
+.pc h3 .pcn{font-size:52px;font-weight:600;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.pexp{color:var(--muted);max-width:620px;margin:14px 0 30px;font-size:15px;line-height:1.5}
 .pc .more{position:absolute;right:20px;bottom:18px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
 .pc .more::after{content:" +"}
 .pc[open] .more::after{content:" –"}
@@ -575,6 +579,7 @@ footer .soc{display:flex;gap:18px}
   .pgrid{margin-top:28px;gap:8px}
   .pc summary{min-height:0;padding:16px 18px 14px}
   .pc h3{font-size:22px}
+  .pc h3 .pcn{font-size:42px}
   .stage{height:244px !important}
   .viz{padding:12px !important}
   .stages button{font-size:16px;padding:9px 0}
@@ -818,16 +823,17 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
 <section class="sec" id="packages" style="padding-top:70px">
   <div class="wrap">
     <div class="eyebrow">Packages</div>
-    <h2>Start with one video. Or test more angles at once.</h2>
+    <h2>Start with a test. Or test more angles at once.</h2>
+    <p class="pexp">Every hook is a finished ad of its own. One video with two hooks means two final videos you can run against each other.</p>
     <div class="pgrid">
-      <details class="pc t"><summary><div class="nm">Test</div><h3>One video</h3><div class="sum">1 video · 2 hooks · 3 months usage</div><span class="more">Details</span></summary>
-        <ul><li>1 video</li><li>2 hook variations</li><li>1 revision round</li><li>3 months usage, organic and paid</li></ul>
+      <details class="pc t"><summary><div class="nm">Test</div><div class="pre">1 video × 2 hooks</div><h3><span class="pcn">2</span> <span>final videos</span></h3><div class="sum">3 months usage</div><span class="more">Details</span></summary>
+        <ul><li>1 video</li><li>2 hook variations</li><li>2 final videos, ready to run</li><li>1 revision round</li><li>3 months usage, organic and paid</li></ul>
         <a class="btn btn-g" href="#contact" data-pkg="Test">Request a quote</a></details>
-      <details class="pc g grain"><summary><span class="tag">Recommended</span><div class="nm">Growth</div><h3>Two videos</h3><div class="sum">2 videos · 3 hooks each · 3 months usage</div><span class="more">Details</span></summary>
-        <ul><li>2 videos</li><li>3 hook variations each</li><li>1 revision round per video</li><li>3 months usage, organic and paid</li></ul>
+      <details class="pc g grain"><summary><span class="tag">Recommended</span><div class="nm">Growth</div><div class="pre">2 videos × 3 hooks</div><h3><span class="pcn">6</span> <span>final videos</span></h3><div class="sum">3 months usage</div><span class="more">Details</span></summary>
+        <ul><li>2 videos</li><li>3 hook variations each</li><li>6 final videos, ready to run</li><li>1 revision round per video</li><li>3 months usage, organic and paid</li></ul>
         <a class="btn" href="#contact" data-pkg="Growth">Request a quote</a></details>
-      <details class="pc s"><summary><div class="nm">Scale</div><h3>Three videos</h3><div class="sum">3 videos · 3 hooks each · 6 months usage</div><span class="more">Details</span></summary>
-        <ul><li>3 videos</li><li>3 hook variations each</li><li>2 revision rounds per video</li><li>6 months usage, organic and paid</li><li>Raw footage included</li></ul>
+      <details class="pc s"><summary><div class="nm">Scale</div><div class="pre">3 videos × 3 hooks</div><h3><span class="pcn">9</span> <span>final videos</span></h3><div class="sum">6 months usage · raw footage</div><span class="more">Details</span></summary>
+        <ul><li>3 videos</li><li>3 hook variations each</li><li>9 final videos, ready to run</li><li>2 revision rounds per video</li><li>6 months usage, organic and paid</li><li>Raw footage included</li></ul>
         <a class="btn btn-w" href="#contact" data-pkg="Scale">Request a quote</a></details>
     </div>
     <div class="pnote"><span>Want videos every month? <a href="#contact" data-pkg="Monthly">Ask about monthly →</a></span></div>
@@ -1067,7 +1073,17 @@ const DE={
 "Approved after one small revision. \"Fast, reliable and a real pleasure to work with.\"": "Nach einer kleinen Anpassung freigegeben. „Schnell, zuverlässig und einfach angenehm.“",
 "Content, der verkauft,": "Content, der verkauft,",
 "Numbers from paid Meta ads running my videos.": "Was meine Videos in Meta-Ads leisten.",
-"Start with one video. Or test more angles at once.": "Ein Video zum Testen. Oder gleich mehrere Ansätze.",
+"Start with a test. Or test more angles at once.": "Erst testen. Oder gleich mehrere Ansätze.",
+"Every hook is a finished ad of its own. One video with two hooks means two final videos you can run against each other.": "Jeder Hook ist eine eigene fertige Ad. Ein Video mit zwei Hooks heißt: zwei fertige Videos, die du gegeneinander testen kannst.",
+"1 video × 2 hooks": "1 Video × 2 Hooks",
+"2 videos × 3 hooks": "2 Videos × 3 Hooks",
+"3 videos × 3 hooks": "3 Videos × 3 Hooks",
+"final videos": "fertige Videos",
+"3 months usage": "3 Monate Nutzung",
+"6 months usage · raw footage": "6 Monate Nutzung · Rohmaterial",
+"2 final videos, ready to run": "2 fertige Videos, direkt einsetzbar",
+"6 final videos, ready to run": "6 fertige Videos, direkt einsetzbar",
+"9 final videos, ready to run": "9 fertige Videos, direkt einsetzbar",
 "Mit einem Testvideo starten →": "Mit Testvideo starten →",
 "Work": "Videos",
 "Results": "Ergebnisse",
@@ -1551,7 +1567,7 @@ function fitHero(){
   h.style.fontSize='';em.style.whiteSpace='';
   if(LANG!=='de'&&innerWidth<=620)return;          // English phones keep the balanced two-line version
   em.style.whiteSpace='nowrap';
-  const avail=h.clientWidth,nat=em.scrollWidth;
+  const wr=h.closest('.wrap'),cs=wr&&getComputedStyle(wr),avail=Math.min(h.clientWidth,wr?wr.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight):1e9),nat=em.scrollWidth;
   if(nat>avail){h.style.fontSize=(parseFloat(getComputedStyle(h).fontSize)*avail/nat*0.985).toFixed(2)+'px'}
 }
 addEventListener('resize',fitHero);addEventListener('load',fitHero);if(document.fonts)document.fonts.ready.then(fitHero);
