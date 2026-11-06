@@ -629,6 +629,13 @@ html[lang=de] .hstat span{font-size:12px}
 :root{--grain-l:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .top{position:relative;isolation:isolate}
 .top::after{content:"";position:absolute;inset:0;background-image:var(--grain-l);opacity:.11;pointer-events:none;z-index:60}
+/* marker underline under the first word of the hero line, drawn in once on load */
+.mk{position:relative;display:inline-block;white-space:nowrap}
+.mk::after{content:"";position:absolute;left:-3%;bottom:-.16em;width:106%;height:.3em;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 13 C 28 5, 52 15, 84 9 S 150 13, 197 6' fill='none' stroke='%23ff6600' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M16 17.5 C 60 12, 110 18, 168 13' fill='none' stroke='%23ff6600' stroke-width='3.4' stroke-linecap='round' opacity='.85'/%3E%3C/svg%3E") 0 0/100% 100% no-repeat;
+  animation:mkdraw .7s .5s cubic-bezier(.3,.7,.2,1) backwards}
+@keyframes mkdraw{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@media (prefers-reduced-motion:reduce){.mk::after{animation:none}}
 /* line breaks, grid height, swipe rows, German filter order, delivery visual, mobile brand band */
 h1,h2,.lede,.hero h1 em{text-wrap:balance}
 .hero h1 em{display:block}
@@ -691,7 +698,7 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
   <div class="wrap">
     <div>
       <div class="eyebrow">UGC ads for paid social</div>
-      <h1>Content that sells<br><em>before they scroll past it.</em></h1>
+      <h1>Content that sells<br><em><span class="mk">before</span> they scroll past it.</em></h1>
       <p class="sub">Short-form ads for apps, tech and travel brands. Made by someone who spent two years running Meta ads, so every video is built for the numbers you look at.</p>
       <div class="ctas"><a class="btn btn-o" href="#packages">Start with a test video →</a><a class="btn btn-g" href="#work">See the work</a></div>
       <div class="hstats">
@@ -1045,7 +1052,8 @@ const DE={
 "Work with me →": "Anfragen →",
 "UGC ads for paid social": "UGC-Ads für Paid Social",
 "Content that sells": "Ads, die verkaufen,",
-"before they scroll past it.": "bevor jemand weiterscrollt.",
+"before": "bevor",
+"they scroll past it.": "jemand weiterscrollt.",
 "Short-form ads for apps, tech and travel brands. Made by someone who spent two years running Meta ads, so every video is built for the numbers you look at.": "Short-Form-Ads für Apps, Tech- und Travel-Marken. Ich habe selbst zwei Jahre lang Meta-Kampagnen betreut und weiß, worauf es bei deinen Zahlen ankommt.",
 "Start with a test video →": "Testvideo anfragen →",
 "See the work": "Zu den Videos",
@@ -1393,6 +1401,7 @@ function setCount(){
 }
 // the grid never gets shorter than the Highlights grid, so switching filters does not pull the page up
 function holdHeight(){
+  if(filt==='de'&&!sa.checked){grid.style.minHeight='';return}   // German tab: the note below sits right under the videos
   const c=grid.querySelector('.vc');if(!c||!c.offsetHeight)return;
   const cs=getComputedStyle(grid),cols=cs.gridTemplateColumns.split(' ').length,hl=innerWidth<=1000?9:10;
   const rows=Math.ceil(hl/cols),pad=parseFloat(cs.paddingTop)+parseFloat(cs.paddingBottom);
@@ -1512,6 +1521,15 @@ if(document.readyState==='complete')start();else addEventListener('load',start,{
 const DEK=[{n:'Omio',f:'travel',logo:'marquee-item-omio.svg'},{n:'Finanzguru',f:'tech',logo:'marquee-item-finanzguru.svg'},{n:'Mous',f:null,logo:'marquee-item-mous.png'}];
 document.getElementById('dekr').innerHTML=DEK.map(d=>`<button class="dk" ${d.f?`data-f="${d.f}"`:'disabled'} title="${d.n}"><span class="ci"><img src="${IMG(d.logo)}" alt=""></span><span class="dn">${d.n}</span></button>`).join('');
 document.querySelectorAll('.dk[data-f]').forEach(b=>b.onclick=()=>{document.querySelector(`#filters button[data-f="${b.dataset.f}"]`).click()});
+function fitHero(){
+  const h=document.querySelector('.hero h1'),em=h&&h.querySelector('em');if(!em)return;
+  h.style.fontSize='';em.style.whiteSpace='';
+  if(LANG!=='de'&&innerWidth<=620)return;          // English phones keep the balanced two-line version
+  em.style.whiteSpace='nowrap';
+  const avail=h.clientWidth,nat=em.scrollWidth;
+  if(nat>avail){h.style.fontSize=(parseFloat(getComputedStyle(h).fontSize)*avail/nat*0.985).toFixed(2)+'px'}
+}
+addEventListener('resize',fitHero);addEventListener('load',fitHero);if(document.fonts)document.fonts.ready.then(fitHero);
 function fitDeliv(){
   const st=document.getElementById('stage');if(!st)return;
   st.querySelectorAll('.deliv').forEach(el=>{
@@ -1535,7 +1553,7 @@ var setLang=function(l,save){
 document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l,true));
 const TITLES={en:'Felix | UGC ads for apps, tech and travel brands',de:'Felix | UGC-Ads für Apps, Tech- und Travel-Marken'};
 const _setLang=setLang;
-setLang=function(l,save){_setLang(l,save);document.title=TITLES[l];holdHeight();fitDeliv()};
+setLang=function(l,save){_setLang(l,save);document.title=TITLES[l];holdHeight();fitDeliv();fitHero()};
 setLang(pickLang(),false);
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
