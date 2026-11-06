@@ -1,0 +1,8 @@
+{
+  "redirects": [
+    { "source": "/de/", "destination": "/de", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/de", "destination": "/index.html" }
+  ]
+}
