@@ -25,17 +25,19 @@
 <meta name="twitter:title" content="Felix | UGC-Ads für Apps, Tech- und Travel-Marken">
 <meta name="twitter:description" content="Short-Form-Ads für Apps, Tech- und Travel-Marken, gebaut auf Hook Rate und Link-CTR. Starte mit einem Testvideo.">
 <meta name="twitter:image" content="https://www.unstuck.social/og-image.jpg">
+<link rel="preload" as="image" href="/images/grain-light.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{
   --bg:#111010; --bg-2:#1b1a19; --card:#232120; --card-2:#2a2826; --card-3:#33302e; --card-4:#3d3a37;
   --paper:#f2efe9; --patina:#e8e6e1; --kraft:#c8b5a1; --kraft-deep:#b39e88;
   --orange:#ff6600; --orange-deep:#d95400; --seal:#e5482f;
-  --text:#f2efe9; --muted:#9e9893; --dim:#6f6a65; --line:rgba(255,255,255,.09); --ink:#1f1d1b; --ink-soft:#5d5751;
+  --text:#f2efe9; --muted:#9e9893; --dim:#8d8781; --line:rgba(255,255,255,.09); --ink:#1f1d1b; --ink-soft:#5d5751;
   --mono:"DM Mono",ui-monospace,Menlo,monospace; --sans:"Instrument Sans",system-ui,sans-serif;
-  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain:url("/images/grain-dark.png");
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -629,7 +631,7 @@ html[lang=de] .hstat span{font-size:12px}
 .swipe-hint{display:none;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:10px}
 
 /* light grain over the first screen (nav, hero, brand band); everything below stays flat */
-:root{--grain-l:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+:root{--grain-l:url("/images/grain-light.png")}
 .top{position:relative;isolation:isolate}
 .top::after{content:"";position:absolute;inset:0;background-image:var(--grain-l);opacity:.11;pointer-events:none;z-index:60}
 /* grain bands further down: What brands say, and About through the footer */
@@ -1402,7 +1404,7 @@ const VIDEO={
 // personal reels with no video file on the site open the original post instead
 const POST={'portfolio-thumb-1.webp':'https://www.instagram.com/p/Da78PRfI2hJ/','portfolio-thumb-11.webp':'https://www.tiktok.com/@felix.unstuck/video/7495494866491690262'};
 const tagsOf=v=>v.s?v.tags:v[4], hlOf=v=>v.s?v.hl:v[5];
-const card=(vi,pi,th,cat,ti,sub,pill,pc,bars,x10)=>`<div class="vc${bars?' ser':''}${x10?' hl10':''}" role="button" tabindex="0" data-vi="${vi}" data-pi="${pi}"><div class="th"><img loading="lazy" decoding="async" src="${I+th}" alt="">${bars?`<div class="bars">${'<i></i>'.repeat(bars)}</div>`:''}${pill?`<span class="pill ${pc||''}">${pill}</span>`:''}<span class="play"></span></div><div class="meta"><div class="cat">${cat}</div><h4>${ti}</h4><p>${sub}</p></div></div>`;
+const card=(vi,pi,th,cat,ti,sub,pill,pc,bars,x10)=>`<div class="vc${bars?' ser':''}${x10?' hl10':''}" role="button" tabindex="0" data-vi="${vi}" data-pi="${pi}"><div class="th"><img loading="lazy" decoding="async" src="${I+th}" alt="">${bars?`<div class="bars">${'<i></i>'.repeat(bars)}</div>`:''}${pill?`<span class="pill ${pc||''}">${pill}</span>`:''}<span class="play"></span></div><div class="meta"><div class="cat">${cat}</div><h4 role="heading" aria-level="3">${ti}</h4><p>${sub}</p></div></div>`;
 const grid=document.getElementById('grid'),cnt=document.getElementById('fcount'),sa=document.getElementById('showall');
 let filt='hl',CNT=0;
 function setCount(){
@@ -1603,6 +1605,9 @@ cform.addEventListener('submit',async e=>{
   }catch(_){note.classList.add('err');note.textContent=FAILMSG[LANG]}
   btn.disabled=false;
 });
+
+// accessible names for the thumbnail play buttons
+document.querySelectorAll('[data-v]').forEach(b=>b.setAttribute('aria-label','Play: '+b.dataset.t));
 </script>
 </body>
 </html>
