@@ -1316,12 +1316,12 @@ const BRANDS=[
 ];
 const shown=BRANDS.filter(b=>b.show&&b.logo);
 const lgo=b=>`<span class="lgo ${b.type}" data-name="${b.name}"><img src="${IMG(b.logo)}" alt="${b.type==='word'?b.name:''}">${b.type==='icon'?b.name:''}</span>`;
-// desktop: one marquee. phones: three rows moving in alternating directions, so more logos are in view at once.
+// desktop: one marquee. phones: two rows moving in opposite directions, so more logos are in view at once.
 function buildBand(){
   const mob=matchMedia('(max-width:620px)').matches,m=document.getElementById('bandwrap'),mode=mob?'m':'d';
   if(m.dataset.mode===mode)return;m.dataset.mode=mode;
   if(!mob){const h=shown.map(lgo).join('');m.innerHTML=`<div class="marq"><div class="track">${h}${h}</div></div>`;return}
-  const n=Math.ceil(shown.length/3),rows=[0,1,2].map(i=>shown.slice(i*n,(i+1)*n).map(lgo).join('')).filter(Boolean);
+  const n=Math.ceil(shown.length/2),rows=[0,1].map(i=>shown.slice(i*n,(i+1)*n).map(lgo).join('')).filter(Boolean);
   m.innerHTML=rows.map((h,i)=>`<div class="marq"><div class="track${i%2?' trev':''}">${h}${h}${h}${h}</div></div>`).join('');
 }
 buildBand();addEventListener('resize',buildBand);
