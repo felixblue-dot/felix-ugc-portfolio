@@ -358,6 +358,7 @@ a.hstat:hover i{color:var(--orange)}
 .bq figcaption{display:flex;align-items:center;gap:12px;padding-left:14px}
 .bq .av{width:40px;height:40px;border-radius:50%;background:#f4f2ee;display:grid;place-items:center;overflow:hidden;flex:none}
 .bq .av img{width:26px;height:26px;object-fit:contain}
+.bq .av img.full{width:100%;height:100%;object-fit:cover}
 .bq .av.gen{background:var(--card-3);color:var(--muted);font-family:var(--mono);font-size:14px;border:1px solid var(--line)}
 .bq b{display:block;font-weight:500;font-size:14.5px}
 .bq small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--dim);text-transform:uppercase;margin-top:2px}
@@ -815,8 +816,8 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
         <figcaption><span class="av"><img loading="lazy" decoding="async" src="images/marquee-item-lockedin.svg" alt=""></span><span><b>COO, LockedIn AI</b><small>AI interview copilot</small></span></figcaption>
       </figure>
       <figure class="bq reveal">
-        <blockquote>The video turned out great. We're very happy with the final result and really enjoyed working with Felix.<span class="trn">✦ Aus dem Englischen übersetzt</span></blockquote>
-        <figcaption><span class="av gen">G</span><span><b>Men's grooming brand</b><small>EU launch, repeat order</small></span></figcaption>
+        <blockquote>Felix delivered six outstanding UGC videos for our Christmas and Black Week campaign, on a tight deadline and right on time. His content feels authentic, holds attention until the very end, and was ready to run as paid ads straight away. Working with him was fast, professional and completely effortless. We'd love to work with him again.<span class="trn">✦ Aus dem Englischen übersetzt</span></blockquote>
+        <figcaption><span class="av"><img class="full" loading="lazy" decoding="async" src="images/brand-holzkern.png" alt="" width="40" height="40"></span><span><b>Hoa Nguyen, Holzkern</b><small>6 videos, Black Week</small></span></figcaption>
       </figure>
     </div>
     <p class="swipe-hint">Swipe →</p>
@@ -1073,7 +1074,7 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
 const DE={
 "Working with Felix was great! He delivered on time, the quality was top notch, and we didn't need any unnecessary feedback rounds. Fast, reliable and a real pleasure to work with.": "Die Zusammenarbeit mit Felix war klasse! Pünktlich geliefert, top Qualität und keine unnötigen Feedbackschleifen. Schnell, zuverlässig und einfach angenehm.",
 "Felix's skeptic angle with his own live demo is the best one we've gotten. I want to work with Felix long term.": "Felix' skeptischer Blickwinkel mit eigener Live-Demo ist das beste Video, das wir bekommen haben. Mit Felix will ich langfristig zusammenarbeiten.",
-"The video turned out great. We're very happy with the final result and really enjoyed working with Felix.": "Das Video ist richtig gut geworden. Wir sind mit dem Ergebnis sehr zufrieden und haben gern mit Felix gearbeitet.",
+"Felix delivered six outstanding UGC videos for our Christmas and Black Week campaign, on a tight deadline and right on time. His content feels authentic, holds attention until the very end, and was ready to run as paid ads straight away. Working with him was fast, professional and completely effortless. We'd love to work with him again.": "Felix hat für unsere Weihnachts- und Black-Week-Kampagne sechs herausragende UGC-Videos geliefert, unter engem Zeitplan und genau pünktlich. Sein Content wirkt authentisch, hält die Aufmerksamkeit bis zum Schluss und war sofort als Paid Ad einsatzbereit. Die Zusammenarbeit war schnell, professionell und völlig unkompliziert. Wir würden sehr gerne wieder mit ihm arbeiten.",
 "Approved after one small revision. \"Fast, reliable and a real pleasure to work with.\"": "Nach einer kleinen Anpassung freigegeben. „Schnell, zuverlässig und einfach angenehm.“",
 "Content, der verkauft,": "Content, der verkauft,",
 "Numbers from paid Meta ads running my videos.": "Was meine Videos in Meta-Ads leisten.",
@@ -1136,8 +1137,7 @@ const DE={
 "From the people who signed off on the videos.": "Direkt von den Teams, mit denen ich gearbeitet habe.",
 "Finance app": "Finanz-App",
 "AI interview copilot": "KI-Interview-Copilot",
-"Men's grooming brand": "Grooming-Marke für Männer",
-"EU launch, repeat order": "EU-Launch, Folgeauftrag",
+"6 videos, Black Week": "6 Videos, Black Week",
 "One video": "Ein Video",
 "Two videos": "Zwei Videos",
 "Three videos": "Drei Videos",
