@@ -630,11 +630,36 @@ footer .soc{display:flex;gap:18px}
 .ci img{max-width:34px;max-height:20px;width:auto;height:auto}
 .dk:not([disabled]):hover .ci{transform:scale(1.06)}
 .dn{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
-@media (max-width:620px){
-  .bubbles{display:grid !important;grid-template-columns:1fr;overflow:visible;margin-right:0;padding-right:0;gap:28px}
-  .bubbles>*{flex:none}
-}
-.bubbles>.bq blockquote{flex:1 1 auto}
+/* testimonial slider: 3 cards + a quarter of the 4th on desktop, 1 + peek on phones */
+.tsl{--g:20px;--n:3.25;--k:3;display:flex;gap:var(--g);overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;overscroll-behavior-x:contain;scrollbar-width:none;margin-top:48px;padding-bottom:4px;cursor:grab}
+.tsl::-webkit-scrollbar{display:none}
+.tsl.drag{scroll-snap-type:none;scroll-behavior:auto;cursor:grabbing;user-select:none}
+.tsl>.bq{min-width:0;flex:0 0 calc((100% - var(--k) * var(--g)) / var(--n));scroll-snap-align:start;height:auto;outline:none}
+.tsl>.bq:focus-visible blockquote{border-color:var(--orange)}
+.tsl>.bq blockquote{flex:1 1 auto;padding-top:22px}
+.tsl>.bq blockquote .bqq{display:block;padding-right:4px}
+@media (max-width:1180px){.tsl{--n:2.25;--k:2}}
+@media (max-width:620px){.tsl{--n:1.15;--k:1;--g:12px;margin-top:28px}}
+.tsl .bq small{max-width:none;overflow:visible;white-space:normal;line-height:1.5}
+.tsl .bq figcaption{min-height:50px}
+.tsl .bq blockquote{display:flex;flex-direction:column}
+.tsl .bq blockquote::before{order:1}
+.bqtop{order:0;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:16px}
+.bqcat{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);min-width:0;line-height:1.5}
+.tsl .bqtag{position:static;white-space:nowrap;flex:none;letter-spacing:.05em;padding:3px 7px}
+.tsl .bqq{order:2}.tsl .trn,.tsl .trn-en{order:3}
+@media (max-width:620px){.bqtop{flex-direction:column;align-items:flex-start;gap:8px}.tsl .bq small{font-size:9.5px;letter-spacing:.03em}.tsl .bq figcaption{padding-left:6px}}
+.tsl-sep{flex:0 0 14px;align-self:center;display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:60px}
+.tsl-sep i{width:5px;height:5px;border-radius:50%;background:var(--orange);opacity:.75}
+.tsl-ctl{display:flex;align-items:center;justify-content:space-between;margin-top:22px}
+.tsl-dots{display:flex;gap:8px}
+.tsl-dots button{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:var(--line);cursor:pointer;transition:background .2s,transform .2s}
+.tsl-dots button[aria-current="true"]{background:var(--orange);transform:scale(1.15)}
+.tsl-arrows{display:flex;gap:8px}
+.tsl-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card-2);color:var(--text);font-size:16px;cursor:pointer;display:grid;place-items:center;transition:border-color .2s,opacity .2s}
+.tsl-btn:hover:not(:disabled){border-color:var(--orange)}
+.tsl-btn:disabled{opacity:.3;cursor:default}
+@media (max-width:620px){.tsl-arrows{display:none}.tsl-ctl{justify-content:center}}
 .bqtag{position:absolute;top:18px;right:18px;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 8px}
 .trn-en{display:block;margin-top:12px;font-size:12.5px;color:var(--dim)}
 html[lang=de] .trn-en{display:none}
@@ -817,22 +842,10 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
   <div class="wrap">
     <div class="eyebrow">What brands say</div>
     <h2>From the people who signed off on the videos.</h2>
-    <div class="bubbles">
-      <figure class="bq reveal">
-        <blockquote><span class="bqtag">Paid ad</span>Felix's skeptic angle with his own live demo is the best one we've gotten. I want to work with Felix long term.<span class="trn">✦ Aus dem Englischen übersetzt</span></blockquote>
-        <figcaption><span class="av"><img loading="lazy" decoding="async" src="images/marquee-item-lockedin.svg" alt=""></span><span><b>Frankie · COO, LockedIn AI</b><small>AI interview app · US</small></span></figcaption>
-        <div class="bqlinks"><a href="#" data-vt="portfolio-thumb-24.webp">Watch the video →</a><a href="https://www.lockedinai.com" target="_blank" rel="noopener">lockedinai.com ↗</a></div>
-      </figure>
-      <figure class="bq reveal">
-        <blockquote><span class="bqtag">3-part series</span>Felix turned his Japan footage into a three-part 'Japan by train' series for Omio. He took our feedback on board quickly, the revisions were minor, and it was a pleasure to collaborate.<span class="trn">✦ Aus dem Englischen übersetzt</span></blockquote>
-        <figcaption><span class="av"><img loading="lazy" decoding="async" src="images/marquee-item-omio.svg" alt=""></span><span><b>Matt McCann · Social Media Lead, Omio</b><small>Travel booking app · Global</small></span></figcaption>
-        <div class="bqlinks"><a href="#" data-vi="0" data-pi="0">Watch the series →</a><a href="https://www.omio.com" target="_blank" rel="noopener">omio.com ↗</a></div>
-      </figure>
-      <figure class="bq reveal">
-        <blockquote><span class="bqtag">Test video</span>Felix showed our Almond Protein Porridge in an authentic, relatable way, exactly how our customers experience it in everyday life. Working together was really easy, we were kept in the loop at every step, and the result convinced us straight away.<span class="trn-en">Translated from German.</span></blockquote>
-        <figcaption><span class="av gen">J</span><span><b>Alexandra Herlbauer · Founder &amp; CEO, JOY Naturals</b><small>Protein porridge · AT</small></span></figcaption>
-        <div class="bqlinks"><a href="#" data-vt="" hidden>Watch the video →</a><a href="https://www.joy-naturals.com" target="_blank" rel="noopener">joy-naturals.com ↗</a></div>
-      </figure>
+    <div class="tsl" id="tsl" role="region" aria-roledescription="carousel" aria-label="Testimonials"></div>
+    <div class="tsl-ctl">
+      <div class="tsl-dots" id="tsldots"></div>
+      <div class="tsl-arrows"><button type="button" class="tsl-btn" id="tslprev" aria-label="Previous testimonial">←</button><button type="button" class="tsl-btn" id="tslnext" aria-label="Next testimonial">→</button></div>
     </div>
   </div>
 </section>
@@ -1087,9 +1100,16 @@ body.video-modal-open{position:fixed;left:0;right:0;width:100%}
 const DE={
 "Working with Felix was great! He delivered on time, the quality was top notch, and we didn't need any unnecessary feedback rounds. Fast, reliable and a real pleasure to work with.": "Die Zusammenarbeit mit Felix war klasse! Pünktlich geliefert, top Qualität und keine unnötigen Feedbackschleifen. Schnell, zuverlässig und einfach angenehm.",
 "Paid ad": "Paid Ad",
+"6 videos · paid ads": "6 Videos · Paid Ads",
+"Wooden watches · AT": "Holzuhren · AT",
+"Finance app · DE": "Finanz-App · DE",
+"Watch the videos →": "Videos ansehen →",
+"Breakfast in the lecture hall": "Frühstück im Hörsaal",
+"JOY Naturals · paid ad, German": "JOY Naturals · Paid Ad, auf Deutsch",
+"Felix delivered six outstanding UGC videos for our Christmas and Black Week campaign, on a tight deadline and right on time. His content feels authentic, holds attention until the very end, and was ready to run as paid ads straight away. Working with him was fast, professional and completely effortless. We'd love to work with him again.": "Felix hat für unsere Weihnachts- und Black-Week-Kampagne sechs herausragende UGC-Videos geliefert, unter engem Zeitplan und genau pünktlich. Sein Content wirkt authentisch, hält die Aufmerksamkeit bis zum Schluss und war sofort als Paid Ad einsatzbereit. Die Zusammenarbeit war schnell, professionell und völlig unkompliziert. Wir würden sehr gerne wieder mit ihm arbeiten.",
 "Test video": "Testvideo",
 "AI interview app · US": "KI-Interview-App · US",
-"Travel booking app · Global": "Reisebuchungs-App · weltweit",
+"Travel booking app · Global": "Reise-App · weltweit",
 "Protein porridge · AT": "Protein-Porridge · AT",
 "Watch the video →": "Video ansehen →",
 "Watch the series →": "Serie ansehen →",
@@ -1378,6 +1398,7 @@ const BRANDS=[
  {name:'Omio',          logo:'marquee-item-omio.svg',      type:'word', show:1},
  {name:'Finanzguru',    logo:'marquee-item-finanzguru.svg',type:'icon', show:1},
  {name:'LockedIn AI',   logo:'marquee-item-lockedin.svg',  type:'icon', show:1},
+ {name:'JOY Naturals',  logo:'marquee-item-joy.png',       type:'icon', show:1},
  {name:'Speechify',     logo:'marquee-item-1.webp',        type:'icon', show:1},
  {name:'Slack',         logo:'marquee-item-9.webp',        type:'icon', show:1},
  {name:'David Protein', logo:'marquee-item-2.svg',         type:'word', show:1},
@@ -1435,6 +1456,7 @@ const V=[
  ['portfolio-thumb-7.webp','Travel, Lifestyle','Chasing the coast on two wheels.','Personal travel reel','travel life',0],
  ['portfolio-thumb-13.webp','Travel, Lifestyle','Across India by motorbike.','Personal travel reel','travel life',0],
  ['portfolio-thumb-11.webp','Lifestyle','Reacting to a business playbook.','Personal reel · 20K+ views on TikTok','life',0],
+ ['joy-thumb.webp','Health & Fitness','Breakfast in the lecture hall','JOY Naturals · paid ad, German','de',0,'DE'],
  ['portfolio-thumb-14.webp','Travel, Lifestyle','Everest, told as a story.','BePresent · storytelling, in German','de',0,'DE'],
  ['portfolio-thumb-15.webp','Tech','Your assistant, just by voice.','Oxodin · AI voice assistant, in German','de',0,'DE'],
  ['portfolio-thumb-21.webp','Lifestyle, Health & Fitness','Drei Nussnougatcremes.','ahead · in German','de',0,'DE'],
@@ -1443,6 +1465,7 @@ const V=[
 
 ];
 const VIDEO={
+ 'joy-thumb.webp':'joy-ad.mp4',
  'portfolio-thumb-19.webp':'omio-part-1.mp4','omio-part-2.webp':'omio-part-2.mp4','omio-part-3.webp':'omio-part-3.mp4',
  'finanzguru-part-1.webp':'finanzguru-part-1.mp4','finanzguru-part-2.webp':'finanzguru-part-2.mp4',
  'creative-ai-app-a.webp':'creative-ai-app-a.mp4','creative-ai-app-b.webp':'creative-ai-app-b.mp4','creative-protein.webp':'creative-protein.mp4',
@@ -1550,7 +1573,65 @@ function playFrom(el){
   if(POST[v[0]]){window.open(POST[v[0]],'_blank','noopener');return}
   openVideo(VIDEO[v[0]],I+v[0]);
 }
-document.querySelectorAll('[data-vt]').forEach(a=>{const i=V.findIndex(v=>!v.s&&v[0]===a.dataset.vt);if(a.dataset.vt&&i>-1){a.dataset.vi=i;a.hidden=false}else a.hidden=true});
+// TESTIMONIALS: one entry per review, rendered in this order. video: {thumb:'file.webp'} for a single video, {series:'Omio'} for a series, null if not on the site yet.
+const TESTI=[
+ {brand:'Holzkern',logo:'brand-holzkern.png',full:1,cat:'Wooden watches · AT',tag:'6 videos · paid ads',
+  quote:"Felix delivered six outstanding UGC videos for our Christmas and Black Week campaign, on a tight deadline and right on time. His content feels authentic, holds attention until the very end, and was ready to run as paid ads straight away. Working with him was fast, professional and completely effortless. We'd love to work with him again.",
+  by:'Hoa Nguyen · Social Media Manager',video:null,watch:'Watch the videos →',site:'https://www.holzkern.com',siteLabel:'holzkern.com'},
+ {brand:'LockedIn AI',logo:'marquee-item-lockedin.svg',cat:'AI interview app · US',tag:'Paid ad',
+  quote:"Felix's skeptic angle with his own live demo is the best one we've gotten. I want to work with Felix long term.",
+  by:'Frankie Cheung · COO',video:{thumb:'portfolio-thumb-24.webp'},watch:'Watch the video →',site:'https://www.lockedinai.com',siteLabel:'lockedinai.com'},
+ {brand:'Omio',logo:'marquee-item-omio.svg',cat:'Travel booking app · Global',tag:'3-part series',
+  quote:"Felix turned his Japan footage into a three-part 'Japan by train' series for Omio. He took our feedback on board quickly, the revisions were minor, and it was a pleasure to collaborate.",
+  by:'Matt McCann · Social Media Lead',video:{series:'Omio'},watch:'Watch the series →',site:'https://www.omio.com',siteLabel:'omio.com'},
+ {brand:'JOY Naturals',logo:'marquee-item-joy.png',full:1,cat:'Protein porridge · AT',tag:'Paid ad',
+  quote:"Felix showed our Almond Protein Porridge in an authentic, relatable way, exactly how our customers experience it in everyday life. Working together was really easy, we were kept in the loop at every step, and the result convinced us straight away.",
+  note:'Translated from German.',by:'A. Herlbauer · Founder & CEO',video:{thumb:'joy-thumb.webp'},watch:'Watch the video →',site:'https://joy-naturals.com/en/',siteLabel:'joy-naturals.com'},
+ {brand:'Finanzguru',logo:'marquee-item-finanzguru.svg',cat:'Finance app · DE',tag:'2 videos',
+  quote:"Working with Felix was great! He delivered on time, the quality was top notch, and we didn't need any unnecessary feedback rounds. Fast, reliable and a real pleasure to work with.",
+  by:'Laura Christoffers',video:{series:'Finanzguru'},watch:'Watch the videos →',site:'https://finanzguru.de',siteLabel:'finanzguru.de'},
+];
+(function(){
+  const box=document.getElementById('tsl');if(!box)return;
+  const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const vidx=v=>!v?-1:v.series?V.findIndex(x=>x.s&&x.label.startsWith(v.series)):V.findIndex(x=>!x.s&&x[0]===v.thumb);
+  const N=TESTI.length;
+  const card=(t,i,clone)=>{const vi=vidx(t.video),ti=clone?' tabindex="-1"':'';return `<figure class="bq" data-i="${i}"${clone?' aria-hidden="true"':` role="group" aria-roledescription="slide" aria-label="${i+1} / ${N}: ${esc(t.brand)}" tabindex="0"`}>
+  <blockquote><span class="bqtop"><span class="bqcat">${esc(t.cat)}</span><span class="bqtag">${esc(t.tag)}</span></span><span class="bqq">${esc(t.quote)}</span>${t.note?`<span class="trn-en">${esc(t.note)}</span>`:'<span class="trn">✦ Aus dem Englischen übersetzt</span>'}</blockquote>
+  <figcaption><span class="av"><img${t.full?' class="full"':''} loading="lazy" decoding="async" src="images/${t.logo}" alt=""></span><span><b>${esc(t.brand)}</b><small>${esc(t.by)}</small></span></figcaption>
+  <div class="bqlinks">${vi>-1?`<a href="#" data-vi="${vi}" data-pi="0"${ti}>${esc(t.watch)}</a>`:''}<a href="${t.site}" target="_blank" rel="noopener"${ti}>${esc(t.siteLabel)} ↗</a></div>
+</figure>`};
+  const set=clone=>TESTI.map((t,i)=>card(t,i,clone)).join('');
+  const sep='<div class="tsl-sep" aria-hidden="true"><i></i><i></i><i></i></div>';
+  // three copies so it loops both ways; the dots mark where the last review meets the first
+  box.innerHTML=set(1)+sep+set(0)+sep+set(1);
+  const cards=[...box.querySelectorAll('.bq')],prev=document.getElementById('tslprev'),next=document.getElementById('tslnext'),dots=document.getElementById('tsldots');
+  dots.innerHTML=TESTI.map((t,i)=>`<button type="button" aria-label="Go to review ${i+1}: ${esc(t.brand)}"></button>`).join('');
+  let idx=N,settle;
+  const pos=i=>cards[i].offsetLeft-cards[0].offsetLeft;
+  const cur=()=>{let b=0,d=1e9;cards.forEach((c,i)=>{const e=Math.abs(pos(i)-box.scrollLeft);if(e<d){d=e;b=i}});return b};
+  const instant=x=>{box.style.scrollBehavior='auto';box.scrollLeft=x;box.style.scrollBehavior=''};
+  function update(){[...dots.children].forEach((d,i)=>d.setAttribute('aria-current',i===idx%N?'true':'false'))}
+  function go(i){idx=Math.max(0,Math.min(cards.length-1,i));update();box.scrollTo({left:pos(idx),behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'})}
+  function wrap(){ // keep the view on the middle copy
+    if(idx<N){idx+=N;instant(pos(idx))}else if(idx>=2*N){idx-=N;instant(pos(idx))}update();
+  }
+  [...dots.children].forEach((d,i)=>d.onclick=()=>{const base=idx-idx%N;go(base+i)});
+  prev.onclick=()=>go(idx-1);next.onclick=()=>go(idx+1);
+  box.addEventListener('scroll',()=>{clearTimeout(settle);settle=setTimeout(()=>{if(down)return;idx=cur();wrap()},160)},{passive:true});
+  box.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();go(idx+1)}else if(e.key==='ArrowLeft'){e.preventDefault();go(idx-1)}});
+  box.addEventListener('focusin',e=>{const f=e.target.closest('.bq');if(f&&!f.hasAttribute('aria-hidden')){const i=cards.indexOf(f);if(i!==idx)go(i)}});
+  // mouse drag (touch and trackpad scroll natively)
+  let sx=0,sl=0,moved=false,down=false;
+  box.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;down=true;moved=false;sx=e.clientX;sl=box.scrollLeft});
+  addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-sx;if(!moved&&Math.abs(dx)>5){moved=true;box.classList.add('drag')}if(moved)box.scrollLeft=sl-dx});
+  addEventListener('pointerup',()=>{if(!down)return;down=false;if(moved){const c=cur();box.classList.remove('drag');instant(box.scrollLeft);go(c)}});
+  box.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);
+  box.addEventListener('dragstart',e=>e.preventDefault());
+  const reset=()=>{instant(pos(idx));update()};
+  reset();addEventListener('resize',reset);addEventListener('load',reset);
+  if(document.fonts)document.fonts.ready.then(reset);
+})();
 document.addEventListener('click',e=>{
   if(vm.classList.contains('open')){
     if(e.target.closest('[data-close]')){closeVideo();return}
